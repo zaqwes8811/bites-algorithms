@@ -1,0 +1,28 @@
+N	EQU 8	
+M 	EQU 4
+X 	ORIG *+24
+0H	ENT1 N-1
+	STZ X+N-1
+	ST1 X-1,1
+	DEC1 1
+	J1P *-2
+	ENTA 1
+1H 	ENT2 M-2
+	LD1 X,1
+	DEC2 1
+	J2P *-2
+	LD2 X,1
+	LD3 X,2
+	CHAR
+	STX X,2(4:5)
+	NUM
+	INCA 1
+	ST3 X,1
+	ENT1 0,3
+	CMPA =N=
+	JL 1B
+	CHAR
+	STX X,1(4:5)
+	OUT X(18)
+	HLT
+	END 0B
