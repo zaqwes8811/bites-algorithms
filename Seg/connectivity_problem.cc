@@ -1,46 +1,119 @@
 #include <iostream>
 #include <map>
+#include <vector>
+void print( int* array, int N );
+void print( int, int );
+typedef std::vector<int> Vi;
+typedef std::vector<int>::iterator ViIt;
+
 using namespace std;
-static const int N = 10000;
+static const int N = 20;
 
-void quick_find( int p, int q ) {}
-void quick_union(){}
-
-int main() {
-	int i, p, q, id[N];
-	map<int, int> vpq;
-	vpq.insert(pair<int, int>(3,4));
-	vpq.insert(pair<int, int>(4,9));
-	vpq.insert(pair<int, int>(8,0));
-	vpq.insert(pair<int, int>(2,3));
-	vpq.insert(pair<int, int>(5,6));
-	vpq.insert(pair<int, int>(2,9));
-	vpq.insert(pair<int, int>(5,9));
-	vpq.insert(pair<int, int>(7,3));
-	vpq.insert(pair<int, int>(4,8));
-	vpq.insert(pair<int, int>(5,6));
-	vpq.insert(pair<int, int>(0,2));
-	vpq.insert(pair<int, int>(6,1));
-	
+void quick_find( Vi vpq ) {
 	// заполняем - начальная инициализация
+	int i, id[N];
 	for ( i = 0; i < N; i++)
 		id[i] = i;
 		
-	while (cin >> p >> q) {
+	ViIt at = vpq.begin(), end = vpq.end();
+	// шагаем подва
+	for ( ; at != end; ++(++at) ) {
+		int p, q;
+		
+		// читаем пары
+		ViIt copy_at;
+		copy_at = at;
+		p = *copy_at;
+		q = *(++copy_at);
 		
 		// find
 		int t = id[p];
-		if (t == id[q])
-			continue;	// есть в наборе - не выводим и не соединяем
+		if (t == id[q]) {
+			print(id, N);
+			continue;	// есть в наборе(ах?) - не выводим и не соединяем
+		}
 			
 		// union
-		for ( i = 0; i < N; i++)
+		for ( int i = 0; i < N; i++ )
+			// меняем местами
 			if (id[i] == t)
 				id[i] = id[q];
-				
-		// рисуем
-		cout << " " << p << " "<< q << endl;
+		
+		// отчетность
+		print(id, N);
+		print(p, q);
 	}
+}
+
+void quick_union( Vi vpq ) {
+	// заполняем - начальная инициализация
+	int i, id[N];
+	for ( i = 0; i < N; i++)
+		id[i] = i;
+		
+	ViIt at = vpq.begin(), end = vpq.end();
+	// шагаем подва
+	for ( ; at != end; ++(++at) ) {
+		int p, q;
+		
+		// читаем пары
+		ViIt copy_at;
+		copy_at = at;
+		p = *copy_at;
+		q = *(++copy_at);
+		
+		// find
+		int i, j;
+		for (i = p; i != id[i]; i = id[i]);
+		for (j = q; j != id[j]; j = id[j]);
+		if( i == j ) continue;
+		id[i] = j;
+		
+		// отчетность
+		print(id, N);
+		print(p, q);
+	}
+}
+
+void print( int* array, int N ){
+	//for (int i = 0; i < N; ++i)	cout << array[i] << " ";
+	//cout << endl;
+}
+void print( int p, int q ) {
+	cout << "Pair: " << p << " "<< q << endl;
+}
+
+int main() {
+	Vi vpq;
+	vpq.push_back(3);
+	  vpq.push_back(4);
+	vpq.push_back(4);
+	  vpq.push_back(9);
+	vpq.push_back(8);
+	  vpq.push_back(0);
+	vpq.push_back(2);
+	  vpq.push_back(3);
+	vpq.push_back(5);
+	  vpq.push_back(6);
+	vpq.push_back(2);
+	  vpq.push_back(9);
+	vpq.push_back(5);
+	  vpq.push_back(9);
+	vpq.push_back(7);
+	  vpq.push_back(3);
+	vpq.push_back(4);
+	  vpq.push_back(8);
+	vpq.push_back(5);
+	  vpq.push_back(6);
+	vpq.push_back(0);
+	  vpq.push_back(2);
+	vpq.push_back(6);
+	  vpq.push_back(1);
 	
+	// запускаем
+	//quick_find(vpq);
+	quick_union(vpq);
+	
+	// формальность для g++
 	return 0;
 }
