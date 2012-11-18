@@ -27,13 +27,13 @@ void quick_find( Vi vpq ) {
 		q = *(++copy_at);
 		
 		// find
-		int t = id[p];
-		if (t == id[q]) {
+		if (id[p] == id[q]) {
 			print(id, N);
 			continue;	// есть в наборе(ах?) - не выводим и не соединяем
 		}
 			
 		// union
+		int t = id[p];
 		for ( int i = 0; i < N; i++ )
 			// меняем местами
 			if (id[i] == t)
@@ -117,3 +117,4 @@ int main() {
 	// формальность для g++
 	return 0;
 }
+
