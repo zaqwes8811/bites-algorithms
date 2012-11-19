@@ -7,7 +7,7 @@ HEAD =
 CC = g++
 # obj. files
 
-all: main
+all: run
 
 main: $(OBJS) 
 	$(CC) -o main  $(OBJS)
@@ -17,5 +17,5 @@ $(OBJS): $(SRCS)
 # add
 clean:
 	rm -f $(OBJS) main.*
-run: 
+run: main
 	./main
