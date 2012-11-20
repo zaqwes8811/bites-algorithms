@@ -10,7 +10,8 @@ typedef std::vector<int>::iterator ViIt;
 using namespace std;
 static const int N = 20;
 
-void quick_find( Vi vpq ) {
+string quick_find( Vi vpq ) {
+	string result;
 	// заполняем - начальная инициализация
 	int i, id[N];
 	for ( i = 0; i < N; i++)
@@ -43,7 +44,10 @@ void quick_find( Vi vpq ) {
 		// отчетность
 		print(id, N);
 		print(p, q);
+		result += int2string(p)+"-";
+		result += int2string(q)+" ";
 	}
+	return result;
 }
 
 string quick_union( Vi vpq ) {
@@ -70,7 +74,6 @@ string quick_union( Vi vpq ) {
 		for (i = p; i != id[i]; i = id[i]) {
 			print( "i", i, "id[i]", id[i], "id[id[i]]", id[id[i]] );
 		}
-		//print("\n");
 		for (j = q; j != id[j]; j = id[j]) {
 			print( "j", j, "id[j]", id[j], "id[id[j]]", id[id[j]] );
 		}
@@ -88,7 +91,8 @@ string quick_union( Vi vpq ) {
 	}
 	return result;
 }
-TEST(ConnectivityTest, QuickUnionBase) {
+
+Vi g_getInVector() {
 	Vi vpq;
 	vpq.push_back(3); vpq.push_back(4);
 	vpq.push_back(4); vpq.push_back(9);
@@ -103,14 +107,27 @@ TEST(ConnectivityTest, QuickUnionBase) {
 	vpq.push_back(0); vpq.push_back(2);
 	vpq.push_back(6); vpq.push_back(1);
 	
-	// запускаем
-	//quick_find(vpq);
+	//vector<string> fileContent = file2list("test-data.txt");
+	//print(fileContent);
+	
+	return vpq;
+}
+
+TEST(ConnectivityTest, QuickUnionBase) {
+	Vi inData = g_getInVector();
 	string expect_result = "3-4 4-9 8-0 2-3 5-6 5-9 7-3 4-8 6-1 ";
-	EXPECT_EQ( expect_result, quick_union(vpq) );
+	EXPECT_EQ( expect_result, quick_union(inData) );
+}
+
+TEST(ConnectivityTest, QuickFindBase) {
+	Vi inData = g_getInVector();
+	string expect_result = "3-4 4-9 8-0 2-3 5-6 5-9 7-3 4-8 6-1 ";
+	EXPECT_EQ( expect_result, quick_find(inData) );
 }
 
 int main(int argc, char* argv[]) {
 	testing::InitGoogleTest(&argc, argv);
+	
 	// Принудительно печатаем время работы тестов.
 	testing::GTEST_FLAG(print_time) = true;
 	return RUN_ALL_TESTS();

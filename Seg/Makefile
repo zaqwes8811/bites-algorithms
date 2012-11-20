@@ -3,6 +3,7 @@
 # c cl.exe пока стоп
 
 SRCS = *.cc gtest/*.cc utils/*.cc
+#OBJS = objs/*.o
 OBJS = *.o
 HEAD = 
 CC = g++

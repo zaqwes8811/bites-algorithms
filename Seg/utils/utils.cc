@@ -1,4 +1,3 @@
- 
 #include "utils.h" 
 using namespace std;
 void print( int* array, int N ){
@@ -32,8 +31,44 @@ void print( std::string m1, int a1, std::string m2, int a2,
 	  " " << m3+" : " << a3 << 
 	  endl;
 }
+
+void print( std::vector<std::string> content ) {
+	vector<string>::iterator at = content.begin();
+	for(; at != content.end(); ++at ) {
+		cout << *at << endl;
+	}
+}
+
 std::string int2string( int value ) {
 	std::stringstream out;
 	out << value;
 	return out.str();
+}
+
+std::vector<std::string> file2list( std::string fname ) {
+	ifstream infile(fname.c_str());
+	const int RD_BUFFER_SIZE = 80;
+	char b[RD_BUFFER_SIZE];
+	vector<string> result;
+	while(1) {
+		infile.getline(b, sizeof(b));
+		string oneLine(b);
+		
+		// обрабатываем результаты
+		result.push_back(oneLine);
+		
+		if(infile.eof()) {
+			break;	
+		}
+	}
+	return result;
+}
+
+std::vector<std::string> split_spaces( std::string str ) {
+	vector<string> tokens;
+	istringstream iss( str );
+	copy(istream_iterator<string>(iss),
+         istream_iterator<string>(),
+         back_inserter<vector<string> >(tokens));
+	return tokens;
 }
