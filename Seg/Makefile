@@ -11,9 +11,10 @@ CC = g++
 all: run
 
 main: $(OBJS) 
-	$(CC) -o main  $(OBJS)
+	$(CC) -Wall -o main  $(OBJS)
 $(OBJS): $(SRCS)
-	$(CC) -lrt -I. -I./include -c $(SRCS)
+	$(CC) -Wall -O0 -I. -I./include -c $(SRCS)
+#	$(CC) -Wall -lrt -I. -I./include -c $(SRCS)
 
 # add
 clean:

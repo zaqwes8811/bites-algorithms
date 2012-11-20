@@ -32,3 +32,8 @@ void print( std::string m1, int a1, std::string m2, int a2,
 	  " " << m3+" : " << a3 << 
 	  endl;
 }
+std::string int2string( int value ) {
+	std::stringstream out;
+	out << value;
+	return out.str();
+}

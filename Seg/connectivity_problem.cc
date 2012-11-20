@@ -1,5 +1,6 @@
 #include <map>
 #include <vector>
+#include <string>
 #include "utils.h"
 #include "gtest/gtest.h" 
 
@@ -45,7 +46,8 @@ void quick_find( Vi vpq ) {
 	}
 }
 
-void quick_union( Vi vpq ) {
+string quick_union( Vi vpq ) {
+	string result;
 	// заполняем - начальная инициализация
 	int i, id[N];
 	for ( i = 0; i < N; i++)
@@ -77,14 +79,16 @@ void quick_union( Vi vpq ) {
 			continue;
 		}
 		print("No coupled\n");
+		result += int2string(p)+"-";
+		result += int2string(q)+" ";
 		id[i] = j;
 		
 		// отчетность
 		print(id, N);
 	}
+	return result;
 }
-
-int main(int argc, char* argv[]) {
+TEST(ConnectivityTest, QuickUnionBase) {
 	Vi vpq;
 	vpq.push_back(3); vpq.push_back(4);
 	vpq.push_back(4); vpq.push_back(9);
@@ -101,15 +105,14 @@ int main(int argc, char* argv[]) {
 	
 	// запускаем
 	//quick_find(vpq);
-	quick_union(vpq);
-	
+	string expect_result = "3-4 4-9 8-0 2-3 5-6 5-9 7-3 4-8 6-1 ";
+	EXPECT_EQ( expect_result, quick_union(vpq) );
+}
+
+int main(int argc, char* argv[]) {
 	testing::InitGoogleTest(&argc, argv);
 	// Принудительно печатаем время работы тестов.
 	testing::GTEST_FLAG(print_time) = true;
-	//return 
-	RUN_ALL_TESTS();
-  
-	// формальность для g++
-	return 0;
+	return RUN_ALL_TESTS();
 }
 
