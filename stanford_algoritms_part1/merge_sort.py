@@ -32,7 +32,7 @@ def _one_recursive_step(
     return c_list
     
 def _merge(in_list, size_task):
-    print 'New call...'
+    print 'New call...', in_list
     
     # Нужно разбить на пары
     size_in_list = len(in_list)
