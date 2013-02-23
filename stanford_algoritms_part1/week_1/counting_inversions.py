@@ -1,4 +1,6 @@
 #-*- coding: utf-8 -*-
+import uasio.os_io.io_wrapper as iow
+
 # Что если массив нацело не делится на два
 def count_and_sort(A, n):
     if n == 1: 
@@ -46,24 +48,29 @@ def count_and_merge(B, C, n):
         else :
             D.append(C[j])
             number_inversion += one_st_len-i
-            print '>> ', C[j], B[i:], one_st_len-i
             j += 1
             
     return D, number_inversion
+def main():
+    sets = iow.get_utf8_template()
+    sets['name'] = 'D:/github-develop/tests-usage-algorithms/stanford_algoritms_part1/week_1/test_serial.txt'
+    sets['name'] = 'D:/github-develop/tests-usage-algorithms/stanford_algoritms_part1/week_1/IntegerArray.txt'
+    # Модифицированное слияние
+    #A = [1,3,5, 2,4, 6]
+    #A = [1,2,3,4, 5, 6]
+    A = iow.file2list_int(sets)
+    if not A:
+        print 'Failure!'
+        return
+    n = len(A)
 
+    a, num = count_and_sort(A, n)
+    return num
+       
 if __name__=='__main__':
     """ Одна часть рекурсия, а другая слияние? """
     print
-    print 'Begin'
-    
-    # Модифицированное слияние
-    A = [1,3,5, 2,4, 6]
-    n = len(A)
-    
-    # fake-call
-    #print count_and_merge(A[:n/2], A[n/2:], n)
-    a, num = count_and_sort(A, n)
-    print a, num
+    print 'Begin...'
+    print main()
     
     print 'Done'
-
