@@ -1,118 +1,76 @@
 #-*- coding: utf-8 -*-
-def _one_recursive_step(
-    list_pair, 
-    size_task,
-    current_doubled_size_task):
-    """ """
+import uasio.os_io.io_wrapper as iow
+
+# Что если массив нацело не делится на два
+def count_and_sort(A, n):
+    if n == 1: 
+        return A, 0
+    else:
+        B_raw = A[:n/2]
+        C_raw = A[n/2:]  # может быть не равен длине первого
+        B, x = count_and_sort(B_raw, len(B_raw))
+        C, y = count_and_sort(C_raw, len(C_raw))
+        D, z = count_and_merge(B, C, n)
+        return D, x+y+z
+
+def count_and_merge(B, C, n):
+    """ 
+    
+    Args: 
+        - Input arrays need be sorted
+    """
+    one_st_len = n/2
+    two_st_len = n-one_st_len  # Будет либо равна первой длине, либо будет больше
+    
+    # Returns
+    D = []
+    number_inversion = 0
+    
+    # tmp
     i = 0
     j = 0
-    a_list = list_pair[:size_task]
-    b_list = list_pair[size_task:]
-    c_list = []
-    
-    for k in range(current_doubled_size_task):
-        #print 'i',i, 'j', j, 'size_task', size_task
-        # Защита от выхода за границы
-        if i > size_task-1:
-            c_list.append(b_list[j])
+    for k in range(n):
+        # Один из массивов закончился
+        if i > one_st_len-1:
+            D.append(C[j])
+            j += 1
             continue
             
-        if j > size_task-1:
-            c_list.append(a_list[i])
+        if j > two_st_len-1:
+            D.append(B[i])
+            i += 1
             continue
-            
+        
         # Штатное сравнение
-        if a_list[i] < b_list[j]:
-            c_list.append(a_list[i])
+        if B[i] < C[j]:
+            D.append(B[i])
             i += 1
         else :
-            c_list.append(b_list[j])
+            D.append(C[j])
+            number_inversion += one_st_len-i
             j += 1
-    
-    return c_list
-    
-def _merge(in_list, size_task):
-    print '\tNew call...', in_list
-    
-    # Нужно разбить на пары
-    size_in_list = len(in_list)
-    ab_list = []
-    ptr = 0
-    current_doubled_size_task = size_task*2
-    while ptr < size_in_list:
-        list_pair = in_list[ptr:ptr+current_doubled_size_task]
-        
-        # Сливаем два массива
-        list_pair = _one_recursive_step(
-            list_pair, 
-            size_task,
-            current_doubled_size_task)
             
-        # Переливаем подсчитанные данные
-        for i in range(current_doubled_size_task):
-            in_list[ptr+i] = list_pair[i]
-        
-        # Следующая пара
-        ptr += current_doubled_size_task
-        
-    # Снова вызываем рекурсивный оборот
-    new_size_task = current_doubled_size_task
-    if new_size_task < size_in_list:
-        _merge(in_list, new_size_task)
+    return D, number_inversion
+def main():
+    sets = iow.get_utf8_template()
+    sets['name'] = 'D:/github-develop/tests-usage-algorithms/stanford_algoritms_part1/week_1/test_serial.txt'
+    sets['name'] = 'D:/github-develop/tests-usage-algorithms/stanford_algoritms_part1/week_1/IntegerArray.txt'
+    # Модифицированное слияние
+    #A = [1,3,5, 2,4, 6]
+    #A = [1,2,3,4, 5, 6]
+    A = iow.file2list_int(sets)
+    if not A:
+        print 'Failure!'
+        return
+    n = len(A)
 
+    a, num = count_and_sort(A, n)
+    return num
+       
 if __name__=='__main__':
     """ Одна часть рекурсия, а другая слияние? """
+    print
+    print 'Begin...'
+    print main()
     
-    # Модифицированное слияние
-    src_list = [1,3,5,  2,4,6]
-    size_src_list = len(src_list) 
-    half_size = size_src_list/2
-    b_list = src_list[:size_src_list/2]
-    c_list = src_list[size_src_list/2:]
-    
-    print 'b_list', b_list
-    print 'c_list', c_list
-    print 
-    
-    d_list = []
-    i = 0
-    j = 0
-
-    number_inversion = 0
-    for k in range(size_src_list):
-
-        # Один из массивов закончился
-        if i > half_size-1:
-            # Возможно только выход
-            y = c_list[j]
-            d_list.append(y)
-            continue
-            
-        if j > half_size-1:
-            x = b_list[i]
-            d_list.append(x)
-            continue
-            
-        # Переназываем
-        x = b_list[i]
-        y = c_list[j]
-        
-        # Штатное сравнение
-        if x < y:
-            d_list.append(x)
-            i += 1
-        else :
-            d_list.append(y)
-            print '>> ', y, b_list[i:], half_size-i
-            j += 1
-            
-            
-    #print 'd_list', d_list
-    
-    
-    '''# length = n = 2^3
-    in_list = [5, 4, 1, 8, 7, 2, 6, 3]
-    print 'Input', in_list
-    size_task = 1  # размерность задачи
-    _merge(in_list, size_task)
-    print 'Result', in_list'''
+    print 'Done'
