@@ -32,7 +32,7 @@ def _one_recursive_step(
     return c_list
     
 def _merge(in_list, size_task):
-    print 'New call...', in_list
+    print '\tNew call...', in_list
     
     # Нужно разбить на пары
     size_in_list = len(in_list)
@@ -64,12 +64,7 @@ if __name__=='__main__':
     """ Одна часть рекурсия, а другая слияние? """
     # length = n = 2^3
     in_list = [5, 4, 1, 8, 7, 2, 6, 3]
-    print in_list
+    print 'Input', in_list
     size_task = 1  # размерность задачи
     _merge(in_list, size_task)
-    print in_list
-    
-
-# Тест рекурсии - вывод левого поддерева
-#if list[:len(list)/2]:
-    #_merge(list[:len(list)/2])
+    print 'Result', in_list
