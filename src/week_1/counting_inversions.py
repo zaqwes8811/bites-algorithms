@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-import uasio.os_io.io_wrapper as iow
+#import uasio.os_io.io_wrapper as iow
 
 # Что если массив нацело не делится на два
 def count_and_sort(A, n):
@@ -8,8 +8,11 @@ def count_and_sort(A, n):
     else:
         B_raw = A[:n/2]
         C_raw = A[n/2:]  # может быть не равен длине первого
+        print 'first'
         B, x = count_and_sort(B_raw, len(B_raw))
+        print 'two'
         C, y = count_and_sort(C_raw, len(C_raw))
+        print 'merge'
         D, z = count_and_merge(B, C, n)
         return D, x+y+z
 
@@ -51,14 +54,15 @@ def count_and_merge(B, C, n):
             j += 1
             
     return D, number_inversion
+
 def main():
-    sets = iow.get_utf8_template()
-    sets['name'] = 'D:/github-develop/tests-usage-algorithms/stanford_algoritms_part1/week_1/test_serial.txt'
-    sets['name'] = 'D:/github-develop/tests-usage-algorithms/stanford_algoritms_part1/week_1/IntegerArray.txt'
+    #sets = iow.get_utf8_template()
+    #sets['name'] = 'D:/github-develop/tests-usage-algorithms/stanford_algoritms_part1/week_1/test_serial.txt'
+    #sets['name'] = 'D:/github-develop/tests-usage-algorithms/stanford_algoritms_part1/week_1/IntegerArray.txt'
     # Модифицированное слияние
-    #A = [1,3,5, 2,4, 6]
-    #A = [1,2,3,4, 5, 6]
-    A = iow.file2list_int(sets)
+    A = [1,3,5,2]#,4,6,8,7]
+    A = [1,2,3,4]#,5,6,7,8]
+    #A = iow.file2list_int(sets)
     if not A:
         print 'Failure!'
         return
