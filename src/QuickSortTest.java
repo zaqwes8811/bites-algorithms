@@ -1,4 +1,5 @@
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Ordering;
 import com.google.common.io.Closer;
 
 import java.io.BufferedReader;
@@ -18,43 +19,49 @@ import java.util.List;
 public class QuickSortTest {
   @org.junit.Test
   public void testAsInVideo() throws Exception {
-    QuickSort sorter = new QuickSort();
     Integer [] rawArray = {3,8,2,5, 1,4,7,6};
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
+    QuickSort sorter = new QuickSort();
     sorter.quickSort(array);
     System.out.println(array);
   }
 
   @org.junit.Test
   public void testBoundary() throws Exception {
-    QuickSort sorter = new QuickSort();
     Integer [] rawArray = {3,8,2,5, 6,4,7,1};
 
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
+    QuickSort sorter = new QuickSort();
     sorter.quickSort(array);
     System.out.println(array);
   }
 
   @org.junit.Test
   public void testFromFile() throws Exception {
+    String filename = "QuickSort.txt";
+    List<Integer> array = fileToList(filename);
 
+    QuickSort sorter = new QuickSort();
+    sorter.quickSort(array);
+    boolean sorted = Ordering.natural().isOrdered(array);
   }
 
-  static private ImmutableList<String> fileToList(String filename) throws IOException {
+  static private List<Integer> fileToList(String filename) throws IOException {
     Closer closer = Closer.create();
-    List<String> result = new ArrayList<String>();
+    List<Integer> result = new ArrayList<Integer>();
     try {
-      // TODO(zaqwes): Может лучше считать разом, а потом разбить на части?
       BufferedReader in = closer.register(new BufferedReader(new FileReader(filename)));
       String s;
-      while ((s = in.readLine()) != null) result.add(s);
+      while ((s = in.readLine()) != null) {
+        result.add(Integer.parseInt(s));
+      }
     } catch (Throwable e) {
       closer.rethrow(e);
     } finally {
       closer.close();
     }
-    return ImmutableList.copyOf(result);
+    return result;
   }
 }
