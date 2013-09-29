@@ -1,6 +1,7 @@
 // http://stackoverflow.com/questions/2895342/java-how-can-i-split-an-arraylist-in-multiple-small-arraylists?lq=1
 
 import java.util.List;
+import java.util.Random;
 
 public class QuickSort {
   public void quickSortFirst(List<Integer> array) {
@@ -13,17 +14,16 @@ public class QuickSort {
     //@Recursion
     if (boundary != 0)
       quickSortFirst(array.subList(0, boundary));
-    if (boundary != array.size())
-      quickSortFirst(array.subList(boundary, array.size()));
+    if (boundary < array.size())
+      quickSortFirst(array.subList(boundary+1, array.size()));
 
     //@AfterRecursion
     // Nothing
   }
 
-
-
   public Integer choosePivot(List<Integer> array) {
-    return array.size()-1;  // no work
+    //return new Random().nextInt(
+      return array.size()-1;//);
   }
 
   public Integer partition(List<Integer> array, Integer idxPivot) {
@@ -43,12 +43,12 @@ public class QuickSort {
       }
     }
 
-
+    Integer boundary = i;
     // В зависимости от того в какой часте находится
-    if (idxPivot < i) swap(array, idxPivot, i-1);
-    else swap(array, idxPivot, i);
+    if (idxPivot < i) boundary = i-1;
 
-    return i;
+    swap(array, idxPivot, boundary);
+    return boundary;
   }
 
   private void swap(List<Integer> array, Integer a, Integer b) {

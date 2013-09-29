@@ -29,6 +29,18 @@ public class QuickSortTest {
   }
 
   @org.junit.Test
+  public void testRandom() throws Exception {
+    Integer [] rawArray = {3,8,2,5, 1,4,7,6};
+    List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
+
+    QuickSort sorter = new QuickSort();
+    for (int i = 0; i < 10; i++) {
+      sorter.quickSortFirst(array);
+      assertTrue(Ordering.natural().isOrdered(array));
+    }
+  }
+
+  @org.junit.Test
   public void testPartition() throws Exception {
     Integer [] rawArray = {3,8,2,5, 1,4,7,6};
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
@@ -57,7 +69,7 @@ public class QuickSortTest {
     assertTrue(Ordering.natural().isOrdered(array));
   }
 
-  @org.junit.Test
+  //@org.junit.Test
   public void testFromFile() throws Exception {
     String filename = "QuickSort.txt";
     List<Integer> array = fileToList(filename);
