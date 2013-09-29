@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +31,7 @@ public class QuickSortTest {
 
   @org.junit.Test
   public void testRandom() throws Exception {
-    Integer [] rawArray = {3,8,2,5, 1,4,7,6};
+    Integer [] rawArray = {3,8,2,5, 1,4,7,6, 10};
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
     QuickSort sorter = new QuickSort();
@@ -40,6 +41,7 @@ public class QuickSortTest {
     }
   }
 
+  /*
   @org.junit.Test
   public void testPartition() throws Exception {
     Integer [] rawArray = {3,8,2,5, 1,4,7,6};
@@ -57,7 +59,7 @@ public class QuickSortTest {
     QuickSort sorter = new QuickSort();
     sorter.partition(array, sorter.choosePivot(array));
   }
-
+   */
   @org.junit.Test
   public void testBoundary() throws Exception {
     Integer [] rawArray = {3,8,2,5, 6,4,7,1};
@@ -69,14 +71,16 @@ public class QuickSortTest {
     assertTrue(Ordering.natural().isOrdered(array));
   }
 
-  //@org.junit.Test
+  @org.junit.Test
   public void testFromFile() throws Exception {
     String filename = "QuickSort.txt";
     List<Integer> array = fileToList(filename);
 
-    QuickSort sorter = new QuickSort();
-    sorter.quickSortFirst(array);
-    assertTrue(Ordering.natural().isOrdered(array));
+    int end = 1200;
+    QuickSort sorter = new QuickSort(new PivotLast());
+    sorter.quickSortFirst(array.subList(0, end));
+    //System.out.println(array.subList(0, end));
+    assertTrue(Ordering.natural().isOrdered(array.subList(0, end)));
   }
 
   static private List<Integer> fileToList(String filename) throws IOException {
@@ -94,5 +98,19 @@ public class QuickSortTest {
       closer.close();
     }
     return result;
+  }
+}
+
+class PivotLast implements Pivot {
+  @Override
+  public Integer choose(List<Integer> array) {
+    return array.size()-1;
+  }
+}
+
+class PivotRandom implements Pivot {
+  @Override
+  public Integer choose(List<Integer> array) {
+    return new Random().nextInt(array.size());
   }
 }

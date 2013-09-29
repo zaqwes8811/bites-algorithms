@@ -3,27 +3,36 @@
 import java.util.List;
 import java.util.Random;
 
+class PivotDefault implements Pivot {
+  @Override
+  public Integer choose(List<Integer> array) {
+    return 0;
+  }
+}
+
 public class QuickSort {
+  private final Pivot PIVOT_;
+  public QuickSort() {
+    PIVOT_ = new PivotDefault();
+  }
+
+  public QuickSort(Pivot pivot) {
+    PIVOT_ = pivot;
+  }
+
   public void quickSortFirst(List<Integer> array) {
     if (array.size() == 1) return;
 
     //@BeforeRecursion
-    Integer p = choosePivot(array);
+    Integer p = PIVOT_.choose(array);
     Integer boundary = partition(array, p);
 
     //@Recursion
     if (boundary != 0)
       quickSortFirst(array.subList(0, boundary));
-    if (boundary < array.size())
+
+    if (boundary+1 != array.size())
       quickSortFirst(array.subList(boundary+1, array.size()));
-
-    //@AfterRecursion
-    // Nothing
-  }
-
-  public Integer choosePivot(List<Integer> array) {
-    //return new Random().nextInt(
-      return array.size()-1;//);
   }
 
   public Integer partition(List<Integer> array, Integer idxPivot) {
@@ -46,8 +55,8 @@ public class QuickSort {
     Integer boundary = i;
     // В зависимости от того в какой часте находится
     if (idxPivot < i) boundary = i-1;
-
     swap(array, idxPivot, boundary);
+
     return boundary;
   }
 
