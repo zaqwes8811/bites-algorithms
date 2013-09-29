@@ -7,7 +7,7 @@
     <ignored path="bites-algorithms.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380453568689" ignored="false" />
-    <file path="/Main.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380455655106" ignored="false" />
+    <file path="/Main.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380455890194" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +69,7 @@
       <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="18" selection-start="207" selection-end="207" vertical-scroll-proportion="0.28385898">
+            <state line="12" column="23" selection-start="296" selection-end="296" vertical-scroll-proportion="0.37847868">
               <folding />
             </state>
           </provider>
@@ -323,7 +323,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="18" selection-start="207" selection-end="207" vertical-scroll-proportion="0.28385898">
+        <state line="12" column="23" selection-start="296" selection-end="296" vertical-scroll-proportion="0.37847868">
           <folding />
         </state>
       </provider>

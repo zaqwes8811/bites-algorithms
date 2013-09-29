@@ -9,13 +9,20 @@ public class Main {
 
   private static  void quickSort(Integer [] array) {
     if (array.length == 1) return;
+
+    //@NoRecursion
     Integer p = choosePivot(array);
+    partion(array, p);
+
+    //
 
   }
 
     public static  Integer choosePivot(Integer [] array) {
+      return 0;
+    }
+    private static void partion(Integer [] array, Integer idxPivot) {
       Integer size = array.length;
-      Integer idxPivot = 0;
       Integer i = idxPivot+1;
       Integer pivot = array[idxPivot];
       for (Integer j = i; j < size; j++) {
@@ -25,7 +32,6 @@ public class Main {
         }
       }
       swap(array, idxPivot, i-1);
-      return i;
     }
 
   private static void swap(Integer [] array, Integer a, Integer b) {
