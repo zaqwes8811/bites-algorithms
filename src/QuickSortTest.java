@@ -1,4 +1,3 @@
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.common.io.Closer;
 
@@ -25,8 +24,26 @@ public class QuickSortTest {
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
     QuickSort sorter = new QuickSort();
-    sorter.quickSort(array);
+    sorter.quickSortFirst(array);
     assertTrue(Ordering.natural().isOrdered(array));
+  }
+
+  @org.junit.Test
+  public void testPartition() throws Exception {
+    Integer [] rawArray = {3,8,2,5, 1,4,7,6};
+    List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
+
+    QuickSort sorter = new QuickSort();
+    sorter.partition(array, sorter.choosePivot(array));
+  }
+
+  @org.junit.Test
+  public void testPartitionSmall() throws Exception {
+    Integer [] rawArray = {3, 2, 1};
+    List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
+
+    QuickSort sorter = new QuickSort();
+    sorter.partition(array, sorter.choosePivot(array));
   }
 
   @org.junit.Test
@@ -36,7 +53,7 @@ public class QuickSortTest {
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
     QuickSort sorter = new QuickSort();
-    sorter.quickSort(array);
+    sorter.quickSortFirst(array);
     assertTrue(Ordering.natural().isOrdered(array));
   }
 
@@ -46,7 +63,7 @@ public class QuickSortTest {
     List<Integer> array = fileToList(filename);
 
     QuickSort sorter = new QuickSort();
-    sorter.quickSort(array);
+    sorter.quickSortFirst(array);
     assertTrue(Ordering.natural().isOrdered(array));
   }
 
