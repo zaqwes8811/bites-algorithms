@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.*;
+
 /**
  * Created with IntelliJ IDEA.
  * User: кей
@@ -24,7 +26,7 @@ public class QuickSortTest {
 
     QuickSort sorter = new QuickSort();
     sorter.quickSort(array);
-    System.out.println(array);
+    assertTrue(Ordering.natural().isOrdered(array));
   }
 
   @org.junit.Test
@@ -35,7 +37,7 @@ public class QuickSortTest {
 
     QuickSort sorter = new QuickSort();
     sorter.quickSort(array);
-    System.out.println(array);
+    assertTrue(Ordering.natural().isOrdered(array));
   }
 
   @org.junit.Test
@@ -45,7 +47,7 @@ public class QuickSortTest {
 
     QuickSort sorter = new QuickSort();
     sorter.quickSort(array);
-    boolean sorted = Ordering.natural().isOrdered(array);
+    assertTrue(Ordering.natural().isOrdered(array));
   }
 
   static private List<Integer> fileToList(String filename) throws IOException {
