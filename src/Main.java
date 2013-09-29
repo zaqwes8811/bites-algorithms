@@ -7,10 +7,10 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-      //Integer [] array = {3,8,2,5, 1,4,7,6};
-      //Integer [] array = {3,8,2,5, 6,4,7,1};
+      //Integer [] rawArray = {3,8,2,5, 1,4,7,6};
+      Integer [] rawArray = {3,8,2,5, 6,4,7,1};
 
-      List<Integer> array = new ArrayList<Integer>(Arrays.asList(3,8,2,5, 1,4,7,6));
+      List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
      quickSort(array);
       System.out.println(array);
@@ -21,18 +21,23 @@ public class Main {
 
     //@BeforeRecursion
     Integer p = choosePivot(array);
-    partition(array, p);
+    Integer boundary = partition(array, p);
 
     //@Recursion
-    quickSort(array.subList(0, p));
+    quickSort(array.subList(0, boundary));
+
+    if (boundary != array.size())
+      quickSort(array.subList(boundary, array.size()));
+
     //@AfterRecursion
     // Nothing
   }
 
     public static  Integer choosePivot(List<Integer> array) {
+      //return array.size()-1;  // no work
       return 0;
     }
-    private static void partition(List<Integer> array, Integer idxPivot) {
+    private static Integer partition(List<Integer> array, Integer idxPivot) {
       Integer size = array.size();
       Integer i = idxPivot+1;
       Integer pivot = array.get(idxPivot);
@@ -41,10 +46,9 @@ public class Main {
           swap(array, j, i);
           i++;
         }
-        System.out.println(array);
       }
       swap(array, idxPivot, i-1);
-      System.out.println(array);
+      return i;
     }
 
   private static void swap(List<Integer> array, Integer a, Integer b) {
