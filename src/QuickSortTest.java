@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  * To change this template use File | Settings | File Templates.
  */
 public class QuickSortTest {
-  @org.junit.Test
+  //@org.junit.Test
   public void testAsInVideo() throws Exception {
     Integer [] rawArray = {3,8,2,5, 1,4,7,6};
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
@@ -29,7 +29,7 @@ public class QuickSortTest {
     assertTrue(Ordering.natural().isOrdered(array));
   }
 
-  @org.junit.Test
+ // @org.junit.Test
   public void testRandom() throws Exception {
     Integer [] rawArray = {3,8,2,5, 1,4,7,6, 10};
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
@@ -41,26 +41,7 @@ public class QuickSortTest {
     }
   }
 
-  /*
-  @org.junit.Test
-  public void testPartition() throws Exception {
-    Integer [] rawArray = {3,8,2,5, 1,4,7,6};
-    List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
-
-    QuickSort sorter = new QuickSort();
-    sorter.partition(array, sorter.choosePivot(array));
-  }
-
-  @org.junit.Test
-  public void testPartitionSmall() throws Exception {
-    Integer [] rawArray = {3, 2, 1};
-    List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
-
-    QuickSort sorter = new QuickSort();
-    sorter.partition(array, sorter.choosePivot(array));
-  }
-   */
-  @org.junit.Test
+  //@org.junit.Test
   public void testBoundary() throws Exception {
     Integer [] rawArray = {3,8,2,5, 6,4,7,1};
 
@@ -71,15 +52,26 @@ public class QuickSortTest {
     assertTrue(Ordering.natural().isOrdered(array));
   }
 
-  @org.junit.Test
+  //@org.junit.Test
   public void testFromFile() throws Exception {
     String filename = "QuickSort.txt";
     List<Integer> array = fileToList(filename);
 
     int end = 1200;
-    QuickSort sorter = new QuickSort(new PivotLast());
+    QuickSort sorter = new QuickSort(new PivotLast(), new PartionerBase());
     sorter.quickSortFirst(array.subList(0, end));
     //System.out.println(array.subList(0, end));
+    assertTrue(Ordering.natural().isOrdered(array.subList(0, end)));
+  }
+
+  @org.junit.Test
+  public void testFromFileRandom() throws Exception {
+    String filename = "QuickSort.txt";
+    List<Integer> array = fileToList(filename);
+
+    int end = array.size();
+    QuickSort sorter = new QuickSort(new PivotRandom(), new PartionerBase());
+    sorter.quickSortFirst(array.subList(0, end));
     assertTrue(Ordering.natural().isOrdered(array.subList(0, end)));
   }
 
@@ -101,16 +93,3 @@ public class QuickSortTest {
   }
 }
 
-class PivotLast implements Pivot {
-  @Override
-  public Integer choose(List<Integer> array) {
-    return array.size()-1;
-  }
-}
-
-class PivotRandom implements Pivot {
-  @Override
-  public Integer choose(List<Integer> array) {
-    return new Random().nextInt(array.size());
-  }
-}
