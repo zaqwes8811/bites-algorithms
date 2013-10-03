@@ -6,6 +6,7 @@
  * - проверить процедуру деления со всеми позициями опорного элемента
  * */
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class QuickSort {

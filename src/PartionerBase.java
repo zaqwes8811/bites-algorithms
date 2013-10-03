@@ -1,12 +1,10 @@
+import com.google.common.collect.ImmutableList;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: кей
- * Date: 29.09.13
- * Time: 20:49
- * To change this template use File | Settings | File Templates.
- */
 public class PartionerBase implements Partioner {
   @Override
   public Integer partition(List<Integer> array, Integer idxPivot) {
@@ -28,10 +26,36 @@ public class PartionerBase implements Partioner {
 
     Integer boundary = i;
     // В зависимости от того в какой часте находится
-    if (idxPivot < i) boundary = i-1;
+    if (idxPivot < boundary)
+      boundary--;
+
+    // Меняем индексы
     swap(array, idxPivot, boundary);
 
+    List<Integer> clone = new ArrayList<Integer>(array);
+
+    if (!checkPostcondition(array, boundary, pivot))
+      throw new RuntimeException(""
+        //+" pivot = "+pivot
+        +" boundary = "+boundary
+        //+" now on idx_pivot = "+array.get(idxPivot)
+        //+" idxPivot = "+idxPivot
+        +" around = "+array.subList(boundary-2, boundary+3)
+        //+" around = "+clone.subList(boundary-2, boundary+3)
+        );
     return boundary;
+  }
+
+  public Boolean checkPostcondition(List<Integer> array, Integer boundary, Integer pivot) {
+    Integer maxLeft;
+    Integer minRight;
+    if (boundary == 0) maxLeft = pivot-1;
+    else maxLeft = Collections.max(array.subList(0, boundary));
+
+    if (boundary == array.size()-1) minRight = pivot+1;
+    else minRight = Collections.min(array.subList(boundary+1, array.size()));
+    if (pivot > maxLeft && pivot < minRight) return true;
+    return false;
   }
 
   private void swap(List<Integer> array, Integer a, Integer b) {

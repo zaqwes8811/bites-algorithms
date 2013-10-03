@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  * To change this template use File | Settings | File Templates.
  */
 public class QuickSortTest {
-  //@org.junit.Test
+  @org.junit.Test
   public void testAsInVideo() throws Exception {
     Integer [] rawArray = {3,8,2,5, 1,4,7,6};
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
@@ -71,7 +71,14 @@ public class QuickSortTest {
 
     int end = array.size();
     QuickSort sorter = new QuickSort(new PivotRandom(), new PartionerBase());
-    sorter.quickSortFirst(array.subList(0, end));
+    for (int i = 0; i < 100; ++i) {
+      try {
+      sorter.quickSortFirst(array.subList(0, end));
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+    }
+
     assertTrue(Ordering.natural().isOrdered(array.subList(0, end)));
   }
 
