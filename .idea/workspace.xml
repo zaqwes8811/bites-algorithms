@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257e8748-6438-4013-b015-ee420ad395c0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PartionerBase.java" afterPath="$PROJECT_DIR$/src/PartionerBase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/QuickSort.java" afterPath="$PROJECT_DIR$/src/QuickSort.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/QuickSortTest.java" afterPath="$PROJECT_DIR$/src/QuickSortTest.java" />
     </list>
     <ignored path="bites-algorithms.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -12,7 +10,7 @@
     <file path="/Main.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380458387619" ignored="false" />
     <file path="/fragment.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381163733035" ignored="false" />
     <file path="/QuickSortTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380825264939" ignored="false" />
-    <file path="/QuickSort.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381164719608" ignored="false" />
+    <file path="/QuickSort.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381165229058" ignored="false" />
     <file path="/Pivot.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380468130705" ignored="false" />
     <file path="/PartionerBase.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381163055835" ignored="false" />
     <file path="/PartionerBaseTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380825930285" ignored="false" />
@@ -77,7 +75,7 @@
       <file leaf-file-name="PartionerBase.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/PartionerBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="22" selection-start="419" selection-end="419" vertical-scroll-proportion="0.5748792">
+            <state line="25" column="19" selection-start="692" selection-end="692" vertical-scroll-proportion="0.13768116">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -88,7 +86,7 @@
       <file leaf-file-name="QuickSort.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="26" selection-start="1318" selection-end="1318" vertical-scroll-proportion="0.0">
+            <state line="41" column="57" selection-start="1238" selection-end="1238" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -594,14 +592,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="26" selection-start="1318" selection-end="1318" vertical-scroll-proportion="0.0">
+        <state line="41" column="57" selection-start="1238" selection-end="1238" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PartionerBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="22" selection-start="419" selection-end="419" vertical-scroll-proportion="0.5748792">
+        <state line="25" column="19" selection-start="692" selection-end="692" vertical-scroll-proportion="0.13768116">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

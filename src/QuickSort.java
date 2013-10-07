@@ -34,7 +34,12 @@ public class QuickSort {
 
     Integer i = PARTIONER_.partition(array, p);
 
-    if (pivot != array.get(i)) throw new RuntimeException("No centered");
+    if (pivot != array.get(i))
+      throw new RuntimeException(Joiner.on('\t').join(
+          "No centered",
+          array.contains(pivot),
+          array.subList(0, i).contains(pivot),
+          array.subList(i+1, array.size()).contains(pivot)));
 
     // Если левая часть не пуста
     if (i != 0) {
