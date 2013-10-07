@@ -1,3 +1,4 @@
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -23,13 +24,26 @@ public class PartionerBase implements Partioner {
       }
     }
 
-    // В зависимости от того в какой часте находится
-    if (idxPivot < i)
-      i--;
+    // Граница будет указывать на первый правый
+    if (inLeftPart(idxPivot, i)) i--;
 
     // Меняем индексы
     swap(array, idxPivot, i);
+
+    // Похоже ошибка, когда выбранный стержень в левой часте
+    // p in left and pivot in right
+    if (pivot != array.get(i))
+      throw new RuntimeException(Joiner.on('\t').join(
+        array.subList(0, i).contains(pivot),
+        array.subList(i-4, i+4),
+        array.subList(i+1, array.size()).contains(pivot)));
+
     return i;
+  }
+
+  private boolean inLeftPart(Integer idxPivot, Integer i) {
+    if (idxPivot < i) return true;
+    return false;
   }
 
   private void swap(List<Integer> array, Integer a, Integer b) {
