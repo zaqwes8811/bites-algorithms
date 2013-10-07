@@ -26,10 +26,7 @@ public class PartionerBase implements Partioner {
 
     if (pivot != array.get(idxPivot))
       throw new RuntimeException(Joiner.on('\t').join(
-        "Pivot moved!",
-        array.subList(0, i).contains(pivot),
-        array.subList(i-4, i+4),
-        array.subList(i+1, array.size()).contains(pivot)));
+        "Pivot moved!",""));
 
     // Граница будет указывать на первый правый
     if (inLeftPart(idxPivot, i)) i--;
@@ -41,9 +38,7 @@ public class PartionerBase implements Partioner {
     // p in left and pivot in right
     if (pivot != array.get(i))
       throw new RuntimeException(Joiner.on('\t').join(
-        array.subList(0, i).contains(pivot),
-        array.subList(i-4, i+4),
-        array.subList(i+1, array.size()).contains(pivot)));
+        "Pivot not in right place",""));
 
     return i;
   }
