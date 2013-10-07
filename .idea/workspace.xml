@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257e8748-6438-4013-b015-ee420ad395c0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/PartionerBaseTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PartionerBase.java" afterPath="$PROJECT_DIR$/src/PartionerBase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/QuickSort.java" afterPath="$PROJECT_DIR$/src/QuickSort.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/QuickSortTest.java" afterPath="$PROJECT_DIR$/src/QuickSortTest.java" />
@@ -10,13 +9,13 @@
     </list>
     <ignored path="bites-algorithms.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380826797364" ignored="false" />
+    <file path="/Dummy.txt" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381163307339" ignored="false" />
     <file path="/Main.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380458387619" ignored="false" />
-    <file path="/fragment.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380826793092" ignored="false" />
+    <file path="/fragment.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381163307339" ignored="false" />
     <file path="/QuickSortTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380825264939" ignored="false" />
-    <file path="/QuickSort.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380825716114" ignored="false" />
+    <file path="/QuickSort.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381163369209" ignored="false" />
     <file path="/Pivot.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380468130705" ignored="false" />
-    <file path="/PartionerBase.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380827117126" ignored="false" />
+    <file path="/PartionerBase.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381163055835" ignored="false" />
     <file path="/PartionerBaseTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380825930285" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,7 +31,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -67,6 +65,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -76,22 +75,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PartionerBase.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PartionerBase.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PartionerBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="10" selection-start="1229" selection-end="1229" vertical-scroll-proportion="0.68">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#900#909#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PartionerBaseTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/PartionerBaseTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="8" selection-start="1060" selection-end="1060" vertical-scroll-proportion="0.0">
+            <state line="23" column="11" selection-start="671" selection-end="671" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -99,14 +86,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuickSort.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="QuickSort.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="4" selection-start="841" selection-end="841" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#1163#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="31" column="17" selection-start="903" selection-end="903" vertical-scroll-proportion="0.422">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -114,7 +98,7 @@
       <file leaf-file-name="QuickSortTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/QuickSortTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="2" selection-start="484" selection-end="484" vertical-scroll-proportion="0.0">
+            <state line="78" column="21" selection-start="2348" selection-end="2348" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -140,15 +124,15 @@
       <list>
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/Pivot.java" />
-        <option value="$PROJECT_DIR$/src/PivotRandom.java" />
         <option value="$PROJECT_DIR$/src/PivotLast.java" />
         <option value="$PROJECT_DIR$/src/PivotDefault.java" />
         <option value="$PROJECT_DIR$/src/PivotTest.java" />
         <option value="$PROJECT_DIR$/src/Partioner.java" />
         <option value="$PROJECT_DIR$/src/PartionerBaseTest.java" />
-        <option value="$PROJECT_DIR$/src/QuickSort.java" />
+        <option value="$PROJECT_DIR$/src/PivotRandom.java" />
         <option value="$PROJECT_DIR$/src/QuickSortTest.java" />
         <option value="$PROJECT_DIR$/src/PartionerBase.java" />
+        <option value="$PROJECT_DIR$/src/QuickSort.java" />
       </list>
     </option>
   </component>
@@ -185,7 +169,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -220,6 +203,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -250,7 +234,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.QuickSortTest.testFromFileRandom">
+  <component name="RunManager" selected="JUnit.All in bites-algorithms">
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" />
@@ -364,10 +348,56 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="3">
+    <configuration default="false" name="QuickSortTest" type="JUnit" factoryName="JUnit">
+      <module name="bites-algorithms" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="QuickSortTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All in bites-algorithms" type="JUnit" factoryName="JUnit">
+      <module name="bites-algorithms" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="JUnit.QuickSortTest.testFromFileRandom" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.PartionerBaseTest.testPartitionReal" />
       <item index="2" class="java.lang.String" itemvalue="JUnit.QuickSortTest.testAsInVideo" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.QuickSortTest" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.All in bites-algorithms" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -396,8 +426,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3071313" sideWeight="0.6840855" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31591448" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32820097" sideWeight="0.6247031" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37529692" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -468,10 +498,7 @@
     <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="21" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#1163#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -492,93 +519,73 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Pivot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="20" selection-start="194" selection-end="194" vertical-scroll-proportion="0.25">
-          <folding />
-        </state>
+        <state line="9" column="20" selection-start="194" selection-end="194" vertical-scroll-proportion="0.25" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PivotDefault.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="1" selection-start="290" selection-end="290" vertical-scroll-proportion="0.29861984">
+        <state line="14" column="1" selection-start="290" selection-end="290" vertical-scroll-proportion="0.29861984" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Partioner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="26" selection-start="191" selection-end="200" vertical-scroll-proportion="0.18704157" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PivotTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="5" selection-start="846" selection-end="846" vertical-scroll-proportion="0.6858191" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../work-libs/java/junit-4.11.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="38" selection-start="382" selection-end="382" vertical-scroll-proportion="-6.8" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../work-libs/java/junit-4.11.jar!/org/junit/runners/BlockJUnit4ClassRunner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../work-libs/java/junit-4.11.jar!/org/junit/runners/ParentRunner.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PartionerBaseTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="8" selection-start="1060" selection-end="1060" vertical-scroll-proportion="1.143167">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PivotRandom.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="1" selection-start="370" selection-end="370" vertical-scroll-proportion="0.31173593">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Partioner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="26" selection-start="191" selection-end="200" vertical-scroll-proportion="0.18704157">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PivotTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="5" selection-start="846" selection-end="846" vertical-scroll-proportion="0.6858191">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../work-libs/java/junit-4.11.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="38" selection-start="382" selection-end="382" vertical-scroll-proportion="-6.8">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../work-libs/java/junit-4.11.jar!/org/junit/runners/BlockJUnit4ClassRunner.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../work-libs/java/junit-4.11.jar!/org/junit/runners/ParentRunner.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="13" column="49" selection-start="344" selection-end="344" vertical-scroll-proportion="0.44251627">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/QuickSortTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="2" selection-start="484" selection-end="484" vertical-scroll-proportion="0.0">
+        <state line="78" column="21" selection-start="2348" selection-end="2348" vertical-scroll-proportion="0.0">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="4" selection-start="841" selection-end="841" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#1163#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PartionerBaseTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="8" selection-start="1060" selection-end="1060" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PartionerBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="10" selection-start="1229" selection-end="1229" vertical-scroll-proportion="0.68">
+        <state line="23" column="11" selection-start="671" selection-end="671" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#900#909#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="17" selection-start="903" selection-end="903" vertical-scroll-proportion="0.422">
+          <folding />
         </state>
       </provider>
     </entry>

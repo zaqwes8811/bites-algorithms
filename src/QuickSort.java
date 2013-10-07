@@ -27,17 +27,17 @@ public class QuickSort {
 
     //@BeforeRecursion
     Integer p = PIVOT_.choose(array);
-    Integer boundary = PARTIONER_.partition(array, p);
+    Integer i = PARTIONER_.partition(array, p);
 
-    //@Recursion
-    if (boundary != 0) {
+    // Если левая часть не пуста
+    if (i != 0) {
       // Проверить инвариант
-      quickSortFirst(array.subList(0, boundary));
+      quickSortFirst(array.subList(0, i));
     }
 
-    if (boundary+1 != array.size()) {
-      // Проверить инвариант
-      quickSortFirst(array.subList(boundary+1, array.size()));
+    // Если правая не пуста
+    if (i+1 != array.size()) {
+      quickSortFirst(array.subList(i+1, array.size()));
     }
   }
 }

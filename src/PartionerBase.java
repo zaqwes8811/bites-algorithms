@@ -16,7 +16,6 @@ public class PartionerBase implements Partioner {
     // Проходим все, но проскакиваем указатель на опору
     for (Integer j = 0; j < size; j++) {
       if (j == idxPivot) continue;
-
       if (pivot > array.get(j)) {
         if (i == idxPivot) i++;
         swap(array, j, i);
@@ -24,38 +23,36 @@ public class PartionerBase implements Partioner {
       }
     }
 
-    Integer boundary = i;
     // В зависимости от того в какой часте находится
-    if (idxPivot < boundary)
-      boundary--;
+    if (idxPivot < i)
+      i--;
 
     // Меняем индексы
-    swap(array, idxPivot, boundary);
-
-    List<Integer> clone = new ArrayList<Integer>(array);
-
-    if (!checkPostcondition(array, boundary, pivot))
-      throw new RuntimeException(""
-        //+" pivot = "+pivot
-        +" boundary = "+boundary
-        //+" now on idx_pivot = "+array.get(idxPivot)
-        //+" idxPivot = "+idxPivot
-        +" around = "+array.subList(boundary-2, boundary+3)
-        //+" around = "+clone.subList(boundary-2, boundary+3)
-        );
-    return boundary;
+    swap(array, idxPivot, i);
+    if (!checkPostcondition(array, i, pivot))
+      throw new RuntimeException("checkPostcondition");
+    return i;
   }
 
-  public Boolean checkPostcondition(List<Integer> array, Integer boundary, Integer pivot) {
+  // Самый большой левый элемент меньше pivot
+  // Самый меньший правый больше pivot
+  public Boolean checkPostcondition(
+      List<Integer> array,
+      Integer boundary,
+      Integer pivot) {
     Integer maxLeft;
     Integer minRight;
     if (boundary == 0) maxLeft = pivot-1;
     else maxLeft = Collections.max(array.subList(0, boundary));
+    if (pivot < maxLeft) return false;
 
-    if (boundary == array.size()-1) minRight = pivot+1;
-    else minRight = Collections.min(array.subList(boundary+1, array.size()));
-    if (pivot > maxLeft && pivot < minRight) return true;
-    return false;
+    if (boundary == array.size()-1) return true;
+    else {
+      minRight = Collections.min(array.subList(boundary, array.size()));
+      if (pivot < minRight) return false;
+    }
+
+    return true;
   }
 
   private void swap(List<Integer> array, Integer a, Integer b) {
