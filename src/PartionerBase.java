@@ -29,30 +29,7 @@ public class PartionerBase implements Partioner {
 
     // Меняем индексы
     swap(array, idxPivot, i);
-    if (!checkPostcondition(array, i, pivot))
-      throw new RuntimeException("checkPostcondition");
     return i;
-  }
-
-  // Самый большой левый элемент меньше pivot
-  // Самый меньший правый больше pivot
-  public Boolean checkPostcondition(
-      List<Integer> array,
-      Integer boundary,
-      Integer pivot) {
-    Integer maxLeft;
-    Integer minRight;
-    if (boundary == 0) maxLeft = pivot-1;
-    else maxLeft = Collections.max(array.subList(0, boundary));
-    if (pivot < maxLeft) return false;
-
-    if (boundary == array.size()-1) return true;
-    else {
-      minRight = Collections.min(array.subList(boundary, array.size()));
-      if (pivot < minRight) return false;
-    }
-
-    return true;
   }
 
   private void swap(List<Integer> array, Integer a, Integer b) {

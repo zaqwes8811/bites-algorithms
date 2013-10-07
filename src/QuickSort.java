@@ -5,6 +5,9 @@
  * - проверить разбиение на подзадачи
  * - проверить процедуру деления со всеми позициями опорного элемента
  * */
+import com.google.common.base.Joiner;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -27,16 +30,30 @@ public class QuickSort {
 
     //@BeforeRecursion
     Integer p = PIVOT_.choose(array);
+    Integer pivot = array.get(p);
+
     Integer i = PARTIONER_.partition(array, p);
+
+    if (pivot != array.get(i)) throw new RuntimeException("No centered");
 
     // Если левая часть не пуста
     if (i != 0) {
       // Проверить инвариант
+      Integer minLeft = Collections.max(array.subList(0, i));
+      if (!(minLeft < array.get(i)))
+        throw new RuntimeException(Joiner.on('\t').join(
+          "left",
+          array.subList(i-4, i+4),
+          pivot,
+          array.get(i)));
       quickSortFirst(array.subList(0, i));
     }
 
     // Если правая не пуста
-    if (i+1 != array.size()) {
+    if (i != array.size()-1) {
+      Integer minRight = Collections.min(array.subList(i+1, array.size()));
+      if (!(minRight > array.get(i)))
+        throw new RuntimeException("right");
       quickSortFirst(array.subList(i+1, array.size()));
     }
   }

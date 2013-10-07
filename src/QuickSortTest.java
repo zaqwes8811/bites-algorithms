@@ -73,9 +73,8 @@ public class QuickSortTest {
     QuickSort sorter = new QuickSort(new PivotRandom(), new PartionerBase());
     for (int i = 0; i < 10; ++i) {
       sorter.quickSortFirst(array.subList(0, end));
+      assumeTrue(Ordering.natural().isOrdered(array.subList(0, end)));
     }
-
-    assumeTrue(Ordering.natural().isOrdered(array.subList(0, end)));
   }
 
   static private List<Integer> fileToList(String filename) throws IOException {
