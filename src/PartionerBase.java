@@ -25,7 +25,9 @@ public class PartionerBase implements Partioner {
         if (i.equals(idxPivot)) i++;
         if (i.equals(idxPivot) || j.equals(idxPivot))
           throw new RuntimeException("Active move pivot");
-        swap(array, j, i);
+
+        // http://www.javaworld.com/javaworld/javaqa/2000-05/03-qa-0526-pass.html
+        Collections.swap(array, j, i);
         i++;
       }
     }
@@ -38,7 +40,7 @@ public class PartionerBase implements Partioner {
     if (inLeftPart(idxPivot, i)) i--;
 
     // Меняем индексы
-    swap(array, idxPivot, i);
+    Collections.swap(array, idxPivot, i);
 
     // Похоже ошибка, когда выбранный стержень в левой часте
     // p in left and pivot in right
@@ -53,10 +55,5 @@ public class PartionerBase implements Partioner {
     return false;
   }
 
-  // http://www.javaworld.com/javaworld/javaqa/2000-05/03-qa-0526-pass.html
-  private void swap(List<Integer> array, Integer a, Integer b) {
-    Integer tmp = array.get(a);
-    array.set(a, array.get(b));
-    array.set(b, tmp);
-  }
+
 }
