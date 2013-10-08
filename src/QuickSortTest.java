@@ -66,15 +66,23 @@ public class QuickSortTest {
 
   @org.junit.Test
   public void testFromFileRandom() throws Exception {
-    String filename = "QuickSort.txt";
-    List<Integer> array = fileToList(filename);
-
-    int end = array.size();
     QuickSort sorter = new QuickSort(new PivotRandom(), new PartionerBase());
     for (int i = 0; i < 10; ++i) {
+      String filename = "QuickSort.txt";
+      List<Integer> array = fileToList(filename);
+      int end = array.size();
       sorter.quickSortFirst(array.subList(0, end));
       assumeTrue(Ordering.natural().isOrdered(array.subList(0, end)));
     }
+  }
+
+  @org.junit.Test
+  public void testProgramQuestion1() throws Exception {
+    QuickSort sorter = new QuickSort(new PivotFirst(), new PartionerBase());
+    String filename = "QuickSort.txt";
+    List<Integer> array = fileToList(filename);
+    sorter.quickSortFirst(array);
+    assumeTrue(Ordering.natural().isOrdered(array));
   }
 
   static private List<Integer> fileToList(String filename) throws IOException {

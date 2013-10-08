@@ -14,19 +14,25 @@ public class PartionerBase implements Partioner {
     Integer pivot = array.get(idxPivot);
     Integer i = 0;
 
+    //@Pre
+    if (!pivot.equals(array.get(idxPivot)))
+      throw new RuntimeException("Befor cycle partioning.");
+
     // Проходим все, но проскакиваем указатель на опору
     for (Integer j = 0; j < size; j++) {
-      if (j == idxPivot) continue;
+      if (j.equals(idxPivot)) continue;
       if (pivot > array.get(j)) {
-        if (i == idxPivot) i++;
+        if (i.equals(idxPivot)) i++;
+        if (i.equals(idxPivot) || j.equals(idxPivot))
+          throw new RuntimeException("Active move pivot");
         swap(array, j, i);
         i++;
       }
     }
 
-    if (pivot != array.get(idxPivot))
-      throw new RuntimeException(Joiner.on('\t').join(
-        "Pivot moved!",""));
+    //@Post
+    if (!pivot.equals(array.get(idxPivot)))
+      throw new RuntimeException("Pivot moved!");
 
     // Граница будет указывать на первый правый
     if (inLeftPart(idxPivot, i)) i--;
@@ -37,8 +43,7 @@ public class PartionerBase implements Partioner {
     // Похоже ошибка, когда выбранный стержень в левой часте
     // p in left and pivot in right
     if (pivot != array.get(i))
-      throw new RuntimeException(Joiner.on('\t').join(
-        "Pivot not in right place",""));
+      throw new RuntimeException("Pivot not in right place");
 
     return i;
   }
@@ -48,6 +53,7 @@ public class PartionerBase implements Partioner {
     return false;
   }
 
+  // http://www.javaworld.com/javaworld/javaqa/2000-05/03-qa-0526-pass.html
   private void swap(List<Integer> array, Integer a, Integer b) {
     Integer tmp = array.get(a);
     array.set(a, array.get(b));

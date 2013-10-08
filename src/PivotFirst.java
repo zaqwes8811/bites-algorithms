@@ -7,7 +7,7 @@ import java.util.List;
  * Time: 20:34
  * To change this template use File | Settings | File Templates.
  */
-class PivotDefault implements Pivot {
+class PivotFirst implements Pivot {
   @Override
   public Integer choose(List<Integer> array) {
     return 0;

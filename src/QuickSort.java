@@ -5,18 +5,15 @@
  * - проверить разбиение на подзадачи
  * - проверить процедуру деления со всеми позициями опорного элемента
  * */
-import com.google.common.base.Joiner;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
 
 public class QuickSort {
   private final Pivot PIVOT_;
   private final Partioner PARTIONER_;
   public QuickSort() {
-    PIVOT_ = new PivotDefault();
+    PIVOT_ = new PivotFirst();
     PARTIONER_ = new PartionerBase();
   }
 
@@ -34,18 +31,12 @@ public class QuickSort {
 
     Integer i = PARTIONER_.partition(array, p);
 
-
-
     // Если левая часть не пуста
     if (i != 0) {
       // Проверить инвариант
       Integer minLeft = Collections.max(array.subList(0, i));
       if (!(minLeft < array.get(i)))
-        throw new RuntimeException(Joiner.on('\t').join(
-          "left",
-          array.subList(i-4, i+4),
-          pivot,
-          array.get(i)));
+        throw new RuntimeException("Left postcondition failed");
       quickSortFirst(array.subList(0, i));
     }
 
@@ -53,7 +44,7 @@ public class QuickSort {
     if (i != array.size()-1) {
       Integer minRight = Collections.min(array.subList(i+1, array.size()));
       if (!(minRight > array.get(i)))
-        throw new RuntimeException("right");
+        throw new RuntimeException("Right postcondition failed.");
       quickSortFirst(array.subList(i+1, array.size()));
     }
   }
