@@ -1,10 +1,15 @@
-// http://stackoverflow.com/questions/2895342/java-how-can-i-split-an-arraylist-in-multiple-small-arraylists?lq=1
+package stanford_algoritms_part1.sort;// http://stackoverflow.com/questions/2895342/java-how-can-i-split-an-arraylist-in-multiple-small-arraylists?lq=1
 /**
  * На больших данных тест проваливается
  * - проверить инварианты
  * - проверить разбиение на подзадачи
  * - проверить процедуру деления со всеми позициями опорного элемента
  * */
+
+import stanford_algoritms_part1.sort.partioners.Partioner;
+import stanford_algoritms_part1.sort.partioners.PartionerBase;
+import stanford_algoritms_part1.sort.pivots.Pivot;
+import stanford_algoritms_part1.sort.pivots.PivotFirst;
 
 import java.util.Collections;
 import java.util.List;

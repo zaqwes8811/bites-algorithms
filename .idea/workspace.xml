@@ -2,20 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257e8748-6438-4013-b015-ee420ad395c0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PartionerBase.java" afterPath="$PROJECT_DIR$/src/PartionerBase.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/Partioner.java" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\QuickSort.txt" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\Partioner.java" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\PivotTest.java" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\my-algoritms\alg.py" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\py-linked-list\bat.bat" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\py-linked-list\linked_list.py" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\Makefile" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\bat.bat" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\connectivity_problem.cc" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\for-tools.txt" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\ReadMe.txt" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\seg.cpp" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\seg.sln" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\seg.suo" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\seg.vcproj" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\seg.vcproj.IM-F60FF5B2E60D.salvador.user" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\stdafx.cpp" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\stdafx.h" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\seg-msvc9-ee\targetver.h" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\segevik-book\test-data.txt" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\week_1\IntegerArray.txt" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\week_1\__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\week_1\bat.bat" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\week_1\counting_inversions.py" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\week_1\merge_sort.py" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\week_1\mult_matrix.py" afterPath="" />
+      <change type="DELETED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\week_1\test_serial.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\PartionerBase.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBase.java" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\PartionerBaseTest.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBaseTest.java" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\Pivot.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/Pivot.java" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\PivotFirst.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotFirst.java" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\PivotLast.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotLast.java" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\PivotRandom.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotRandom.java" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\QuickSort.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSort.java" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\bites-algorithms\src\QuickSortTest.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java" />
     </list>
     <ignored path="bites-algorithms.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381246718789" ignored="false" />
     <file path="/Main.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380458387619" ignored="false" />
     <file path="/fragment.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381163733035" ignored="false" />
-    <file path="/QuickSortTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381249608414" ignored="false" />
+    <file path="/QuickSortTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381337371630" ignored="false" />
     <file path="/QuickSort.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381166143096" ignored="false" />
     <file path="/Pivot.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380468130705" ignored="false" />
     <file path="/PartionerBase.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381253523247" ignored="false" />
     <file path="/PartionerBaseTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380825930285" ignored="false" />
     <file path="/PivotDefault.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381249632495" ignored="false" />
+    <file path="/PivotFirst.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381337180876" ignored="false" />
+    <file path="/PivotLast.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381337194364" ignored="false" />
+    <file path="/PivotRandom.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381337204507" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,40 +112,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PartionerBase.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/PartionerBase.java">
+      <file leaf-file-name="QuickSortTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="11" selection-start="1045" selection-end="1045" vertical-scroll-proportion="1.0446928">
+            <state line="87" column="32" selection-start="2826" selection-end="2826" vertical-scroll-proportion="1.7203947">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QuickSort.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="0" selection-start="883" selection-end="883" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QuickSortTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/QuickSortTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="25" selection-start="2865" selection-end="2865" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PivotFirst.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/PivotFirst.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="16" selection-start="180" selection-end="190" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -130,9 +141,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/Main.java" />
-        <option value="$PROJECT_DIR$/src/Pivot.java" />
-        <option value="$PROJECT_DIR$/src/PivotLast.java" />
         <option value="$PROJECT_DIR$/src/PivotTest.java" />
         <option value="$PROJECT_DIR$/src/Partioner.java" />
         <option value="$PROJECT_DIR$/src/PartionerBaseTest.java" />
@@ -142,6 +150,13 @@
         <option value="$PROJECT_DIR$/src/PivotFirst.java" />
         <option value="$PROJECT_DIR$/src/QuickSortTest.java" />
         <option value="$PROJECT_DIR$/src/PartionerBase.java" />
+        <option value="$PROJECT_DIR$/src/sort/pivots/PivotFirst.java" />
+        <option value="$PROJECT_DIR$/src/sort/pivots/PivotLast.java" />
+        <option value="$PROJECT_DIR$/src/sort/pivots/PivotRandom.java" />
+        <option value="$PROJECT_DIR$/src/sort/pivots/PivotTest.java" />
+        <option value="$PROJECT_DIR$/src/sort/partioners/PartionerBaseTest.java" />
+        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBaseTest.java" />
+        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java" />
       </list>
     </option>
   </component>
@@ -194,6 +209,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="bites-algorithms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bites-algorithms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bites-algorithms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stanford_algoritms_part1" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -283,8 +316,8 @@
       <module name="bites-algorithms" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="QuickSortTest" />
+      <option name="PACKAGE_NAME" value="stanford_algoritms_part1.sort" />
+      <option name="MAIN_CLASS_NAME" value="stanford_algoritms_part1.sort.QuickSortTest" />
       <option name="METHOD_NAME" value="testFromFileRandom" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="" />
@@ -311,8 +344,8 @@
       <module name="bites-algorithms" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="PartionerBaseTest" />
+      <option name="PACKAGE_NAME" value="stanford_algoritms_part1.sort.partioners" />
+      <option name="MAIN_CLASS_NAME" value="stanford_algoritms_part1.sort.partioners.PartionerBaseTest" />
       <option name="METHOD_NAME" value="testPartitionReal" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="" />
@@ -339,8 +372,8 @@
       <module name="bites-algorithms" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="QuickSortTest" />
+      <option name="PACKAGE_NAME" value="stanford_algoritms_part1.sort" />
+      <option name="MAIN_CLASS_NAME" value="stanford_algoritms_part1.sort.QuickSortTest" />
       <option name="METHOD_NAME" value="testAsInVideo" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="" />
@@ -361,8 +394,8 @@
       <module name="bites-algorithms" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="QuickSortTest" />
+      <option name="PACKAGE_NAME" value="stanford_algoritms_part1.sort" />
+      <option name="MAIN_CLASS_NAME" value="stanford_algoritms_part1.sort.QuickSortTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="" />
@@ -455,8 +488,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3752026" sideWeight="0.6686461" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33135393" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3752026" sideWeight="0.75296915" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24703088" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -524,7 +557,7 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSort.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="21" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0">
           <folding />
@@ -536,29 +569,14 @@
         <state line="7" column="22" selection-start="260" selection-end="260" vertical-scroll-proportion="0.2035928" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QuickSort.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="440" column="26" selection-start="2144" selection-end="2144" vertical-scroll-proportion="0.43300653" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PivotLast.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="303" selection-end="303" vertical-scroll-proportion="0.4890017" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Pivot.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/Pivot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="20" selection-start="194" selection-end="194" vertical-scroll-proportion="0.25" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Partioner.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/Partioner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="26" selection-start="191" selection-end="200" vertical-scroll-proportion="0.18704157" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PivotTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="5" selection-start="846" selection-end="846" vertical-scroll-proportion="0.6858191" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/../../work-libs/java/junit-4.11.jar!/org/junit/internal/runners/model/ReflectiveCallable.class">
@@ -576,44 +594,53 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PartionerBaseTest.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="8" selection-start="1060" selection-end="1060" vertical-scroll-proportion="1.143167">
+        <state line="16" column="0" selection-start="481" selection-end="481" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="43" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PivotRandom.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotFirst.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="49" selection-start="344" selection-end="344" vertical-scroll-proportion="0.44251627">
+        <state line="11" column="7" selection-start="228" selection-end="228" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PivotFirst.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotLast.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="16" selection-start="180" selection-end="190" vertical-scroll-proportion="0.0">
+        <state line="12" column="7" selection-start="229" selection-end="229" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/QuickSortTest.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotRandom.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="25" selection-start="2865" selection-end="2865" vertical-scroll-proportion="0.0">
+        <state line="12" column="7" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/QuickSort.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBaseTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="883" selection-end="883" vertical-scroll-proportion="0.0">
+        <state line="53" column="12" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PartionerBase.java">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="11" selection-start="1045" selection-end="1045" vertical-scroll-proportion="1.0446928">
+        <state line="87" column="32" selection-start="2826" selection-end="2826" vertical-scroll-proportion="1.7203947">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

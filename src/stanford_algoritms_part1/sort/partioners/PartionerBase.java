@@ -1,8 +1,5 @@
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
+package stanford_algoritms_part1.sort.partioners;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

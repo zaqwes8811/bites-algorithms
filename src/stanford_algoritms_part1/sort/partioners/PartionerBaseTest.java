@@ -1,3 +1,5 @@
+package stanford_algoritms_part1.sort.partioners;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

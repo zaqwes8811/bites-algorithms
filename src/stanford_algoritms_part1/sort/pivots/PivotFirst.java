@@ -1,3 +1,5 @@
+package stanford_algoritms_part1.sort.pivots;
+
 import java.util.List;
 
 /**
@@ -7,11 +9,9 @@ import java.util.List;
  * Time: 20:34
  * To change this template use File | Settings | File Templates.
  */
-
-class PivotLast implements Pivot {
+public class PivotFirst implements Pivot {
   @Override
   public Integer choose(List<Integer> array) {
-    return array.size()-1;
+    return 0;
   }
 }
-

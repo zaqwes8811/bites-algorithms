@@ -1,5 +1,11 @@
+package stanford_algoritms_part1.sort;
+
 import com.google.common.collect.Ordering;
 import com.google.common.io.Closer;
+import stanford_algoritms_part1.sort.partioners.PartionerBase;
+import stanford_algoritms_part1.sort.pivots.PivotFirst;
+import stanford_algoritms_part1.sort.pivots.PivotLast;
+import stanford_algoritms_part1.sort.pivots.PivotRandom;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,9 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
-import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
 /**
@@ -42,6 +46,8 @@ public class QuickSortTest {
     }
   }
 
+  private String pathToFile = "src\\stanford_algoritms_part1\\data\\QuickSort.txt";
+
   @org.junit.Test
   public void testBoundary() throws Exception {
     Integer [] rawArray = {3,8,2,5, 6,4,7,1};
@@ -55,7 +61,7 @@ public class QuickSortTest {
 
   @org.junit.Test
   public void testFromFile() throws Exception {
-    String filename = "QuickSort.txt";
+    String filename = pathToFile;
     List<Integer> array = fileToList(filename);
 
     int end = array.size();
@@ -68,7 +74,7 @@ public class QuickSortTest {
   public void testFromFileRandom() throws Exception {
     QuickSort sorter = new QuickSort(new PivotRandom(), new PartionerBase());
     for (int i = 0; i < 10; ++i) {
-      String filename = "QuickSort.txt";
+      String filename = pathToFile;
       List<Integer> array = fileToList(filename);
       int end = array.size();
       sorter.quickSortFirst(array.subList(0, end));
@@ -79,7 +85,7 @@ public class QuickSortTest {
   @org.junit.Test
   public void testProgramQuestion1() throws Exception {
     QuickSort sorter = new QuickSort(new PivotFirst(), new PartionerBase());
-    String filename = "QuickSort.txt";
+    String filename = pathToFile;
     List<Integer> array = fileToList(filename);
     sorter.quickSortFirst(array);
     assumeTrue(Ordering.natural().isOrdered(array));
