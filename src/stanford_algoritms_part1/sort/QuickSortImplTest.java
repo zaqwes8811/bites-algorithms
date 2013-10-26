@@ -22,8 +22,8 @@ import static org.junit.Assert.assertEquals;
  * Time: 16:42
  * To change this template use File | Settings | File Templates.
  */
-public class QuickSortTest {
-  public QuickSortTest() {
+public class QuickSortImplTest {
+  public QuickSortImplTest() {
     PATH_TO_FILE = "src\\stanford_algoritms_part1\\data\\QuickSort.txt";
   }
 
@@ -32,7 +32,7 @@ public class QuickSortTest {
     Integer [] rawArray = {3,8,2,5, 1,4,7,6};
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
-    QuickSort sorter = new QuickSort();
+    QuickSort sorter = new QuickSortImpl();
     sorter.sort(array);
     assumeTrue(Ordering.natural().isOrdered(array));
   }
@@ -42,7 +42,7 @@ public class QuickSortTest {
     Integer [] rawArray = {3,8,2,5, 1,4,7,6, 10};
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
-    QuickSort sorter = new QuickSort();
+    QuickSort sorter = new QuickSortImpl();
     for (int i = 0; i < 10; i++) {
       sorter.sort(array);
       assumeTrue(Ordering.natural().isOrdered(array));
@@ -57,7 +57,7 @@ public class QuickSortTest {
 
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
-    QuickSort sorter = new QuickSort();
+    QuickSort sorter = new QuickSortImpl();
     sorter.sort(array);
     assumeTrue(Ordering.natural().isOrdered(array));
   }
@@ -68,14 +68,14 @@ public class QuickSortTest {
     List<Integer> array = FileOperations.fileToList(filename);
 
     int end = array.size();
-    QuickSort sorter = new QuickSort(new PivotLast(), new PartionerBase());
+    QuickSort sorter = new QuickSortImpl(new PivotLast(), new PartionerBase());
     sorter.sort(array.subList(0, end));
     assumeTrue(Ordering.natural().isOrdered(array.subList(0, end)));
   }
 
   @org.junit.Test
   public void testFromFileRandom() throws Exception {
-    QuickSort sorter = new QuickSort(new PivotRandom(), new PartionerBase());
+    QuickSort sorter = new QuickSortImpl(new PivotRandom(), new PartionerBase());
     for (int i = 0; i < 10; ++i) {
       String filename = PATH_TO_FILE;
       List<Integer> array = FileOperations.fileToList(filename);
@@ -87,7 +87,7 @@ public class QuickSortTest {
 
   @org.junit.Test
   public void testProgramQuestion1() throws Exception {
-    QuickSort sorter = new QuickSort(new PivotFirst(), new PartionerBase());
+    QuickSort sorter = new QuickSortImpl(new PivotFirst(), new PartionerBase());
     String filename = PATH_TO_FILE;
     List<Integer> array = FileOperations.fileToList(filename);
     sorter.sort(array);
@@ -96,7 +96,7 @@ public class QuickSortTest {
 
   @org.junit.Test
   public void testMedianOfThree() throws Exception {
-    QuickSort sorter = new QuickSort(new PivotMedianOfThree(), new PartionerBase());
+    QuickSort sorter = new QuickSortImpl(new PivotMedianOfThree(), new PartionerBase());
     String filename = PATH_TO_FILE;
     List<Integer> array = FileOperations.fileToList(filename);
     sorter.sort(array);
@@ -109,7 +109,7 @@ public class QuickSortTest {
 
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(rawArray));
 
-    QuickSort sorter = new QuickSort();
+    QuickSort sorter = new QuickSortImpl();
 
     assertEquals(sorter.getSum(), 0);
     sorter.sort(array);
@@ -120,7 +120,7 @@ public class QuickSortTest {
   // Tasks
   @org.junit.Test
   public void testTask0() throws Exception {
-    QuickSort sorter = new QuickSort(new PivotFirst(), new PartionerBase());
+    QuickSort sorter = new QuickSortImpl(new PivotFirst(), new PartionerBase());
     String filename = PATH_TO_FILE;
     List<Integer> array = FileOperations.fileToList(filename);
     sorter.sort(array);
@@ -130,7 +130,7 @@ public class QuickSortTest {
 
   @org.junit.Test
   public void testTask1() throws Exception {
-    QuickSortInv sorter = new QuickSortInv(new PivotFirst(), new PartionerBase());
+    QuickSort sorter = new QuickSortInv(new PivotFirst(), new PartionerBase());
     String filename = PATH_TO_FILE;
     List<Integer> array = FileOperations.fileToList(filename);
     sorter.sort(array);
@@ -141,7 +141,7 @@ public class QuickSortTest {
 
   @org.junit.Test
   public void testTask2() throws Exception {
-    QuickSort sorter = new QuickSort(new PivotMedianOfThree(), new PartionerBase());
+    QuickSort sorter = new QuickSortInv(new PivotMedianOfThree(), new PartionerBase());
     String filename = PATH_TO_FILE;
     List<Integer> array = FileOperations.fileToList(filename);
     sorter.sort(array);

@@ -11,41 +11,42 @@ import stanford_algoritms_part1.sort.partioners.PartionerBase;
 import stanford_algoritms_part1.sort.pivots.Pivot;
 import stanford_algoritms_part1.sort.pivots.PivotFirst;
 
-import java.util.Collections;
 import java.util.List;
 
-public class QuickSortInv implements QuickSort {
+public class QuickSortImpl implements QuickSort {
   private final Pivot PIVOT_;
   private final Partioner PARTIONER_;
 
   private int sum;
 
+  @Override
   public void resetSum() {
     sum = 0;
   }
 
+  @Override
   public int getSum() {
     return sum;
   }
 
-  public QuickSortInv() {
+  public QuickSortImpl() {
     PIVOT_ = new PivotFirst();
     PARTIONER_ = new PartionerBase();
   }
 
-  public QuickSortInv(Pivot pivot, Partioner partioner) {
+  public QuickSortImpl(Pivot pivot, Partioner partioner) {
     PIVOT_ = pivot;
     PARTIONER_ = partioner;
   }
 
+  @Override
   public void sort(List<Integer> array) {
     sum += array.size()-1;
     if (array.size() == 1) return;
 
     //@BeforeRecursion
     Integer p = PIVOT_.choose(array);
-    Collections.swap(array, 0, p);
-    Integer i = PARTIONER_.partition(array, 0);
+    Integer i = PARTIONER_.partition(array, p);
 
     // Если левая часть не пуста
     if (i != 0) {

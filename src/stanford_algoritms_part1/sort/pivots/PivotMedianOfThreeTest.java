@@ -56,4 +56,12 @@ public class PivotMedianOfThreeTest {
     Integer pivotIdx = pivot.choose(array);
     assumeTrue(pivotIdx.equals(1));
   }
+
+  @Test
+  public void testSmallMiddle0() throws Exception {
+    List<Integer> array = new ArrayList<Integer>(Arrays.asList(4, 5, 6, 7));
+    Pivot pivot = new PivotMedianOfThree();
+    Integer pivotIdx = pivot.choose(array);
+    assumeTrue(array.get(pivotIdx).equals(5));
+  }
 }
