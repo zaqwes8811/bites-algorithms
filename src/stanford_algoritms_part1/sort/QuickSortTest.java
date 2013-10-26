@@ -130,7 +130,7 @@ public class QuickSortTest {
 
   @org.junit.Test
   public void testTask1() throws Exception {
-    QuickSort sorter = new QuickSort(new PivotLast(), new PartionerBase());
+    QuickSortInv sorter = new QuickSortInv(new PivotFirst(), new PartionerBase());
     String filename = PATH_TO_FILE;
     List<Integer> array = FileOperations.fileToList(filename);
     sorter.sort(array);

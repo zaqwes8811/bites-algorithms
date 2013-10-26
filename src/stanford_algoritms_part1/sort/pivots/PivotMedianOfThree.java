@@ -19,17 +19,16 @@ public class PivotMedianOfThree implements Pivot {
       idx_middle--;
 
     Integer first = array.get(idx_first);
-    Integer last = array.get(idx_last);
     Integer middle = array.get(idx_middle);
-
-    Map<Integer, Integer> decoder = new HashMap<Integer, Integer>();
-    decoder.put(first, idx_first);
-    decoder.put(last, idx_last);
-    decoder.put(middle, idx_middle);
+    Integer last = array.get(idx_last);
 
     List<Integer> forSort = new ArrayList<Integer>(Arrays.asList(first, middle, last));
     Collections.sort(forSort);
+    Integer midValue = forSort.get(1);
 
-    return decoder.get(forSort.get(1));
+    if (midValue.equals(first)) return idx_first;
+    if (midValue.equals(middle)) return idx_middle;
+    if (midValue.equals(last)) return idx_last;
+    else return 0;
   }
 }

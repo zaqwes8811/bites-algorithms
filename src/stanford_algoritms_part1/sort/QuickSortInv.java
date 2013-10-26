@@ -14,7 +14,7 @@ import stanford_algoritms_part1.sort.pivots.PivotFirst;
 import java.util.Collections;
 import java.util.List;
 
-public class QuickSort {
+public class QuickSortInv {
   private final Pivot PIVOT_;
   private final Partioner PARTIONER_;
 
@@ -28,12 +28,12 @@ public class QuickSort {
     return sum;
   }
 
-  public QuickSort() {
+  public QuickSortInv() {
     PIVOT_ = new PivotFirst();
     PARTIONER_ = new PartionerBase();
   }
 
-  public QuickSort(Pivot pivot, Partioner partioner) {
+  public QuickSortInv(Pivot pivot, Partioner partioner) {
     PIVOT_ = pivot;
     PARTIONER_ = partioner;
   }
@@ -44,6 +44,7 @@ public class QuickSort {
 
     //@BeforeRecursion
     Integer p = PIVOT_.choose(array);
+    Collections.swap(array, 0, array.size()-1);
     Integer i = PARTIONER_.partition(array, p);
 
     // Если левая часть не пуста

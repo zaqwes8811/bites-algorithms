@@ -48,4 +48,12 @@ public class PivotMedianOfThreeTest {
     Integer pivotIdx = pivot.choose(array);
     assumeTrue(pivotIdx.equals(0));
   }
+
+  @Test
+  public void testSmallMiddle() throws Exception {
+    List<Integer> array = new ArrayList<Integer>(Arrays.asList(1, 2, 3));
+    Pivot pivot = new PivotMedianOfThree();
+    Integer pivotIdx = pivot.choose(array);
+    assumeTrue(pivotIdx.equals(1));
+  }
 }
