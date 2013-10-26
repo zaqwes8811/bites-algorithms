@@ -4,6 +4,7 @@ import com.google.common.collect.Ordering;
 import stanford_algoritms_part1.sort.partioners.PartionerBase;
 import stanford_algoritms_part1.sort.pivots.PivotFirst;
 import stanford_algoritms_part1.sort.pivots.PivotLast;
+import stanford_algoritms_part1.sort.pivots.PivotMedianOfThree;
 import stanford_algoritms_part1.sort.pivots.PivotRandom;
 import stanford_algoritms_part1.sort.util_local.FileOperations;
 
@@ -94,6 +95,15 @@ public class QuickSortTest {
   }
 
   @org.junit.Test
+  public void testMedianOfThree() throws Exception {
+    QuickSort sorter = new QuickSort(new PivotMedianOfThree(), new PartionerBase());
+    String filename = PATH_TO_FILE;
+    List<Integer> array = FileOperations.fileToList(filename);
+    sorter.sort(array);
+    assumeTrue(Ordering.natural().isOrdered(array));
+  }
+
+  @org.junit.Test
   public void testSummator() throws Exception {
     Integer [] rawArray = {3,8,2,5, 6,4,7,1};
 
@@ -115,7 +125,7 @@ public class QuickSortTest {
     List<Integer> array = FileOperations.fileToList(filename);
     sorter.sort(array);
     assumeTrue(Ordering.natural().isOrdered(array));
-    System.out.println(sorter.getSum()-array.size());
+    System.out.println("Task0 "+sorter.getSum());
   }
 
   @org.junit.Test
@@ -124,8 +134,20 @@ public class QuickSortTest {
     String filename = PATH_TO_FILE;
     List<Integer> array = FileOperations.fileToList(filename);
     sorter.sort(array);
+    assertEquals(array.size(), 10000);
     assumeTrue(Ordering.natural().isOrdered(array));
-    System.out.println(sorter.getSum()-array.size());
+    System.out.println("Task1 "+sorter.getSum());
+  }
+
+  @org.junit.Test
+  public void testTask2() throws Exception {
+    QuickSort sorter = new QuickSort(new PivotMedianOfThree(), new PartionerBase());
+    String filename = PATH_TO_FILE;
+    List<Integer> array = FileOperations.fileToList(filename);
+    sorter.sort(array);
+    assertEquals(array.size(), 10000);
+    assumeTrue(Ordering.natural().isOrdered(array));
+    System.out.println("Task2 "+sorter.getSum());
   }
 }
 

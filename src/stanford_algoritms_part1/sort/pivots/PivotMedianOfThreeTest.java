@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assume.*;
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +20,32 @@ public class PivotMedianOfThreeTest {
   @Test
   public void testChoose() throws Exception {
     List<Integer> array = new ArrayList<Integer>(Arrays.asList(8, 2, 4, 5, 7, 1));
-     Pivot pivot = new PivotMedianOfThree();
-    assumeTrue(pivot.choose(array).equals(4));
+    Pivot pivot = new PivotMedianOfThree();
+    Integer pivotIdx = pivot.choose(array);
+    assumeTrue(pivotIdx.equals(2));
+  }
+
+  @Test
+  public void testChooseOdd() throws Exception {
+    List<Integer> array = new ArrayList<Integer>(Arrays.asList(8, 2, 4, 7, 5, 6, 1));
+    Pivot pivot = new PivotMedianOfThree();
+    Integer pivotIdx = pivot.choose(array);
+    assumeTrue(pivotIdx.equals(3));
+  }
+
+  @Test
+  public void testSelectedLast() throws Exception {
+    List<Integer> array = new ArrayList<Integer>(Arrays.asList(8, 2, 4, 1, 5, 7, 6));
+    Pivot pivot = new PivotMedianOfThree();
+    Integer pivotIdx = pivot.choose(array);
+    assumeTrue(pivotIdx.equals(6));
+  }
+
+  @Test
+  public void testSelectedFirst() throws Exception {
+    List<Integer> array = new ArrayList<Integer>(Arrays.asList(6, 2, 4, 1, 5, 7, 8));
+    Pivot pivot = new PivotMedianOfThree();
+    Integer pivotIdx = pivot.choose(array);
+    assumeTrue(pivotIdx.equals(0));
   }
 }

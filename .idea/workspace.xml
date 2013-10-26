@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257e8748-6438-4013-b015-ee420ad395c0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/util_local/FileOperations.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSort.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSort.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" afterPath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="bites-algorithms.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382771312496" ignored="false" />
+    <file path="/Dummy.txt" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382776728445" ignored="false" />
     <file path="/Main.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380458387619" ignored="false" />
-    <file path="/fragment.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382775344934" ignored="false" />
-    <file path="/QuickSortTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382775127397" ignored="false" />
+    <file path="/fragment.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382777334651" ignored="false" />
+    <file path="/QuickSortTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382777704748" ignored="false" />
     <file path="/QuickSort.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382774733170" ignored="false" />
     <file path="/Pivot.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1380468130705" ignored="false" />
     <file path="/PartionerBase.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381253523247" ignored="false" />
@@ -25,8 +21,8 @@
     <file path="/PivotLast.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381337194364" ignored="false" />
     <file path="/PivotRandom.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1381337204507" ignored="false" />
     <file path="/FileOperations.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382771974431" ignored="false" />
-    <file path="/PivotMedianOfThree.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382775890246" ignored="false" />
-    <file path="/PivotMedianOfThreeTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382775563321" ignored="false" />
+    <file path="/PivotMedianOfThree.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382777129060" ignored="false" />
+    <file path="/PivotMedianOfThreeTest.java" changelist="257e8748-6438-4013-b015-ee420ad395c0" time="1382777324377" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,22 +72,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java" line="15" class="stanford_algoritms_part1.sort.pivots.PivotMedianOfThree" package="stanford_algoritms_part1.sort.pivots">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -101,22 +81,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PivotMedianOfThree.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java">
+      <file leaf-file-name="QuickSortTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="29" selection-start="428" selection-end="428" vertical-scroll-proportion="0.5395833">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PivotMedianOfThreeTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="47" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0">
+            <state line="141" column="22" selection-start="4600" selection-end="4600" vertical-scroll-proportion="0.8683386">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#464#473#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -153,9 +123,9 @@
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/util/FileOperations.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/util_local/FileOperations.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSort.java" />
-        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java" />
-        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java" />
+        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java" />
+        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java" />
       </list>
     </option>
   </component>
@@ -488,12 +458,41 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="5">
+    <configuration default="false" name="PivotMedianOfThreeTest" type="JUnit" factoryName="JUnit">
+      <module name="bites-algorithms" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="stanford_algoritms_part1.sort.pivots" />
+      <option name="MAIN_CLASS_NAME" value="stanford_algoritms_part1.sort.pivots.PivotMedianOfThreeTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <list size="6">
       <item index="0" class="java.lang.String" itemvalue="JUnit.QuickSortTest.testFromFileRandom" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.PartionerBaseTest.testPartitionReal" />
       <item index="2" class="java.lang.String" itemvalue="JUnit.QuickSortTest.testAsInVideo" />
       <item index="3" class="java.lang.String" itemvalue="JUnit.QuickSortTest" />
       <item index="4" class="java.lang.String" itemvalue="JUnit.&lt;default&gt;" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.PivotMedianOfThreeTest" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -533,7 +532,7 @@
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39904988" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39904988" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -542,8 +541,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40113452" sideWeight="0.6009501" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35154393" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40113452" sideWeight="0.7885986" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21140142" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -685,15 +684,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="55" selection-start="4145" selection-end="4145" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/Pivot.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="2" selection-start="248" selection-end="284" vertical-scroll-proportion="0.40881765">
@@ -710,18 +700,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="47" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0">
+        <state line="45" column="82" selection-start="1361" selection-end="1361" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#464#473#0" expanded="true" />
+            <element signature="e#498#507#0" expanded="true" />
+            <element signature="e#767#776#0" expanded="true" />
+            <element signature="e#1042#1051#0" expanded="true" />
+            <element signature="e#1318#1327#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="29" selection-start="428" selection-end="428" vertical-scroll-proportion="0.5395833">
-          <folding />
+        <state line="19" column="30" selection-start="525" selection-end="525" vertical-scroll-proportion="0.62115383">
+          <folding>
+            <element signature="e#700#718#0" expanded="true" />
+            <element signature="e#869#878#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="141" column="22" selection-start="4600" selection-end="4600" vertical-scroll-proportion="0.8683386">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
