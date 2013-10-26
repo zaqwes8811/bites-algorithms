@@ -17,6 +17,17 @@ import java.util.List;
 public class QuickSort {
   private final Pivot PIVOT_;
   private final Partioner PARTIONER_;
+
+  private int sum;
+
+  public void resetSum() {
+    sum = 0;
+  }
+
+  public int getSum() {
+    return sum;
+  }
+
   public QuickSort() {
     PIVOT_ = new PivotFirst();
     PARTIONER_ = new PartionerBase();
@@ -27,13 +38,12 @@ public class QuickSort {
     PARTIONER_ = partioner;
   }
 
-  public void quickSortFirst(List<Integer> array) {
+  public void sort(List<Integer> array) {
+    sum += array.size()-1;
     if (array.size() == 1) return;
 
     //@BeforeRecursion
     Integer p = PIVOT_.choose(array);
-    Integer pivot = array.get(p);
-
     Integer i = PARTIONER_.partition(array, p);
 
     // Если левая часть не пуста
@@ -42,7 +52,7 @@ public class QuickSort {
       Integer minLeft = Collections.max(array.subList(0, i));
       if (!(minLeft < array.get(i)))
         throw new RuntimeException("Left postcondition failed");
-      quickSortFirst(array.subList(0, i));
+      sort(array.subList(0, i));
     }
 
     // Если правая не пуста
@@ -50,7 +60,7 @@ public class QuickSort {
       Integer minRight = Collections.min(array.subList(i+1, array.size()));
       if (!(minRight > array.get(i)))
         throw new RuntimeException("Right postcondition failed.");
-      quickSortFirst(array.subList(i+1, array.size()));
+      sort(array.subList(i + 1, array.size()));
     }
   }
 }
