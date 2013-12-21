@@ -15,6 +15,6 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertEqual(self.seq, range(10))
 
     def test_part(self):
-        in_array = []
+        in_array = [3, 8, 2, 5, 1, 4, 7, 6]
         partitioner = partioners.PartionerBase()
         partitioner.partition(in_array)

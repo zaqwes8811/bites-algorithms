@@ -2,11 +2,18 @@
 
 
 class PartionerBase(object):
+    def swap(self, array, i, j):
+        a, b = i, j
+        array[b], array[a] = array[a], array[b]
+
     def partition(self, array):
         """
              Берем певый в качастве Pivot
         """
         IDX_PIVOT = 0
+        pivot_value = array[IDX_PIVOT]
+        for i, value in enumerate(array):
+            print i, value
 
         """
     // Пока зависит от выбора опоры
