@@ -1,6 +1,6 @@
 import unittest
 import random
-from stanford_algoritms_part1.build_blocks import partioners
+from build_blocks import partioners
 
 
 class TestSequenceFunctions(unittest.TestCase):
