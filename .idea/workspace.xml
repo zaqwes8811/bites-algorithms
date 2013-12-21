@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257e8748-6438-4013-b015-ee420ad395c0" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\stanford_algoritms_part1\bat.bat" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/data_structures/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/data_structures/linked_list/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/inversions/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/data_structures/linked_list/bat.bat" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\Kormen\bat.bat" afterPath="$PROJECT_DIR$/src/data_structures/linked_list/bat.bat" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\Kormen\selection_sort.py" afterPath="$PROJECT_DIR$/src/kormen_samples/selection_sort.py" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\linked_list\bat.bat" afterPath="$PROJECT_DIR$/src/kormen_samples/bat.bat" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\linked_list\linked_list.py" afterPath="$PROJECT_DIR$/src/data_structures/linked_list/linked_list.py" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\stanford_algoritms_part1\counting_inversions.py" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/inversions/counting_inversions.py" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\stanford_algoritms_part1\data\IntegerArray.txt" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/in_data/IntegerArray.txt" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\stanford_algoritms_part1\data\QuickSort.txt" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/in_data/QuickSort.txt" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\stanford_algoritms_part1\data\test_serial.txt" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/in_data/test_serial.txt" />
+      <change type="MOVED" beforePath="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\stanford_algoritms_part1\merge_sort.py" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/merge_sort.py" />
     </list>
     <ignored path="bites-algorithms.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,10 +77,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pygraph_sample.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/graphs/pygraph_sample.py">
+      <file leaf-file-name="selection_sort.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/kormen_samples/selection_sort.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="138" selection-end="138" vertical-scroll-proportion="0.17805755" vertical-offset="3" max-vertical-offset="867">
+            <state line="18" column="21" selection-start="427" selection-end="427" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="counting_inversions.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/inversions/counting_inversions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="16" selection-start="372" selection-end="372" vertical-scroll-proportion="0.0" vertical-offset="970" max-vertical-offset="1513">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="merge_sort.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/merge_sort.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="72" column="9" selection-start="1786" selection-end="1786" vertical-scroll-proportion="2.201439" vertical-offset="0" max-vertical-offset="1377">
               <folding />
             </state>
           </provider>
@@ -92,9 +122,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/sort/partioners/PartionerBaseTest.java" />
-        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBaseTest.java" />
-        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/util/file_op.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/util/FileOperations.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/util_local/FileOperations.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java" />
@@ -108,6 +135,9 @@
         <option value="$PROJECT_DIR$/py/__init__.py" />
         <option value="$PROJECT_DIR$/graphs/pydot_usige.py" />
         <option value="$PROJECT_DIR$/graphs/pydot" />
+        <option value="$PROJECT_DIR$/src/kormen_samples/selection_sort.py" />
+        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/counting_inversions.py" />
+        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/merge_sort.py" />
       </list>
     </option>
   </component>
@@ -260,6 +290,9 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\stanford_algoritms_part1\inversiong" />
+      <recent name="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\stanford_algoritms_part1\sort" />
+      <recent name="D:\home\lugansky-igor\CHEWs\bites-algorithms\src\data_structures" />
       <recent name="D:\home\lugansky-igor\CHEWs\bites-algorithms\my-algoritms" />
       <recent name="D:\home\lugansky-igor\CHEWs\bites-algorithms\src" />
     </key>
@@ -617,11 +650,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotRandom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="7" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBaseTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="12" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
@@ -686,7 +714,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graphs/pygraph_sample.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="138" selection-end="138" vertical-scroll-proportion="0.17805755" vertical-offset="3" max-vertical-offset="867">
+        <state line="12" column="12" selection-start="354" selection-end="354" vertical-scroll-proportion="0.26978418" vertical-offset="3" max-vertical-offset="867">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kormen_samples/selection_sort.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="21" selection-start="427" selection-end="427" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/inversions/counting_inversions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="16" selection-start="372" selection-end="372" vertical-scroll-proportion="0.0" vertical-offset="970" max-vertical-offset="1513">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/merge_sort.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="9" selection-start="1786" selection-end="1786" vertical-scroll-proportion="2.201439" vertical-offset="0" max-vertical-offset="1377">
           <folding />
         </state>
       </provider>
