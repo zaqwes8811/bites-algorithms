@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257e8748-6438-4013-b015-ee420ad395c0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stanford_algoritms_part1/__init__.py" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/__init__.py" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py" afterPath="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py" />
     </list>
     <ignored path="bites-algorithms.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,7 +65,7 @@
     <favorites_list name="bites-algorithms" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.56331474">
+    <splitter split-orientation="horizontal" split-proportion="0.4273743">
       <split-first>
         <leaf>
           <file leaf-file-name="PartionerBase.java" pinned="false" current="false" current-in-tab="false">
@@ -77,10 +77,19 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="__init__.py" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/__init__.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="12" selection-start="102" selection-end="102" vertical-scroll-proportion="0.102657005" vertical-offset="0" max-vertical-offset="1037">
+                <state line="3" column="19" selection-start="24" selection-end="37" vertical-scroll-proportion="0.09375" vertical-offset="0" max-vertical-offset="1088">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="PartionerBaseTest.java" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBaseTest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1496">
                   <folding />
                 </state>
               </provider>
@@ -90,10 +99,21 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="partioners_test.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="partioners_test.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="841">
+                <state line="19" column="38" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+                  <folding>
+                    <element signature="e#0#15#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="__init__.py" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
                   <folding />
                 </state>
               </provider>
@@ -119,7 +139,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSortTest.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/QuickSort.java" />
@@ -133,8 +152,9 @@
         <option value="$PROJECT_DIR$/src/kormen_samples/selection_sort.py" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/counting_inversions.py" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/merge_sort.py" />
-        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/__init__.py" />
+        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py" />
+        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/__init__.py" />
       </list>
     </option>
   </component>
@@ -309,7 +329,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -342,7 +362,7 @@
       <recent name="D:\home\lugansky-igor\CHEWs\bites-algorithms\src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python tests.All">
     <configuration default="true" type="tests" factoryName="py.test">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -462,6 +482,30 @@
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="C:/Python26/python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="bites-algorithms" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
     <configuration default="false" name="&lt;default&gt;" type="JUnit" factoryName="JUnit">
@@ -620,7 +664,9 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="0" />
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Python tests.All" />
+    </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="TaskManager">
@@ -660,11 +706,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32897863" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32871974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1609375" sideWeight="0.67128026" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1609375" sideWeight="0.69665515" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39904988" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30375427" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30334488" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -695,11 +741,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="811" selection-end="811" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/pivots/PivotMedianOfThreeTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="57" column="3" selection-start="1754" selection-end="1754" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
@@ -753,13 +794,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBaseTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1496">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/Partioner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="14" selection-start="155" selection-end="155" vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="340">
@@ -781,16 +815,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py">
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/PartionerBaseTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="841">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1496">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="12" selection-start="102" selection-end="102" vertical-scroll-proportion="0.102657005" vertical-offset="0" max-vertical-offset="1037">
+        <state line="3" column="19" selection-start="24" selection-end="37" vertical-scroll-proportion="0.09375" vertical-offset="0" max-vertical-offset="1088">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="38" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
           <folding />
         </state>
       </provider>

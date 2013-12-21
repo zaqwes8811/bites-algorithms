@@ -2,8 +2,11 @@
 
 
 class PartionerBase(object):
-    def partition(self, array, idx_pivot):
-        pass
+    def partition(self, array):
+        """
+             Берем певый в качастве Pivot
+        """
+        IDX_PIVOT = 0
 
         """
     // Пока зависит от выбора опоры
