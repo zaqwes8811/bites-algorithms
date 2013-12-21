@@ -1,21 +1,11 @@
-# coding: utf-8
+package stanford_algoritms_part1.sort.partioners;
 
+import java.util.Collections;
+import java.util.List;
 
-class PartionerBase(object):
-    def swap(self, array, i, j):
-        a, b = i, j
-        array[b], array[a] = array[a], array[b]
-
-    def partition(self, array):
-        """
-             Берем певый в качастве Pivot
-        """
-        IDX_PIVOT = 0
-        pivot_value = array[IDX_PIVOT]
-        for i, value in enumerate(array):
-            print i, value
-
-        """
+public class PartionerBase implements Partioner {
+  @Override
+  public Integer partition(List<Integer> array, Integer idxPivot) {
     // Пока зависит от выбора опоры
     Integer size = array.size();
     Integer pivot = array.get(idxPivot);
@@ -63,4 +53,4 @@ class PartionerBase(object):
   }
 
 
-}"""
+}
