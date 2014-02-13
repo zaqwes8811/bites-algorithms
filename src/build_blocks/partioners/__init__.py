@@ -7,7 +7,8 @@ class Partitioner(object):
         """
              Берем певый в качастве Pivot
         """
-        IDX_PIVOT = 0
+        IDX_PIVOT = 0  # Возможно лучше выбрать последний
+        # тогда будет проще работать с индексами
         pivot_value = array[IDX_PIVOT]
         i = 1
         for j, value in enumerate(array):
@@ -21,6 +22,7 @@ class Partitioner(object):
 
         # Last swap
         swap(array, IDX_PIVOT, i-1)
+        return i  # Текущий номер pivot
 
 
 def swap(array, i, j):
