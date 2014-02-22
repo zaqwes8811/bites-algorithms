@@ -25,9 +25,21 @@ def get_random_edge(source_graph):
 def edge_contraction(graph, edge, super_vertices):
     source = edge[0]
     end = edge[1]
+    source_key = source.source
 
     # Если нужно вставляем в набор супервершин исходного узла
     super_source = source.super_vertex
+    if not super_source:
+        source.super_vertex = source_key
+
+    if source_key not in super_vertices:
+        super_vertices[source_key] = []
+
+
+    # Удаляем из вершир ребра ссылик на друг-друга
+
+
+
 
     # source <- end
     #source_vs = graph[source]
@@ -53,15 +65,16 @@ def main():
     """
 
     class Vertex(object):
-        def __init__(self, ends):
-            self.ends = []
+        def __init__(self, ends, source):
+            self.ends = ends
             self.super_vertex = None
+            self.source = source
 
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
     graph = {}
 
     for k, v in source_graph.items():
-        graph[k] = Vertex(v)
+        graph[k] = Vertex(v, k)
 
     super_vertices = {}  # супервершины, когда будут появляться
 
@@ -76,9 +89,6 @@ def main():
     #    norm_v -= 1
 
     print source_graph
-
-
-
 
 
 def remove_key(d, key):
