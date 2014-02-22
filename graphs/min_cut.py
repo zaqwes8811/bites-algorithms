@@ -1,8 +1,6 @@
 # coding: utf-8
 
 
-
-
 def get_random_edge(adj_list):
     pass
 
