@@ -23,6 +23,10 @@ def get_random_edge(source_graph):
 def main():
     """
     Полагаем что доступ по ключу O(n)
+
+    Как сохранить информацию о ребре, а не просто их схлопнуть?
+
+    Использовать стопки, но это дополнительное место
     """
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
 
@@ -47,7 +51,7 @@ def fuse(graph, edge):
 
     graph[source] = filter(lambda a: a != source, graph[source])
 
-    del graph[end]
+    del graph[end]  # Ссылки содержатся в списках
 
 
 def remove_key(d, key):
