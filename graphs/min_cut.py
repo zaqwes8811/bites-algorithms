@@ -32,9 +32,19 @@ def main():
 
     Использовать стопки, но это дополнительное место - O(n^2)!!
     """
+
+    class Vertex(object):
+        def __init__(self):
+            self.ends = []
+            self.super_vertex = None
+
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
 
-    norm_v = len(source_graph)
+    super_vertices = {}  # супервершины, когда будут появляться
+
+    norm_v = len(source_graph)  # развязка появилась, но какие узлы остались?
+    # Или может мы просто удаляем ребро, а ничего не схлопываем?
+    # Не придется схлопнуть
 
     # One iteration
     while norm_v > 2:
