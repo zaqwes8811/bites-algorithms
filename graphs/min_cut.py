@@ -22,6 +22,25 @@ def get_random_edge(source_graph):
     return source_v, end_v
 
 
+def edge_contraction(graph, edge, super_vertices):
+    source = edge[0]
+    end = edge[1]
+
+    # Если нужно вставляем в набор супервершин исходного узла
+    super_source = source.super_vertex
+
+    # source <- end
+    #source_vs = graph[source]
+    #end_vs = graph[end]
+
+    # Дублированные удалять нельзя, но нужно удалять петли
+    #source_vs.extend(end_vs)
+
+    #graph[source] = filter(lambda a: a != source, graph[source])
+
+    #del graph[end]  # Ссылки содержатся в списках
+
+
 def main():
     """
     http://en.wikipedia.org/wiki/Karger%27s_algorithm
@@ -34,11 +53,15 @@ def main():
     """
 
     class Vertex(object):
-        def __init__(self):
+        def __init__(self, ends):
             self.ends = []
             self.super_vertex = None
 
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
+    graph = {}
+
+    for k, v in source_graph.items():
+        graph[k] = Vertex(v)
 
     super_vertices = {}  # супервершины, когда будут появляться
 
@@ -47,28 +70,15 @@ def main():
     # Не придется схлопнуть
 
     # One iteration
-    while norm_v > 2:
-        edge = get_random_edge(source_graph)
-        edge_contraction(source_graph, edge)
-        norm_v -= 1
+    #while norm_v > 2:
+    edge = (graph[1], graph[2])#get_random_edge(source_graph)
+    edge_contraction(graph, edge, super_vertices)
+    #    norm_v -= 1
 
     print source_graph
 
 
-def edge_contraction(graph, edge):
-    source = edge[0]
-    end = edge[1]
 
-    # source <- end
-    source_vs = graph[source]
-    end_vs = graph[end]
-
-    # Дублированные удалять нельзя, но нужно удалять петли
-    source_vs.extend(end_vs)
-
-    graph[source] = filter(lambda a: a != source, graph[source])
-
-    del graph[end]  # Ссылки содержатся в списках
 
 
 def remove_key(d, key):
