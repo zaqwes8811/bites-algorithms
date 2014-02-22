@@ -26,19 +26,19 @@ def main():
 
     Как сохранить информацию о ребре, а не просто их схлопнуть?
 
-    Использовать стопки, но это дополнительное место
+    Использовать стопки, но это дополнительное место - O(n^2)!!
     """
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
 
     # One iteration
     while source_graph.__len__() > 2:
         edge = get_random_edge(source_graph)
-        fuse(source_graph, edge)
+        edge_contraction(source_graph, edge)
 
     print source_graph
 
 
-def fuse(graph, edge):
+def edge_contraction(graph, edge):
     source = edge[0]
     end = edge[1]
 
