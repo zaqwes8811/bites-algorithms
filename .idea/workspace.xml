@@ -86,8 +86,10 @@
       <file leaf-file-name="min_cut.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graphs/min_cut.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="44" selection-start="116" selection-end="116" vertical-scroll-proportion="0.26254827" vertical-offset="0" max-vertical-offset="518">
-              <folding />
+            <state line="24" column="42" selection-start="623" selection-end="623" vertical-scroll-proportion="0.7876448" vertical-offset="0" max-vertical-offset="595">
+              <folding>
+                <element signature="e#17#28#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -746,8 +748,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graphs/min_cut.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="44" selection-start="116" selection-end="116" vertical-scroll-proportion="0.26254827" vertical-offset="0" max-vertical-offset="518">
-          <folding />
+        <state line="24" column="42" selection-start="623" selection-end="623" vertical-scroll-proportion="0.7876448" vertical-offset="0" max-vertical-offset="595">
+          <folding>
+            <element signature="e#17#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
