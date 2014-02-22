@@ -34,14 +34,12 @@ def main():
 
 
 def fuse(graph, edge):
-    # TODO: удалить ребро
     source = edge[0]
     end = edge[1]
 
     # source <- end
     ends_of_source = graph[source]
     ends_of_end = graph[end]
-
     # Дублированные удалять нельзя, но нужно удалять петли
     ends_of_source.extend(ends_of_end)
 
