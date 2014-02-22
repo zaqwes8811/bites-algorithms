@@ -7,6 +7,8 @@ import random
 def get_random_edge(source_graph):
     """
     Keys is positive integer.
+
+    Как выбрать если схлопываем узлы?
     """
 
     keys = source_graph.keys()
@@ -22,6 +24,8 @@ def get_random_edge(source_graph):
 
 def main():
     """
+    http://en.wikipedia.org/wiki/Karger%27s_algorithm
+
     Полагаем что доступ по ключу O(n)
 
     Как сохранить информацию о ребре, а не просто их схлопнуть?
@@ -30,10 +34,13 @@ def main():
     """
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
 
+    norm_v = len(source_graph)
+
     # One iteration
-    while source_graph.__len__() > 2:
+    while norm_v > 2:
         edge = get_random_edge(source_graph)
         edge_contraction(source_graph, edge)
+        norm_v -= 1
 
     print source_graph
 
