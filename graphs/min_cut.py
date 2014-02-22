@@ -38,8 +38,7 @@ def edge_contraction(graph, edge, super_vertices):
 
     # Удаляем из вершир ребра ссылик на друг-друга
 
-
-
+    # Вершина может стать пустой? Тогда может ее удалять? Из списка вершин и супер вершины
 
     # source <- end
     #source_vs = graph[source]
@@ -71,10 +70,12 @@ def main():
             self.source = source
 
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
-    graph = {}
+    vertices = {}
+    edges = []  # Копия со ссылками - по ней генерируем ребро - если вершина пустая
+        # удаляем - это обеспечит попадание в ребро при случайном выборе.
 
     for k, v in source_graph.items():
-        graph[k] = Vertex(v, k)
+        vertices[k] = Vertex(v, k)
 
     super_vertices = {}  # супервершины, когда будут появляться
 
@@ -84,8 +85,8 @@ def main():
 
     # One iteration
     #while norm_v > 2:
-    edge = (graph[1], graph[2])#get_random_edge(source_graph)
-    edge_contraction(graph, edge, super_vertices)
+    edge = (vertices[1], vertices[2])#get_random_edge(source_graph)
+    edge_contraction(vertices, edge, super_vertices)
     #    norm_v -= 1
 
     print source_graph
