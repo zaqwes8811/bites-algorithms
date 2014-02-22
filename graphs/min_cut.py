@@ -15,6 +15,7 @@ def get_random_edge(source_graph):
 
     connections = source_graph[source_v]
     end_v = connections[random.randint(0, len(connections) - 1)]
+    print end_v, connections, source_graph
 
     return source_v, end_v
 
@@ -38,12 +39,14 @@ def fuse(graph, edge):
     end = edge[1]
 
     # source <- end
-    ends_of_source = graph[source]
-    ends_of_end = graph[end]
+    source_vs = graph[source]
+    end_vs = graph[end]
+
     # Дублированные удалять нельзя, но нужно удалять петли
-    ends_of_source.extend(ends_of_end)
+    source_vs.extend(end_vs)
 
     graph[source] = filter(lambda a: a != source, graph[source])
+
     del graph[end]
 
 
