@@ -25,25 +25,40 @@ def get_random_edge(source_graph):
 def edge_contraction(graph, edge, super_vertices):
     begin = edge[0]
     end = edge[1]
-    key_begin = begin.idx
+    key_worker = begin.idx
     key_end = end.idx
-
-    # Если нужно вставляем в набор супервершин исходного узла
     super_for_begin = begin.super_vertex
-    super_for_end = end.super_vertex
-    if not super_for_begin:
-        begin.super_vertex = key_begin
+    super_for_end = end.super_vertex  # Нужно знать для объединения супервершин
 
-    if key_begin not in super_vertices \
+    # Если вершины не подключены подключаем вершину к суперузлу
+    # TODO: кажется это нужно делать не тут
+    if not super_for_begin:
+        begin.super_vertex = key_worker
+    else:
+        # За основу берем
+        key_worker = begin.super_vertex
+
+    if not super_for_end:
+        end.super_vertex = key_worker
+
+    if key_worker not in super_vertices \
             and key_end not in super_vertices:
-        super_vertices[key_begin] = []
+        super_vertices[key_worker] = []
 
         # Добавляем обе
-        super_vertices[key_begin].append(key_begin)
-        super_vertices[key_begin].append(key_end)
+        super_vertices[key_worker].append(key_worker)
+        super_vertices[key_worker].append(key_end)
 
         # Удаляем ссылки друг на друга в пределах суперузла.
         # Здесь только для двух точек, вернее для суперузла.
+        inner = super_vertices[key_worker]
+        for vertex in inner:
+            print vertex
+
+        # Удаляем висячие вершины - нет ссылок на другие узлы.
+        # Ссылки на узлы внутри суперузла удалены.
+
+
     else:
         pass
 
