@@ -5,7 +5,7 @@ import copy
 import random
 
 # App
-import min_cut_big_super_vertices
+#import min_cut_big_super_vertices
 
 
 class Edge(object):
@@ -33,7 +33,8 @@ class Edge(object):
         self.work = self.work[0], value
 
     def __str__(self):
-        return str(self.work) + ":" + str(self.source_)
+        #return str(self.work) + ":" + \
+        return str(self.source_)
 
 
 def print_graph(work_graph):
@@ -52,7 +53,7 @@ def print_edges(edges):
 
 def get_random_edge(work_graph):
     keys = work_graph.keys()
-    key = random.randint(0, len(keys)-1)
+    key = random.randint(0, len(keys) - 1)
     connections = work_graph[keys[key]]
     cut_edge = connections[random.randint(0, len(connections) - 1)]
     return cut_edge
@@ -78,9 +79,9 @@ def fuse(graph, cut_edge):
     # Пересчитываем связи и удаляем петли
     for band in bands:
         # Перенаправляем
-        edges = graph[band.end]
+        terminal_edges = graph[band.end]
         to_remove = []
-        for edge in edges:
+        for edge in terminal_edges:
             if edge.end == idx_old:
                 edge.end = idx_new
 
@@ -90,7 +91,7 @@ def fuse(graph, cut_edge):
 
         # Удаляем отдельно
         for edge in to_remove:
-            edges.remove(edge)
+            terminal_edges.remove(edge)
 
     del graph[idx_old]  # в графе уже нет! ссылка локальна
 
