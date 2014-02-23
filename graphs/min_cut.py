@@ -26,22 +26,28 @@ def edge_contraction(graph, edge, super_vertices):
     begin = edge[0]
     end = edge[1]
     key_begin = begin.idx
+    key_end = end.idx
 
     # Если нужно вставляем в набор супервершин исходного узла
-    super_for_source = begin.super_vertex
-    if not super_for_source:
+    super_for_begin = begin.super_vertex
+    super_for_end = end.super_vertex
+    if not super_for_begin:
         begin.super_vertex = key_begin
 
-    if key_begin not in super_vertices:
+    if key_begin not in super_vertices \
+            and key_end not in super_vertices:
         super_vertices[key_begin] = []
 
         # Добавляем обе
-        super_vertices[key_begin].append(begin)
-        super_vertices[key_begin].append(end)
+        super_vertices[key_begin].append(key_begin)
+        super_vertices[key_begin].append(key_end)
 
-        # Удаляем петли - здесь только для двух точек, вернее для суперузла
+        # Удаляем ссылки друг на друга в пределах суперузла.
+        # Здесь только для двух точек, вернее для суперузла.
     else:
         pass
+
+    print super_vertices
 
 
     # Удаляем из вершир ребра ссылик на друг-друга
