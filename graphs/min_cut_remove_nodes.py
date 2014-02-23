@@ -24,6 +24,10 @@ class Edge(object):
     def end(self):
         return self.work[1]
 
+    @end.setter
+    def end(self, value):
+        self.work = self.work[0], value
+
     def __str__(self):
         return str(self.work)
 
@@ -42,30 +46,35 @@ def print_edges(edges):
     print
 
 
-def fuse(work_graph, edge):
+def fuse(graph, cut_edge):
     # Узел нужно разделить, или склонировать
-    work_edge = copy.deepcopy(edge)
+    cut_edge_copy = copy.deepcopy(cut_edge)
+
+    idx_new = cut_edge_copy.begin
+    idx_old = cut_edge_copy.end
 
     # Можно вливать узел
     # Заменяем ссылки на себя
-    end_bands = work_graph[work_edge.end]
-    for band in end_bands:
+    bands = graph[idx_old]
+    for band in bands:
+        # Меняем связь
+        band.begin = idx_new
+
         # Передаем ссылки новому узлу
-        band.begin = work_edge.begin
-        work_graph[work_edge.begin].append(band)
+        graph[idx_new].append(band)
 
     # Пересчитываем связи и удаляем петли
-    for band in end_bands:
+    for band in bands:
         # Перенаправляем
-        edges = work_graph[band.end]
+        edges = graph[band.end]
         for edge in edges:
-            if edge.end == work_edge.end:
-                edge.work = (edge.begin, work_edge.begin)
+            if edge.end == idx_old:
+                edge.end = idx_new
 
             if edge.begin == edge.end:
-                edges.remove(edge)
+                edges.remove(edge)  # не удаляет все
 
-    del work_graph[work_edge.end]  # в графе уже нет! ссылка локальна
+    del graph[idx_old]  # в графе уже нет! ссылка локальна
 
 
 def main():
@@ -81,7 +90,7 @@ def main():
     print_graph(work_graph)
     print 'fusing'
 
-    edge = work_graph[1][0]
+    edge = work_graph[2][2]#work_graph[1][0]
 
     fuse(work_graph, edge)
     print 'rest'
