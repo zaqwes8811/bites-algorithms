@@ -22,6 +22,14 @@ def get_random_edge(source_graph):
     return source_v, end_v
 
 
+def compress_super_vertex(graph, super_vertex):
+    # Удаляем ссылки друг на друга в пределах суперузла.
+    # Здесь только для двух точек, вернее для суперузла.
+
+    # Удаляем висячие вершины - нет ссылок на другие узлы.
+    pass
+
+
 def edge_contraction(graph, edge, super_vertices):
     begin = edge[0]
     end = edge[1]
@@ -48,37 +56,11 @@ def edge_contraction(graph, edge, super_vertices):
         # Добавляем обе
         super_vertices[key_worker].append(key_worker)
         super_vertices[key_worker].append(key_end)
-
-        # Удаляем ссылки друг на друга в пределах суперузла.
-        # Здесь только для двух точек, вернее для суперузла.
-        inner = super_vertices[key_worker]
-        for vertex in inner:
-            print vertex
-
-        # Удаляем висячие вершины - нет ссылок на другие узлы.
-        # Ссылки на узлы внутри суперузла удалены.
-
-
     else:
         pass
 
-    print super_vertices
-
-
-    # Удаляем из вершир ребра ссылик на друг-друга
-
-    # Вершина может стать пустой? Тогда может ее удалять? Из списка вершин и супер вершины
-
-    # begin <- end
-    #source_vs = graph[begin]
-    #end_vs = graph[end]
-
-    # Дублированные удалять нельзя, но нужно удалять петли
-    #source_vs.extend(end_vs)
-
-    #graph[begin] = filter(lambda a: a != begin, graph[begin])
-
-    #del graph[end]  # Ссылки содержатся в списках
+    inner = super_vertices[key_worker]
+    compress_super_vertex(graph, inner)
 
 
 def main():
