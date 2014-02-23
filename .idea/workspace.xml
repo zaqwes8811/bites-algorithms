@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257e8748-6438-4013-b015-ee420ad395c0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vm_python_benchmarks/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vm_python_benchmarks/delete_key.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphs/min_cut.py" afterPath="$PROJECT_DIR$/graphs/min_cut.py" />
     </list>
     <ignored path="bites-algorithms.iws" />
@@ -86,7 +88,7 @@
       <file leaf-file-name="min_cut.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graphs/min_cut.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="75" selection-start="985" selection-end="985" vertical-scroll-proportion="0.670073" vertical-offset="238" max-vertical-offset="2737">
+            <state line="96" column="20" selection-start="2508" selection-end="2508" vertical-scroll-proportion="2.3824818" vertical-offset="0" max-vertical-offset="2023">
               <folding>
                 <element signature="e#17#28#0" expanded="true" />
               </folding>
@@ -112,7 +114,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/counting_inversions.py" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/merge_sort.py" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/__init__.py" />
         <option value="$PROJECT_DIR$/src/stanford_algoritms_part1/sort/partioners/partioners_test.py" />
@@ -128,6 +129,7 @@
         <option value="$PROJECT_DIR$/src/mit6_006/__init__.py" />
         <option value="$PROJECT_DIR$/src/mit6_006/heap/__init__.py" />
         <option value="$PROJECT_DIR$/graphs/min_cut.py" />
+        <option value="$PROJECT_DIR$/vm_python_benchmarks/delete_key.py" />
       </list>
     </option>
   </component>
@@ -191,7 +193,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="graphs" />
+              <option name="myItemId" value="vm_python_benchmarks" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -669,11 +671,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/build_blocks/partioners/PartionerBase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="12" selection-start="977" selection-end="977" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
@@ -748,9 +745,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vm_python_benchmarks/delete_key.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="17" selection-start="119" selection-end="119" vertical-scroll-proportion="0.19854015" vertical-offset="0" max-vertical-offset="816">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/graphs/min_cut.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="75" selection-start="985" selection-end="985" vertical-scroll-proportion="0.670073" vertical-offset="238" max-vertical-offset="2737">
+        <state line="96" column="20" selection-start="2508" selection-end="2508" vertical-scroll-proportion="2.3824818" vertical-offset="0" max-vertical-offset="2023">
           <folding>
             <element signature="e#17#28#0" expanded="true" />
           </folding>
