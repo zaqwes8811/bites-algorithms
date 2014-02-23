@@ -39,7 +39,7 @@ def edge_contraction(graph, edge, super_vertices):
         super_vertices[key_begin].append(begin)
         super_vertices[key_begin].append(end)
 
-        # Удаляем петли
+        # Удаляем петли - здесь только для двух точек, вернее для суперузла
     else:
         pass
 

@@ -86,7 +86,7 @@
       <file leaf-file-name="min_cut.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graphs/min_cut.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="19" selection-start="834" selection-end="834" vertical-scroll-proportion="0.59562045" vertical-offset="238" max-vertical-offset="2737">
+            <state line="41" column="75" selection-start="985" selection-end="985" vertical-scroll-proportion="0.670073" vertical-offset="238" max-vertical-offset="2737">
               <folding>
                 <element signature="e#17#28#0" expanded="true" />
               </folding>
@@ -637,7 +637,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3979239" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4304419" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17993079" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17993079" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -750,7 +750,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graphs/min_cut.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="19" selection-start="834" selection-end="834" vertical-scroll-proportion="0.59562045" vertical-offset="238" max-vertical-offset="2737">
+        <state line="41" column="75" selection-start="985" selection-end="985" vertical-scroll-proportion="0.670073" vertical-offset="238" max-vertical-offset="2737">
           <folding>
             <element signature="e#17#28#0" expanded="true" />
           </folding>
