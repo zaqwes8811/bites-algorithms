@@ -23,31 +23,39 @@ def get_random_edge(source_graph):
 
 
 def edge_contraction(graph, edge, super_vertices):
-    source = edge[0]
+    begin = edge[0]
     end = edge[1]
-    source_key = source.source
+    key_begin = begin.idx
 
     # Если нужно вставляем в набор супервершин исходного узла
-    super_source = source.super_vertex
-    if not super_source:
-        source.super_vertex = source_key
+    super_for_source = begin.super_vertex
+    if not super_for_source:
+        begin.super_vertex = key_begin
 
-    if source_key not in super_vertices:
-        super_vertices[source_key] = []
+    if key_begin not in super_vertices:
+        super_vertices[key_begin] = []
+
+        # Добавляем обе
+        super_vertices[key_begin].append(begin)
+        super_vertices[key_begin].append(end)
+
+        # Удаляем петли
+    else:
+        pass
 
 
     # Удаляем из вершир ребра ссылик на друг-друга
 
     # Вершина может стать пустой? Тогда может ее удалять? Из списка вершин и супер вершины
 
-    # source <- end
-    #source_vs = graph[source]
+    # begin <- end
+    #source_vs = graph[begin]
     #end_vs = graph[end]
 
     # Дублированные удалять нельзя, но нужно удалять петли
     #source_vs.extend(end_vs)
 
-    #graph[source] = filter(lambda a: a != source, graph[source])
+    #graph[begin] = filter(lambda a: a != begin, graph[begin])
 
     #del graph[end]  # Ссылки содержатся в списках
 
@@ -61,13 +69,15 @@ def main():
     Как сохранить информацию о ребре, а не просто их схлопнуть?
 
     Использовать стопки, но это дополнительное место - O(n^2)!!
+
+    Как хранить ссылки? Числа или сразу объекты?
     """
 
     class Vertex(object):
         def __init__(self, ends, source):
-            self.ends = ends
+            self.end_points = ends
             self.super_vertex = None
-            self.source = source
+            self.idx = source
 
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
     vertices = {}
