@@ -3,6 +3,13 @@
 import collections
 
 
+def print_graph(work_graph):
+    for k, v in work_graph.items():
+        print k,
+        for edge in v:
+            print edge,
+        print
+
 def main():
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
 
@@ -23,7 +30,21 @@ def main():
         for value in v:
             work_graph[k].append(Edge(k, value))
 
-    for k, v in work_graph.items():
-        print v
+
+
+    # слить два узла
+    print 'fusing'
+    begin = 1
+    end = 2
+    begin_value = work_graph[begin]
+    end_value = work_graph[end]
+    del work_graph[end]  # в графе уже нет! ссылка локальна
+
+    # Можно вливать узел
+
+    print end_value
+
+    print 'rest'
+    print_graph(work_graph)
 
 main()
