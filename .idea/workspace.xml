@@ -68,7 +68,7 @@
       <file leaf-file-name="min_cut_big_super_vertices.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graphs/min_cut_big_super_vertices.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="25" selection-start="1920" selection-end="1920" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1955">
+            <state line="6" column="0" selection-start="45" selection-end="419" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1955">
               <folding>
                 <element signature="e#17#28#0" expanded="true" />
               </folding>
@@ -79,7 +79,7 @@
       <file leaf-file-name="min_cut_remove_nodes.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/graphs/min_cut_remove_nodes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="52" selection-start="1548" selection-end="1548" vertical-scroll-proportion="0.4400631" vertical-offset="979" max-vertical-offset="1802">
+            <state line="43" column="13" selection-start="818" selection-end="818" vertical-scroll-proportion="-0.85015774" vertical-offset="1270" max-vertical-offset="2057">
               <folding>
                 <element signature="e#17#35#0" expanded="true" />
               </folding>
@@ -649,7 +649,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3979239" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4304419" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23875433" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23875433" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -755,7 +755,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graphs/min_cut_big_super_vertices.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="25" selection-start="1920" selection-end="1920" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1955">
+        <state line="6" column="0" selection-start="45" selection-end="419" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1955">
           <folding>
             <element signature="e#17#28#0" expanded="true" />
           </folding>
@@ -764,7 +764,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/graphs/min_cut_remove_nodes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="52" selection-start="1548" selection-end="1548" vertical-scroll-proportion="0.4400631" vertical-offset="979" max-vertical-offset="1802">
+        <state line="43" column="13" selection-start="818" selection-end="818" vertical-scroll-proportion="-0.85015774" vertical-offset="1270" max-vertical-offset="2057">
           <folding>
             <element signature="e#17#35#0" expanded="true" />
           </folding>
