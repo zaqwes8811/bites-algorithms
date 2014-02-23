@@ -50,7 +50,7 @@ def edge_contraction(graph, edge, super_vertices):
         end.super_vertex = key_worker
 
     if key_worker not in super_vertices \
-            and key_end not in super_vertices:
+        and key_end not in super_vertices:
         super_vertices[key_worker] = []
 
         # Добавляем обе
@@ -85,7 +85,7 @@ def main():
     source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
     vertices = {}
     edges = []  # Копия со ссылками - по ней генерируем ребро - если вершина пустая
-        # удаляем - это обеспечит попадание в ребро при случайном выборе.
+    # удаляем - это обеспечит попадание в ребро при случайном выборе.
 
     for k, v in source_graph.items():
         vertices[k] = Vertex(v, k)
@@ -105,12 +105,5 @@ def main():
     print source_graph
 
 
-def remove_key(d, key):
-    r = dict(d)
-    del r[key]
-    return r
-
-
-
 main()
-#benchmark_delete_key()
+
