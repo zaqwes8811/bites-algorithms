@@ -4,6 +4,8 @@ import collections
 import copy
 import random
 
+import cProfile
+
 # App
 #import min_cut_big_super_vertices
 
@@ -99,19 +101,31 @@ def fuse(graph, cut_edge):
 def get_fake_graph():
     return {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
 
+
 def get_real_graph():
     file = 'graphs/input/kargerMinCut.txt'
+    f = open(file, 'rt')
+    lines = f.readlines()
+    graph = {}
+    for line in lines:
+        list_ = line.split('\t')
+        record = map(int, list_[:-1])
+        graph[record[0]] = record[1:]
+    return graph
 
 
 def main():
-    source_graph = get_fake_graph()
+    source_graph = get_real_graph()
+    #return
 
     # BAD! Но это указатели, а не копии объектов. Может не так все печально?
     work_graph = collections.defaultdict(list)
     for k, v in source_graph.items():
         for value in v:
             work_graph[k].append(Edge(k, value))
-    for it in range(100):
+
+    min_value = 0
+    for it in range(1):
         editable = copy.deepcopy(work_graph)
 
         # слить два узла
@@ -119,12 +133,24 @@ def main():
             edge = get_random_edge(editable)
             fuse(editable, edge)
 
+        new_min = 0
         for k, v in editable.items():
             print "count = ", len(v)
+            new_min = len(v)
             break
 
-        print_graph(editable)
+        if not min_value:
+            min_value = new_min
+
+        if new_min < min_value:
+            min_value = new_min
+
+        print 'min = ', min_value
+
+        #print_graph(editable)
+    print min_value
 
 
 if __name__ == '__main__':
-    main()
+    #main()
+    cProfile.run('main()')
