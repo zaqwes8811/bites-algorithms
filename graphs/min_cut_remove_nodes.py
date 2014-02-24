@@ -96,21 +96,34 @@ def fuse(graph, cut_edge):
     del graph[idx_old]  # в графе уже нет! ссылка локальна
 
 
+def get_fake_graph():
+    return {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
+
+def get_real_graph():
+    file = 'graphs/input/kargerMinCut.txt'
+
+
 def main():
-    source_graph = {1: [2, 4], 2: [1, 4, 3], 3: [2, 4], 4: [1, 2, 3]}
+    source_graph = get_fake_graph()
 
     # BAD! Но это указатели, а не копии объектов. Может не так все печально?
     work_graph = collections.defaultdict(list)
     for k, v in source_graph.items():
         for value in v:
             work_graph[k].append(Edge(k, value))
+    for it in range(100):
+        editable = copy.deepcopy(work_graph)
 
-    # слить два узла
-    while len(work_graph) > 2:
-        edge = get_random_edge(work_graph)
-        fuse(work_graph, edge)
+        # слить два узла
+        while len(editable) > 2:
+            edge = get_random_edge(editable)
+            fuse(editable, edge)
 
-    print_graph(work_graph)
+        for k, v in editable.items():
+            print "count = ", len(v)
+            break
+
+        print_graph(editable)
 
 
 if __name__ == '__main__':
