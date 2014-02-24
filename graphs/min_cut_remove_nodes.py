@@ -63,37 +63,46 @@ def get_random_edge(work_graph):
 
 def fuse(graph, cut_edge):
     # Узел нужно разделить, или склонировать
-    cut_edge_copy = copy.deepcopy(cut_edge)
+    #cut_edge_copy = copy.deepcopy(cut_edge)
 
-    idx_new = cut_edge_copy.begin
-    idx_old = cut_edge_copy.end
+    idx_new = cut_edge.begin
+    idx_old = cut_edge.end
 
     # Можно вливать узел
     # Заменяем ссылки на себя
     bands = graph[idx_old]
-    for band in bands:
-        # Меняем связь
-        band.begin = idx_new
 
-        # Передаем ссылки новому узлу
-        graph[idx_new].append(band)
+    def small():
+        for band in bands:
+            # Меняем связь
+            band.begin = idx_new
+
+            # Передаем ссылки новому узлу
+            graph[idx_new].append(band)
+    small()
 
     # Пересчитываем связи и удаляем петли
-    for band in bands:
-        # Перенаправляем
-        terminal_edges = graph[band.end]
-        to_remove = []
-        for edge in terminal_edges:
-            if edge.end == idx_old:
-                edge.end = idx_new
+    def long_term():
+        # TODO: O(n^2) - ?
+        for band_local in bands:
+            # Перенаправляем
+            # TODO: не обсчитывать опорную точку, должно заработать быстрее
+            terminal_edges = graph[band_local.end]
+            to_remove = []
+            for edge in terminal_edges:
+                if edge.end == idx_old:
+                    edge.end = idx_new
 
-            if edge.begin == edge.end:
-                # Похоже менять списко при итерации не стоит
-                to_remove.append(edge)
+                def piece_is_bad():
+                    if edge.begin == edge.end:
+                        # Похоже менять списко при итерации не стоит
+                        to_remove.append(edge)
+                piece_is_bad()
 
-        # Удаляем отдельно
-        for edge in to_remove:
-            terminal_edges.remove(edge)
+            # Удаляем отдельно
+            for edge in to_remove:
+                terminal_edges.remove(edge)
+    long_term()
 
     del graph[idx_old]  # в графе уже нет! ссылка локальна
 
