@@ -72,24 +72,16 @@ def fuse(graph, cut_edge):
     # Заменяем ссылки на себя
     bands = graph[idx_old]
 
-    for band in bands:
-        # Меняем связь
-        band.begin = idx_new
+    def small():
+        for band in bands:
+            # Меняем связь
+            band.begin = idx_new
 
-        # Передаем ссылки новому узлу
-        graph[idx_new].append(band)
+            # Передаем ссылки новому узлу
+            graph[idx_new].append(band)
+    small()
 
-    # Удаляем петли из объединенного узла
-    terminal_edges = graph[idx_new]
-    to_remove = []
-    for edge in terminal_edges:
-        if edge.begin == edge.end:
-            # Похоже менять списко при итерации не стоит
-            to_remove.append(edge)
-
-    # Удаляем отдельно
-    for edge in to_remove:
-        terminal_edges.remove(edge)
+    # TODO: Удаляем петли из объединенного узла
 
     # Пересчитываем связи и удаляем петли
     def long_term():
@@ -98,11 +90,21 @@ def fuse(graph, cut_edge):
             # Перенаправляем
             # TODO: не обсчитывать опорную точку, должно заработать быстрее
             terminal_edges = graph[band_local.end]
-
+            to_remove = []
             for edge in terminal_edges:
                 if edge.end == idx_old:
                     edge.end = idx_new
 
+                # TODO: петель в необъединенных узлах быть не может
+                def piece_is_bad():
+                    if edge.begin == edge.end:
+                        # Похоже менять списко при итерации не стоит
+                        to_remove.append(edge)
+                piece_is_bad()
+
+            # Удаляем отдельно
+            for edge in to_remove:
+                terminal_edges.remove(edge)
     long_term()
 
     del graph[idx_old]  # в графе уже нет! ссылка локальна
@@ -135,7 +137,7 @@ def main():
             work_graph[k].append(Edge(k, value))
 
     min_value = 0
-    for it in range(1):
+    for it in range(50):
         editable = copy.deepcopy(work_graph)
 
         # слить два узла
@@ -162,5 +164,5 @@ def main():
 
 
 if __name__ == '__main__':
-    #main()
-    cProfile.run('main()')
+    main()
+    #cProfile.run('main()')
