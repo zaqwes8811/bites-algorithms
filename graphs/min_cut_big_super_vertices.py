@@ -50,7 +50,7 @@ def edge_contraction(graph, edge, super_vertices):
         end.super_vertex = key_worker
 
     if key_worker not in super_vertices \
-        and key_end not in super_vertices:
+            and key_end not in super_vertices:
         super_vertices[key_worker] = []
 
         # Добавляем обе
@@ -97,8 +97,8 @@ def main():
     # Не придется схлопнуть
 
     # One iteration
-    #while norm_v > 2:
-    edge = (vertices[1], vertices[2])#get_random_edge(source_graph)
+    # while norm_v > 2:
+    edge = (vertices[1], vertices[2])  #get_random_edge(source_graph)
     edge_contraction(vertices, edge, super_vertices)
     #    norm_v -= 1
 
