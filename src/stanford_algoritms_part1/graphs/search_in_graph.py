@@ -14,33 +14,12 @@ def get_fake_graph():
     }
 
 
-def bfs(g, start):
-    pass
-
-
-if __name__ == '__main__':
-    class Vertex(object):
-        def __init__(self, own, ends):
-            self.self = own
-            self.ends = ends
-
-            # Coupled with node
-            self.explored = False
-
-        def __str__(self):
-            return "self: %s, ex: %s" % (self.self, self.explored)
-
-    source_graph = get_fake_graph()
-    vertices = {}
-    for k, v in source_graph.items():
-        vertices[k] = Vertex(k, v)
-
-    # Finding
-    Q = Queue()
-    start = vertices['s']
+def bfs(start):
+    assert start
 
     # Mark
     start.explored = True
+    Q = Queue()
     Q.put(start)
 
     assert Q.qsize() == 1
@@ -48,12 +27,45 @@ if __name__ == '__main__':
     while not Q.empty():
         size = Q.qsize()
         v = Q.get()
-        print v
+        print v  # data extracting
         assert Q.qsize() == size - 1
         for w in v.ends:
-            node = vertices[w]
-            if not node.explored:
-                node.explored = True
-                Q.put(node)
+            if not w.explored:
+                w.explored = True
+                Q.put(w)
 
     assert Q.empty()
+
+
+if __name__ == '__main__':
+    def main():
+        class Vertex(object):
+            def __init__(self, own, ends):
+                self.self = own
+                self.ends = ends
+
+                # Coupled with node
+                self.explored = False
+
+            def __str__(self):
+                return "self: %s, ex: %s" % (self.self, self.explored)
+
+        raw_graph = get_fake_graph()
+        graph_store = {}
+        for self, raw_ends in raw_graph.items():
+            graph_store[self] = Vertex(self, raw_ends)
+
+        for no_used, vertex in graph_store.items():
+            ref_ends = []
+            for elem in vertex.ends:
+                ref_ends.append(graph_store[elem])
+            vertex.ends = ref_ends
+
+        # Finding
+
+        start = graph_store['s']
+        bfs(start)
+
+    main()
+
+
