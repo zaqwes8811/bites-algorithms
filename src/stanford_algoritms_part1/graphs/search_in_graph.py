@@ -18,12 +18,24 @@ def get_fake_graph():
 
 
 # TODO: api is bad
-def bfs(g, start):
+def bfs_bad_impl(g, start):
     assert start
     assert g
 
+    class Vertex(object):
+        def __init__(self, own, ends):
+            self.self = own
+            self.ends = ends
+
+            # Coupled with node
+            self.explored = False
+
+        def __str__(self):
+            return "self: %s, ex: %s" % (self.self, self.explored)
+
     # Prepare data
-    # TODO: BAD: дополнительная структура данных
+    # TODO: BAD: дополнительная структура данных и увеличиваю константы в сложности
+    # TODO: но! в обхода нет поиска по ключу, но такой же поиск при преобразовании
     graph_store = {}
     for self, raw_ends in g.items():
         graph_store[self] = Vertex(self, raw_ends)
@@ -57,20 +69,8 @@ def bfs(g, start):
     assert Q.empty()
 
 
-class Vertex(object):
-    def __init__(self, own, ends):
-        self.self = own
-        self.ends = ends
-
-        # Coupled with node
-        self.explored = False
-
-    def __str__(self):
-        return "self: %s, ex: %s" % (self.self, self.explored)
-
-
 if __name__ == '__main__':
     graph = get_fake_graph()
-    bfs(graph, 's')
+    bfs_bad_impl(graph, 's')
 
 
