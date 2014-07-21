@@ -22,7 +22,7 @@ if __name__ == '__main__':
     class Vertex(object):
         def __init__(self, own, ends):
             self.self = own
-            self.end_points = ends
+            self.ends = ends
 
             # Coupled with node
             self.explored = False
@@ -35,8 +35,6 @@ if __name__ == '__main__':
     for k, v in source_graph.items():
         vertices[k] = Vertex(k, v)
 
-    pprint(vertices)
-
     # Finding
     Q = Queue()
     start = vertices['s']
@@ -48,7 +46,14 @@ if __name__ == '__main__':
     assert Q.qsize() == 1
 
     while not Q.empty():
+        size = Q.qsize()
         v = Q.get()
-        assert Q.empty()
+        print v
+        assert Q.qsize() == size - 1
+        for w in v.ends:
+            node = vertices[w]
+            if not node.explored:
+                node.explored = True
+                Q.put(node)
 
-        break
+    assert Q.empty()
