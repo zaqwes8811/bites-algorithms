@@ -2,6 +2,9 @@
 
 # Info:
 #  http://eddmann.com/posts/depth-first-search-and-breadth-first-search-in-python/
+#
+# ToThink:
+# http://opendatastructures.org/versions/edition-0.1e/ods-java/12_3_Graph_Traversal.html - зависит от вх. предст.
 
 from pprint import pprint
 
@@ -17,18 +20,25 @@ def get_fake_graph():
     }
 
 
-def shortest_path_app(g):
+def app_shortest_path_wave_algorithm(g):
     raise Exception('Not impl.')
 
-# TODO: api is bad
+
 def bfs_bad_impl(g, start):
+    """
+     Constraint: граф не взвешенный?
+
+     http://cs.stackexchange.com/questions/4973/does-a-weighted-breadth-first-search-have-memory-when-moving-to-the-next-verte
+
+     Dijkstra's algorithm for weighted?
+    """
     assert start
     assert g
 
     class Vertex(object):
         """
         About:
-        
+
         TODO: To expensive impl. """
         def __init__(self, own, ends):
             self.self = own
@@ -39,7 +49,7 @@ def bfs_bad_impl(g, start):
             self.distance = 0
 
         def __str__(self):
-            return "self: %s, ex: %s" % (self.self, self.explored)
+            return "self: %s, ex: %s, dist: %d" % (self.self, self.explored, self.distance)
 
         @staticmethod
         def recode_graph(g):
@@ -71,14 +81,19 @@ def bfs_bad_impl(g, start):
     while not Q.empty():
         size = Q.qsize()
         v = Q.get()
-        print v  # data extracting
+        print v.self  # data extracting
         assert Q.qsize() == size - 1
         for w in v.ends:
             if not w.explored:
                 w.explored = True
+                # mark patch
+                w.distance = v.distance + 1
                 Q.put(w)
 
     assert Q.empty()
+
+    for k, v in graph_store.items():
+        print v
 
 
 if __name__ == '__main__':
