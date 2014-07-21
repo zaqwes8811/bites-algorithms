@@ -43,7 +43,12 @@ if __name__ == '__main__':
 
     # Mark
     start.explored = True
-    print start
+    Q.put(start)
+
+    assert Q.qsize() == 1
 
     while not Q.empty():
-        pass
+        v = Q.get()
+        assert Q.empty()
+
+        break
