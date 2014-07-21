@@ -27,6 +27,9 @@ if __name__ == '__main__':
             # Coupled with node
             self.explored = False
 
+        def __str__(self):
+            return "self: %s, ex: %s" % (self.self, self.explored)
+
     source_graph = get_fake_graph()
     vertices = {}
     for k, v in source_graph.items():
@@ -36,6 +39,11 @@ if __name__ == '__main__':
 
     # Finding
     Q = Queue()
+    start = vertices['s']
+
+    # Mark
+    start.explored = True
+    print start
 
     while not Q.empty():
         pass
