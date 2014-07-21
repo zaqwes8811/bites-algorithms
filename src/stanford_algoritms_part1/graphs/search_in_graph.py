@@ -1,5 +1,8 @@
 # coding: utf-8
 
+# Info:
+#  http://eddmann.com/posts/depth-first-search-and-breadth-first-search-in-python/
+
 from pprint import pprint
 
 from Queue import Queue  # Thread-safe - overhead
@@ -14,8 +17,10 @@ def get_fake_graph():
     }
 
 
-def bfs(start):
+# TODO: api is bad
+def bfs(start, g=None):
     assert start
+    assert not g
 
     # Mark
     start.explored = True
@@ -50,6 +55,8 @@ if __name__ == '__main__':
             def __str__(self):
                 return "self: %s, ex: %s" % (self.self, self.explored)
 
+        # Prepare data
+        # TODO: BAD: дополнительная структура данных
         raw_graph = get_fake_graph()
         graph_store = {}
         for self, raw_ends in raw_graph.items():
@@ -62,7 +69,6 @@ if __name__ == '__main__':
             vertex.ends = ref_ends
 
         # Finding
-
         start = graph_store['s']
         bfs(start)
 
