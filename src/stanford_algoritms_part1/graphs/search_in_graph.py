@@ -17,36 +17,48 @@ def get_fake_graph():
     }
 
 
+def shortest_path_app(g):
+    raise Exception('Not impl.')
+
 # TODO: api is bad
 def bfs_bad_impl(g, start):
     assert start
     assert g
 
     class Vertex(object):
+        """
+        About:
+        
+        TODO: To expensive impl. """
         def __init__(self, own, ends):
             self.self = own
             self.ends = ends
 
             # Coupled with node
             self.explored = False
+            self.distance = 0
 
         def __str__(self):
             return "self: %s, ex: %s" % (self.self, self.explored)
 
-    # Prepare data
-    # TODO: BAD: дополнительная структура данных и увеличиваю константы в сложности
-    # TODO: но! в обхода нет поиска по ключу, но такой же поиск при преобразовании
-    graph_store = {}
-    for self, raw_ends in g.items():
-        graph_store[self] = Vertex(self, raw_ends)
+        @staticmethod
+        def recode_graph(g):
+            # Prepare data
+            # TODO: BAD: дополнительная структура данных и увеличиваю константы в сложности
+            # TODO: но! в обхода нет поиска по ключу, но такой же поиск при преобразовании
+            store = {}
+            for self, raw_ends in g.items():
+                store[self] = Vertex(self, raw_ends)
 
-    for no_used, vertex in graph_store.items():
-        ref_ends = []
-        for elem in vertex.ends:
-            ref_ends.append(graph_store[elem])
-        vertex.ends = ref_ends
+            for no_used, vertex in store.items():
+                ref_ends = []
+                for elem in vertex.ends:
+                    ref_ends.append(store[elem])
+                vertex.ends = ref_ends
+            return store
 
     # Finding
+    graph_store = Vertex.recode_graph(g)
     start = graph_store[start]
 
     # Mark

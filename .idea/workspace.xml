@@ -78,8 +78,8 @@
       <file leaf-file-name="search_in_graph.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/graphs/search_in_graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8770492" vertical-offset="774" max-vertical-offset="1230">
-              <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
+            <state vertical-scroll-proportion="-0.92622954" vertical-offset="789" max-vertical-offset="1410">
+              <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
               <folding>
                 <element signature="e#109#134#0" expanded="true" />
               </folding>
@@ -1004,8 +1004,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stanford_algoritms_part1/graphs/search_in_graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8770492" vertical-offset="774" max-vertical-offset="1230">
-          <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
+        <state vertical-scroll-proportion="-0.92622954" vertical-offset="789" max-vertical-offset="1410">
+          <caret line="30" column="8" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="8" />
           <folding>
             <element signature="e#109#134#0" expanded="true" />
           </folding>
