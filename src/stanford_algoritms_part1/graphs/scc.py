@@ -5,29 +5,24 @@ from pprint import pprint
 import search_in_graph
 
 
-def dfs_expensive_impl(G, SV, explored_set={}):
-    """
-     Constraint: граф не взвешенный?
-
-     http://cs.stackexchange.com/questions/4973/does-a-weighted-breadth-first-search-have-memory-when-moving-to-the-next-verte
-
-     Dijkstra's algorithm for weighted?
-
-     SV - start vertex
-    """
+def dfs_expensive_impl(G, SV, explored_set):
+    """ """
     def __dfs(vertex):
         explored_set[vertex] = True
         ends = G[vertex]
+        is_end_vertex = True
         for w in ends:
             if not explored_set[w]:
+                is_end_vertex = False
                 __dfs(w)
+
+        if is_end_vertex:
+            # Terminal vertex
+            print vertex
 
     assert G
     assert SV
-    # Делаем маркеровку внешней
-    if not explored_set:
-        for k, v in G.items():
-            explored_set[k] = False
+    assert explored_set
 
     __dfs(SV)
 
@@ -64,12 +59,16 @@ def invert_digraph(g):
 def main():
     source_gr = get_fake_graph()
     gr_inv = invert_digraph(source_gr)
-    pprint(gr_inv)
 
     dfs = dfs_expensive_impl
 
     #
-    dfs(gr_inv, 9)
+    explored_set = {}
+    if not explored_set:
+        for k, v in gr_inv.items():
+            explored_set[k] = False
+
+    dfs(gr_inv, 9, explored_set)
 
 
 if __name__ == '__main__':
