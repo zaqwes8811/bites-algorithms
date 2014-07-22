@@ -31,10 +31,6 @@ class TraverseInfo(object):
 
 
 def dfs_iterative_impl(G, SV, tr):
-    assert G
-    assert SV
-    assert tr
-
     tr.explored.add(SV)
     S = util.Stack()
     S.push(SV)
@@ -65,30 +61,26 @@ def dfs_separate_recursion_impl(G, SV, tr):
 
         tr.g_t += 1
         tr.g_finals[vertex] = tr.g_t
-
-    assert G
-    assert SV
-    assert tr
-
     copy_t = tr.g_t
     __dfs(SV)
     return tr.g_t - copy_t
 
 
 def scc(source_gr, dfs, t):
+    # TODO: сделал что-то лишнее
     assert source_gr
     assert dfs
     assert not t.explored
     assert t.g_t == 0
 
     # Work
-    RANGE = source_gr.keys()
+    const_range = source_gr.keys()
 
     # inv.
     gr_inv = util.invert_digraph(source_gr)
 
     # Used DFS
-    for vertex in reversed(RANGE):
+    for vertex in reversed(const_range):
         if vertex not in t.explored:
             dfs(gr_inv, vertex, t)
 
@@ -98,7 +90,7 @@ def scc(source_gr, dfs, t):
 
     tops = []
     t.explored = set()
-    for vertex in reversed(RANGE):
+    for vertex in reversed(const_range):
         if vertex not in t.explored:
             tops.append(vertex)
             dfs(rename_gr, vertex, t)
@@ -107,7 +99,8 @@ def scc(source_gr, dfs, t):
     t.explored = set()
     for vertex in tops:
         if vertex not in t.explored:
-            sizes.append(dfs(rename_gr, vertex, t))
+            size = dfs(rename_gr, vertex, t)
+            sizes.append(size)
 
     sizes.extend([0, 0, 0, 0, 0])
     sizes.sort(reverse=True)
@@ -121,14 +114,14 @@ def main():
     t = TraverseInfo()
 
     tops = scc(source_gr
-               #, dfs_iterative_impl
+               # , dfs_iterative_impl
                , dfs_separate_recursion_impl
                #, dfs_copy
                , t
     )
-    
+
     gold = [434821, 968, 459, 313, 211]
-    #gold = [3, 3, 3, 0, 0]
+    # gold = [3, 3, 3, 0, 0]
     assert tops[0:5] == gold
 
 

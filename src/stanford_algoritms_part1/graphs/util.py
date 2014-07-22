@@ -1,5 +1,3 @@
-__author__ = 'zaqwes'
-
 def invert_digraph(g):
     copy_gr = {}
 
@@ -22,6 +20,7 @@ def graph_rename(G, recoder):
             gr_copy[recoder[k]].append(recoder[elem])
 
     return gr_copy
+
 
 class Stack(object):
     """ http://interactivepython.org/runestone/static/pythonds/BasicDS/stacks.html """
