@@ -58,29 +58,6 @@ class Vertex(object):
         return store
 
 
-class Stack(object):
-    """
-    Copy and modif.: http://interactivepython.org/runestone/static/pythonds/BasicDS/stacks.html
-    """
-    def __init__(self):
-        self.items = []
-
-    def empty(self):
-        return self.items == []
-
-    def push(self, item):
-        self.items.append(item)
-
-    def pop(self):
-        return self.items.pop()
-
-    def top(self):
-        return self.items[len(self.items) - 1]
-
-    def size(self):
-        return len(self.items)
-
-
 def dfs_expensive_impl(G, SV):
     """
      Constraint: граф не взвешенный?
@@ -99,15 +76,8 @@ def dfs_expensive_impl(G, SV):
     sv = graph_store[SV]
 
     def __dfs(vertex):
-        # TODO: have bugs!!! It's not bug it's other ways
-        # Mark
         vertex.explored = True
-        print vertex
-
-        copy_ends = copy.copy(vertex.ends)
-        random.shuffle(copy_ends)
-
-        ends = copy_ends
+        ends = vertex.ends
         for w in ends:
             if not w.explored:
                 __dfs(w)
