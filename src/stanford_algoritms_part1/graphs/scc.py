@@ -2,30 +2,27 @@
 
 # iter vs rec:
 # http://stackoverflow.com/questions/9201166/iterative-dfs-vs-recursive-dfs-and-different-elements-order
+#
+# Speed up:
+# http://codereview.stackexchange.com/questions/29404/why-is-my-code-for-kasorajus-algorithm-so-slow
+#
+# Solved
+# http://teacode.wordpress.com/2013/07/27/algo-week-4-graph-search-and-kosaraju-ssc-finder/
 
 from pprint import pprint
 
 import search_in_graph
+import sys
+import resource
 
+import gr_readers
+
+# TODO: BUGS - Iterative version is broken!!
+sys.setrecursionlimit(10 ** 6)
+resource.setrlimit(resource.RLIMIT_STACK, (2 ** 29, 2 ** 30))
 
 g_t = 0
 g_finals = {}
-
-
-def dfs_copy(G, SV, visited):
-    stack = [SV]
-    while stack:
-        vertex = stack.pop()
-        if not visited[vertex]:
-            visited[vertex] = True
-            for w in G[vertex]:
-                if not visited[w]:
-                    stack.append(w)
-
-        # final
-        global g_t, g_finals
-        g_t += 1
-        g_finals[vertex] = g_t
 
 
 def dfs_iterative_impl(G, SV, explored_set):
@@ -56,30 +53,27 @@ def dfs_iterative_impl(G, SV, explored_set):
     S = Stack()
     S.push(SV)
 
-    assert S.size() == 1
-
-    print
+    global g_t
+    copy_t = g_t
     while not S.empty():
-        size = S.size()
         v = S.top()
         S.pop()
-        assert S.size() == size - 1
         for w in G[v]:
             if not explored_set[w]:
                 explored_set[w] = True
                 S.push(w)
 
         # final
-        # TODO: bug is here!
-        global g_t, g_finals
+        global g_finals
         g_t += 1
         g_finals[v] = g_t
-
-    assert S.empty()
+    return g_t - copy_t
 
 
 def dfs_separate_recursion_impl(G, SV, explored_set):
     """ """
+    global g_t
+    copy_t = g_t
 
     def __dfs(vertex):
         explored_set[vertex] = True
@@ -97,39 +91,7 @@ def dfs_separate_recursion_impl(G, SV, explored_set):
     assert explored_set
 
     __dfs(SV)
-
-
-def get_fake_graph():
-    g = {
-        1: [4],
-        2: [8],
-        3: [6],
-        4: [7],
-        5: [2],
-        6: [9],
-        7: [1],
-        8: [6, 5],
-        9: [3, 7]
-    }
-    return g
-
-
-def get_real_graph():
-    filename = '/home/zaqwes/tmp/SCC.txt'
-    f = open(filename, 'rt')
-    graph = {}
-    for i in range(1, 875714 + 1):
-        graph[i] = []
-
-    lines = f.readlines()
-    for line in lines:
-        pair = line.lstrip().rstrip().split(' ')
-        assert len(pair) == 2
-        source = int(pair[0])
-        destination = int(pair[1])
-        graph[source].append(destination)
-
-    return graph
+    return g_t - copy_t
 
 
 def invert_digraph(g):
@@ -174,12 +136,9 @@ def scc(source_gr, dfs):
     for vertex in reversed(RANGE):  # TODO: bad. Ключи не обязательно следуют так.
         if not explored_set[vertex]:
             dfs(gr_inv, vertex, explored_set)
-
     # Next step
     explored_set = {}
     rename_gr = graph_rename(source_gr, g_finals)
-    for k, v in g_finals.items():
-        print k, v
 
     tops = []
     for k in gr_inv.keys():
@@ -189,20 +148,33 @@ def scc(source_gr, dfs):
             tops.append(vertex)
             dfs(rename_gr, vertex, explored_set)
 
-    return tops
+    sizes = []
+    for k in gr_inv.keys():
+        explored_set[k] = False
+    for vertex in tops:  # TODO: bad. Ключи не обязательно следуют так.
+        if not explored_set[vertex]:
+            sizes.append(dfs(rename_gr, vertex, explored_set))
+
+    sizes.extend([0, 0, 0, 0, 0])
+    sizes.sort(reverse=True)
+    return sizes
 
 
 def main():
     # get_real_graph()#
-    source_gr = get_fake_graph()
-    # source_gr = get_real_graph()
+    #source_gr = get_fake_graph()
+    source_gr = gr_readers.get_real_graph()
     print "Readed. Start calc"
     tops = scc(source_gr
                , dfs_iterative_impl
                #, dfs_separate_recursion_impl
                #, dfs_copy
     )
-    print tops
+    
+    gold = [434821, 968, 459, 313, 211]
+    for a, b in zip(gold, tops[0:5]):
+        print a, b
+    assert tops[0:5] == gold
 
 
 if __name__ == '__main__':
