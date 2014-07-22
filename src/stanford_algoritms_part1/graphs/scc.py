@@ -53,8 +53,8 @@ def get_real_graph():
         pair = line.lstrip().rstrip().split(' ')
         assert len(pair) == 2
 
-        source = pair[0]
-        destination = pair[1]
+        source = int(pair[0])
+        destination = int(pair[1])
 
         if source not in graph:
             graph[source] = []
@@ -67,7 +67,7 @@ def get_real_graph():
 def invert_digraph(g):
     copy_gr = {}
 
-    for k, v in g.items():
+    for k in g.keys():
         copy_gr[k] = []
 
     for k, v in g.items():
@@ -91,10 +91,15 @@ def graph_rename(G, recoder):
 def scc(G):
     assert G
     assert dfs_separate_impl
+    for k, v in G.items():  # Нет ли указывающий в пустоту
+        for elem in v:
+            if not elem in G.keys():
+                print elem, v, k
 
+    # Work
     dfs = dfs_separate_impl
-
     RANGE = G.keys()
+
 
     print "First pass - Inv. Gr."
     print "Inversion..."
