@@ -9,7 +9,7 @@ g_t = 0
 g_finals = {}
 
 
-def dfs_expensive_impl(G, SV, explored_set):
+def dfs_separate_impl(G, SV, explored_set):
     """ """
     def __dfs(vertex):
         explored_set[vertex] = True
@@ -18,7 +18,7 @@ def dfs_expensive_impl(G, SV, explored_set):
             if not explored_set[w]:
                 __dfs(w)
 
-        global g_t, f_t
+        global g_t, g_finals
         g_t += 1
         g_finals[vertex] = g_t
 
@@ -58,26 +58,48 @@ def invert_digraph(g):
     return copy_gr
 
 
-def main():
-    source_gr = get_fake_graph()
+def graph_rename(G, recoder):
+    gr_copy = {}
+    for k, v in G.items():
+        gr_copy[recoder[k]] = []
+        for elem in v:
+            gr_copy[recoder[k]].append(recoder[elem])
+
+    return gr_copy
+
+
+def scc(G, MAX_KEY_VAL):
+    dfs = dfs_separate_impl
 
     # First pass - Inv. Gr.
-    gr_inv = invert_digraph(source_gr)
-
-    dfs = dfs_expensive_impl
-
-    #
+    gr_inv = invert_digraph(G)
     explored_set = {}
     for k, v in gr_inv.items():
         explored_set[k] = False
 
-    for i in reversed(range(1, 10)):  # TODO: bad. Ключи не обязательно следуют так.
+    for i in reversed(range(1, MAX_KEY_VAL)):  # TODO: bad. Ключи не обязательно следуют так.
         if not explored_set[i]:
             dfs(gr_inv, i, explored_set)
 
-    print g_finals
-
     # Second pass - ?
+    explored_set = {}
+    rename_gr = graph_rename(G, g_finals)
+    for k, v in gr_inv.items():
+        explored_set[k] = False
+
+    tops = []
+    for i in reversed(range(1, MAX_KEY_VAL)):  # TODO: bad. Ключи не обязательно следуют так.
+        if not explored_set[i]:
+            tops.append(i)
+            dfs(rename_gr, i, explored_set)
+
+    return tops
+
+
+def main():
+    source_gr = get_fake_graph()
+    tops = scc(source_gr, 10)
+    print tops
 
 
 if __name__ == '__main__':
