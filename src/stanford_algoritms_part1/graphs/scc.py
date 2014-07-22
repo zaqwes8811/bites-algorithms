@@ -5,20 +5,22 @@ from pprint import pprint
 import search_in_graph
 
 
+g_t = 0
+g_finals = {}
+
+
 def dfs_expensive_impl(G, SV, explored_set):
     """ """
     def __dfs(vertex):
         explored_set[vertex] = True
         ends = G[vertex]
-        is_end_vertex = True
         for w in ends:
             if not explored_set[w]:
-                is_end_vertex = False
                 __dfs(w)
 
-        if is_end_vertex:
-            # Terminal vertex
-            print vertex
+        global g_t, f_t
+        g_t += 1
+        g_finals[vertex] = g_t
 
     assert G
     assert SV
@@ -58,17 +60,24 @@ def invert_digraph(g):
 
 def main():
     source_gr = get_fake_graph()
+
+    # First pass - Inv. Gr.
     gr_inv = invert_digraph(source_gr)
 
     dfs = dfs_expensive_impl
 
     #
     explored_set = {}
-    if not explored_set:
-        for k, v in gr_inv.items():
-            explored_set[k] = False
+    for k, v in gr_inv.items():
+        explored_set[k] = False
 
-    dfs(gr_inv, 9, explored_set)
+    for i in reversed(range(1, 10)):  # TODO: bad. Ключи не обязательно следуют так.
+        if not explored_set[i]:
+            dfs(gr_inv, i, explored_set)
+
+    print g_finals
+
+    # Second pass - ?
 
 
 if __name__ == '__main__':
