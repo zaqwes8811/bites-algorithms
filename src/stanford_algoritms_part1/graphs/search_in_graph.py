@@ -1,14 +1,17 @@
 # coding: utf-8
 
 # Info:
-#  http://eddmann.com/posts/depth-first-search-and-breadth-first-search-in-python/
+# http://eddmann.com/posts/depth-first-search-and-breadth-first-search-in-python/
 #
 # ToThink:
 # http://opendatastructures.org/versions/edition-0.1e/ods-java/12_3_Graph_Traversal.html - зависит от вх. предст.
 
 from pprint import pprint
+import copy
 
 from Queue import Queue  # Thread-safe - overhead
+
+import random
 
 
 def get_fake_graph():
@@ -26,6 +29,7 @@ class Vertex(object):
     About:
 
     TODO: To expensive impl. """
+
     def __init__(self, own, ends):
         self.self = own
         self.ends = ends
@@ -54,6 +58,29 @@ class Vertex(object):
         return store
 
 
+class Stack(object):
+    """
+    Copy and modif.: http://interactivepython.org/runestone/static/pythonds/BasicDS/stacks.html
+    """
+    def __init__(self):
+        self.items = []
+
+    def empty(self):
+        return self.items == []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        return self.items.pop()
+
+    def top(self):
+        return self.items[len(self.items) - 1]
+
+    def size(self):
+        return len(self.items)
+
+
 def dfs_expensive_impl(G, SV):
     """
      Constraint: граф не взвешенный?
@@ -71,26 +98,21 @@ def dfs_expensive_impl(G, SV):
     graph_store = Vertex.recode_graph(G)
     sv = graph_store[SV]
 
-    # Mark
-    sv.explored = True
-    Q = Queue()
-    Q.put(sv)
+    def __dfs(vertex):
+        # TODO: have bugs!!! It's not bug it's other ways
+        # Mark
+        vertex.explored = True
+        print vertex
 
-    assert Q.qsize() == 1
+        copy_ends = copy.copy(vertex.ends)
+        random.shuffle(copy_ends)
 
-    while not Q.empty():
-        size = Q.qsize()
-        v = Q.get()
-        print v.self  # data extracting
-        assert Q.qsize() == size - 1
-        for w in v.ends:
+        ends = copy_ends
+        for w in ends:
             if not w.explored:
-                w.explored = True
-                # mark patch
-                w.distance = v.distance + 1
-                Q.put(w)
+                __dfs(w)
 
-    assert Q.empty()
+    __dfs(sv)
 
 
 def bfs_expensive_impl(g, start):
@@ -132,6 +154,6 @@ def bfs_expensive_impl(g, start):
 
 if __name__ == '__main__':
     graph = get_fake_graph()
-    bfs_expensive_impl(graph, 's')
+    dfs_expensive_impl(graph, 's')
 
 
