@@ -44,6 +44,26 @@ def get_fake_graph():
     return g
 
 
+def get_real_graph():
+    filename = '/home/zaqwes/tmp/SCC.txt'
+    f = open(filename, 'rt')
+    graph = {}
+    a = set()
+    for line in f:
+        pair = line.lstrip().rstrip().split(' ')
+        assert len(pair) == 2
+
+        source = pair[0]
+        destination = pair[1]
+
+        if source not in graph:
+            graph[source] = []
+
+        graph[source].append(destination)
+
+    return graph
+
+
 def invert_digraph(g):
     copy_gr = {}
 
@@ -68,27 +88,34 @@ def graph_rename(G, recoder):
     return gr_copy
 
 
-def scc(G, MAX_KEY_VAL):
+def scc(G):
+    assert G
+    assert dfs_separate_impl
+
     dfs = dfs_separate_impl
 
-    # First pass - Inv. Gr.
+    RANGE = G.keys()
+
+    print "First pass - Inv. Gr."
+    print "Inversion..."
     gr_inv = invert_digraph(G)
+
     explored_set = {}
     for k, v in gr_inv.items():
         explored_set[k] = False
 
-    for i in reversed(range(1, MAX_KEY_VAL)):  # TODO: bad. Ключи не обязательно следуют так.
+    for i in reversed(RANGE):  # TODO: bad. Ключи не обязательно следуют так.
         if not explored_set[i]:
             dfs(gr_inv, i, explored_set)
 
-    # Second pass - ?
+    print "Second pass"
     explored_set = {}
     rename_gr = graph_rename(G, g_finals)
     for k, v in gr_inv.items():
         explored_set[k] = False
 
     tops = []
-    for i in reversed(range(1, MAX_KEY_VAL)):  # TODO: bad. Ключи не обязательно следуют так.
+    for i in reversed(RANGE):  # TODO: bad. Ключи не обязательно следуют так.
         if not explored_set[i]:
             tops.append(i)
             dfs(rename_gr, i, explored_set)
@@ -97,8 +124,11 @@ def scc(G, MAX_KEY_VAL):
 
 
 def main():
+    #get_real_graph()#
     source_gr = get_fake_graph()
-    tops = scc(source_gr, 10)
+    source_gr = get_real_graph()
+    print "Readed. Start calc"
+    tops = scc(source_gr)
     print tops
 
 
