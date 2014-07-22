@@ -9,8 +9,9 @@ g_t = 0
 g_finals = {}
 
 
-def dfs_separate_impl(G, SV, explored_set):
+def dfs_separate_recursion_impl(G, SV, explored_set):
     """ """
+
     def __dfs(vertex):
         explored_set[vertex] = True
         ends = G[vertex]
@@ -48,17 +49,15 @@ def get_real_graph():
     filename = '/home/zaqwes/tmp/SCC.txt'
     f = open(filename, 'rt')
     graph = {}
-    a = set()
-    for line in f:
+    for i in range(1, 875714+1):
+        graph[i] = []
+
+    lines = f.readlines()
+    for line in lines:
         pair = line.lstrip().rstrip().split(' ')
         assert len(pair) == 2
-
         source = int(pair[0])
         destination = int(pair[1])
-
-        if source not in graph:
-            graph[source] = []
-
         graph[source].append(destination)
 
     return graph
@@ -88,22 +87,17 @@ def graph_rename(G, recoder):
     return gr_copy
 
 
-def scc(G):
-    assert G
-    assert dfs_separate_impl
-    for k, v in G.items():  # Нет ли указывающий в пустоту
-        for elem in v:
-            if not elem in G.keys():
-                print elem, v, k
+def scc(source_gr):
+    assert source_gr
+    assert dfs_separate_recursion_impl
 
     # Work
-    dfs = dfs_separate_impl
-    RANGE = G.keys()
-
+    dfs = dfs_separate_recursion_impl
+    RANGE = source_gr.keys()
 
     print "First pass - Inv. Gr."
     print "Inversion..."
-    gr_inv = invert_digraph(G)
+    gr_inv = invert_digraph(source_gr)
 
     explored_set = {}
     for k, v in gr_inv.items():
@@ -115,7 +109,7 @@ def scc(G):
 
     print "Second pass"
     explored_set = {}
-    rename_gr = graph_rename(G, g_finals)
+    rename_gr = graph_rename(source_gr, g_finals)
     for k, v in gr_inv.items():
         explored_set[k] = False
 
@@ -129,9 +123,9 @@ def scc(G):
 
 
 def main():
-    #get_real_graph()#
+    # get_real_graph()#
     source_gr = get_fake_graph()
-    source_gr = get_real_graph()
+    #source_gr = get_real_graph()
     print "Readed. Start calc"
     tops = scc(source_gr)
     print tops
