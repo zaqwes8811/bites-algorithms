@@ -63,7 +63,6 @@ def dfs_iterative_impl(G, SV, explored_set):
         size = S.size()
         v = S.top()
         S.pop()
-        print v
         assert S.size() == size - 1
         for w in G[v]:
             if not explored_set[w]:
@@ -71,6 +70,7 @@ def dfs_iterative_impl(G, SV, explored_set):
                 S.push(w)
 
         # final
+        # TODO: bug is here!
         global g_t, g_finals
         g_t += 1
         g_finals[v] = g_t
