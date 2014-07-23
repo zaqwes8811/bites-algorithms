@@ -9,9 +9,6 @@
 # Solved
 # http://teacode.wordpress.com/2013/07/27/algo-week-4-graph-search-and-kosaraju-ssc-finder/
 
-from pprint import pprint
-
-import search_in_graph
 import sys
 import resource
 
@@ -28,6 +25,9 @@ class TraverseInfo(object):
         self.g_t = 0
         self.g_finals = {}
         self.explored = set()
+
+    def reset(self):
+        raise Exception('Not implemented')
 
 
 def dfs_iterative_impl(G, SV, tr):
@@ -66,18 +66,17 @@ def dfs_separate_recursion_impl(G, SV, tr):
     return tr.g_t - copy_t
 
 
-def scc(source_gr, dfs, t):
+def scc(source_gr, gr_inv, dfs):
     # TODO: сделал что-то лишнее
+    # TODO: должно быть только 2 dfs
+    # TODO: speed up заменить dict на массив в пустым 0 элементом
     assert source_gr
     assert dfs
-    assert not t.explored
-    assert t.g_t == 0
+
+    t = TraverseInfo()
 
     # Work
     const_range = source_gr.keys()
-
-    # inv.
-    gr_inv = util.invert_digraph(source_gr)
 
     # Used DFS
     for vertex in reversed(const_range):
@@ -108,20 +107,17 @@ def scc(source_gr, dfs, t):
 
 
 def main():
-    source_gr = gr_readers.get_fake_graph()
-    source_gr = gr_readers.get_real_graph()
+    source_gr, gr_inv = gr_readers.get_fake_graph()
+    #source_gr, gr_inv = gr_readers.get_real_graph()
 
-    t = TraverseInfo()
-
-    tops = scc(source_gr
+    tops = scc(source_gr, gr_inv
                # , dfs_iterative_impl
                , dfs_separate_recursion_impl
                #, dfs_copy
-               , t
     )
 
     gold = [434821, 968, 459, 313, 211]
-    # gold = [3, 3, 3, 0, 0]
+    gold = [3, 3, 3, 0, 0]
     assert tops[0:5] == gold
 
 
