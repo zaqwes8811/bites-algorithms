@@ -1,3 +1,11 @@
+// Type converting:
+// "if you use Boost.Tokenizer, why not to replace atoi by boost::lexical_cast?"
+//
+// String processing: 
+//   http://www.codeproject.com/Articles/23198/C-String-Toolkit-StrTk-Tokenizer
+//
+// STL alg.L:
+// http://stackoverflow.com/questions/11343116/rotating-a-vector-array
 
 // C
 #include <cassert>
@@ -13,16 +21,61 @@
 
 // http://www.onlamp.com/pub/a/onlamp/2006/04/06/boostregex.html?page=3
 //#include <boost/regex.hpp>  // too hard
-#include "boost/lexical_cast.hpp"  // не то, что нужно
+//#include "boost/lexical_cast.hpp"  // не то, что нужно - это уже для строк со снятым форматированием
+
+#include "shortest_path.h"
 
 using namespace std;
 
-static stringstream ss;  // он тяжелый!!!
+// Named params in ctor:
+// http://marcoarena.wordpress.com/2011/05/27/learn-how-to-support-named-parameters-in-cpp/
+class EdgeMaker;  // TODO: bad but... don't work anyway
+struct Edge {
+  Edge() : weight(), end() {}
+  int weight;
+  int end;  
+  Edge(const EdgeMaker& maker);  // реализацию вынести обязательно!
+};
+
+
+class EdgeMaker {
+public:
+  // выдает предупреждение, если инициализация не в таком порядке как объя. в классе
+  EdgeMaker() : weight_(0), end_(0)  { }  
+  
+  EdgeMaker& end(int end) { end_ = end; return *this;}
+  EdgeMaker& weight(int weight) { weight_ = weight; return *this; }
+  Edge create();
+  
+private:
+  friend class Edge;
+  int weight_;
+  int end_;
+};
+
+Edge::Edge(const EdgeMaker& maker) {
+  // TODO: посмотреть в Саттере где два объект значения
+  // No exception safe - но кажется и нельзя сделат безопасным
+  // Типы базовые, поэтому таки безопасно
+  weight = maker.weight_;
+  end = maker.end_;
+}
+
+Edge EdgeMaker::create() {
+    Edge edge;
+    edge.end = end_;
+    edge.weight = weight_;
+    return edge;    
+  }
+
+
+static stringstream g_ss;  // он тяжелый!!! но как его сбросить?
 
 // TODO: Возвращаемое значение не всегда копируется?
-vector<int> process_data_line(const string& line) {
+vector<int> process_data_line(const string& line, stringstream& ss) 
+{
   // 0\t8,89\t...  source sink, weight ... -> 0,8,89 - 
-  vector<int> result;
+  vector<int> result;  // TODO: to deque
   result.reserve(100);  // защита от лишний аллокаций 
   const char kSplitter = ',';
   
@@ -34,41 +87,93 @@ vector<int> process_data_line(const string& line) {
   
   // http://stackoverflow.com/questions/2896600/how-to-replace-all-occurrences-of-a-character-in-string
   // возможно можно исключить
-  replace(line_copy.begin(), line_copy.end(), '\t', kSplitter);  // заменяем символы, а не строки
-  
-  cout << line_copy << endl;
+  //replace(line_copy.begin(), line_copy.end(), '\t', kSplitter);  // заменяем символы, а не строки
+
   // можно разбивать на части
   // stringstream - http://habrahabr.ru/post/131977/
   // http://stackoverflow.com/questions/1894886/parsing-a-comma-delimited-stdstring 
   // Try reload
   ss.str(line_copy); 
-  ss.seekp(0);
+  ss.clear();
 
   for (int i = 0; ss >> i; ) {
       result.push_back(i);
-      if (ss.peek() == kSplitter)
+      if (ss.peek() == kSplitter || ss.peek() == '\t')
 	  ss.ignore();
   }
   
   // postcondition
   if (result.size() % 2 == 0)
-    throw invalid_argument("Error: brocked file format.");
+    throw invalid_argument("Error: String format is broken.");
   
-  return result;  // сразу не поставил а gcc не отловил - в итоге дамп памяти
+  //out.swap(result);  
+  return result; // сразу не поставил а gcc не отловил - в итоге дамп памяти
 }
 
-int main() {
-  string test_line("0\t8,89\t9,90\t\n");
-  
+typedef vector<vector<Edge> > RawGraph;
+
+int main() 
+{
   try {
-    for (int i = 1; i < 4; ++i) {
-      vector<int> processed = process_data_line(test_line);
-      assert(processed.size() == 5);
+    fstream stream("../input_data/dijkstraData.txt");
+    if (!stream)
+      throw runtime_error("Error: can't open file");
+    
+    vector<string> records;
+    records.reserve(210);
+    string line;  // и не видна, и не в цикле
+    while (true) {
+      //string line;  // если важна производительность, то лучше вынести
+      // можно и в буффер читать, но так показалось что проще заверить чтение
+      if (!std::getline(stream, line))  
+	break;
+      records.push_back(line);
     }
-  
+    
+    { 
+      RawGraph gr(records.size());  // TODO: +1?
+      //sgr.reserve(records.size());
+      
+      
+      // TODO: replace to for_each
+      for (vector<string>::const_iterator at = records.begin(), end = records.end();
+	   at != end; ++at) 
+	{
+	// Самый быстрый вариант! Не в цикле есть IO-операции - так что измерения не очень честные.
+	// Если вне цикла, то долго. И если передавать в функцию, то тоже долго, но чуть меньше.
+	// Нет, кажется не принципиально
+	vector<int> raw_code = process_data_line(*at, g_ss);
+	assert(raw_code.size() > 1);
+	
+	//int root = raw_code[0];
+      
+	// Scatter
+	vector<Edge> edges;
+	edges.reserve(100);
+	
+	const size_t kSize = raw_code.size();
+	for (size_t i = 1; i < kSize; ++i) {
+	  if (0 == (i + 1) % 2) {
+	    // Node index
+	    Edge edge = EdgeMaker().end(raw_code[i]).weight(raw_code[i+1]);
+	    edges.push_back(edge);
+	  }
+	}
+	assert(edges.size() == (kSize -1 ) / 2);
+	
+	// Connect to graph
+      }
+    }  
   } catch (const exception& e) {
     cout << e.what() << endl;
-    //throw;    
+    //throw;   // don't need it 
   }  
   return 0;
 }
+
+/*
+ // Is correct
+    string test_line("0\t8,89\t9,90\t\n");
+    vector<int> raw_code = process_data_line(test_line, g_ss);
+    assert(raw_code.size() == 5);
+ */
