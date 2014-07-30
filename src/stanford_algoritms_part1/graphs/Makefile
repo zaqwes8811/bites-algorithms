@@ -9,5 +9,8 @@ all:
 	$(CC) -c $(APP).cc $(CCFLAGS)
 	$(CC) -o $(APP).app $(APP).o 
 	
+run:
+	./$(APP).app
+	
 clean:
 	rm *.o *.app
