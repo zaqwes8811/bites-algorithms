@@ -42,7 +42,7 @@ vector<int> process_data_line(const string& line) {
   // http://stackoverflow.com/questions/1894886/parsing-a-comma-delimited-stdstring 
   // Try reload
   ss.str(line_copy); 
-  ss.seekg(0,ss.beg);
+  ss.seekp(0);
 
   for (int i = 0; ss >> i; ) {
       result.push_back(i);

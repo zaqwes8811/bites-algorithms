@@ -40,6 +40,7 @@ vector<int> process_data_line(const string& line) {
   // можно разбивать на части
   // stringstream - http://habrahabr.ru/post/131977/
   // http://stackoverflow.com/questions/1894886/parsing-a-comma-delimited-stdstring 
+  // Try reload
   ss.str(line_copy); 
   ss.seekg(0,ss.beg);
 
