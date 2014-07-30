@@ -4,27 +4,46 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
-
-using namespace std;
+#include <fstream>
+#include <algorithm>
+#include <sstream>
 
 // http://www.onlamp.com/pub/a/onlamp/2006/04/06/boostregex.html?page=3
 //#include <boost/regex.hpp>  // too hard
+#include "/home/zaqwes/work/third_party/boost_1_55_0/boost/lexical_cast.hpp"
 
-vector<int> process_data_line(string line) {
+using namespace std;
+
+
+// TODO: Возвращаемое значение не всегда копируется?
+vector<int> process_data_line(const string& line) {
   // 0\t8,89\t...  source sink, weight ... -> 0,8,89 - 
   vector<int> result;
-  result.reserve(100);  // защита от лишний аллокаций  
+  result.reserve(100);  // защита от лишний аллокаций 
   
+  string line_copy = line;  // TODO: slow
+  
+  // trim
+  // http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+  line_copy.erase(line_copy.find_last_not_of(" \n\r\t")+1);
+  
+  // http://stackoverflow.com/questions/2896600/how-to-replace-all-occurrences-of-a-character-in-string
+  replace(line_copy.begin(), line_copy.end(), '\t', ',');  // заменяем символы, а не строки
+  
+  cout << line_copy << endl;
+  // можно разбивать на части
+  // stringstream - http://habrahabr.ru/post/131977/
+  // http://stackoverflow.com/questions/1894886/parsing-a-comma-delimited-stdstring
   
   // postcondition
   if (result.size() % 2 != 0)
     throw invalid_argument(line);
   
-  return result;
+  return result;  // сразу не поставил а gcc не отловил - в итоге дамп памяти
 }
 
 int main() {
-  string test_line("0\t8,89\t9,90");
+  string test_line("0\t8,89\t9,90\t\n");
   vector<int> processed = process_data_line(test_line);
   
   
