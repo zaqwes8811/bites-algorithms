@@ -23,9 +23,12 @@
 //#include <boost/regex.hpp>  // too hard
 //#include "boost/lexical_cast.hpp"  // не то, что нужно - это уже для строк со снятым форматированием
 
+#include <tbb/tbb.h>
+
 #include "shortest_path.h"
 
 using namespace std;
+using namespace tbb;
 
 // Named params in ctor:
 // http://marcoarena.wordpress.com/2011/05/27/learn-how-to-support-named-parameters-in-cpp/
@@ -45,7 +48,7 @@ public:
   
   EdgeMaker& end(int end) { end_ = end; return *this;}
   EdgeMaker& weight(int weight) { weight_ = weight; return *this; }
-  Edge create();
+  Edge create();  // лучше, т.к. не нужно лезть в класс, который создается, но запись длиннее
   
 private:
   friend class Edge;
@@ -69,8 +72,12 @@ Edge EdgeMaker::create() {
   }
 
 
-static stringstream g_ss;  // он тяжелый!!! но как его сбросить?
-
+/*
+ // Is correct
+    string test_line("0\t8,89\t9,90\t\n");
+    vector<int> raw_code = process_data_line(test_line, g_ss);
+    assert(raw_code.size() == 5);
+ */
 // TODO: Возвращаемое значение не всегда копируется?
 vector<int> process_data_line(const string& line, stringstream& ss) 
 {
@@ -112,40 +119,75 @@ vector<int> process_data_line(const string& line, stringstream& ss)
 
 typedef vector<vector<Edge> > RawGraph;
 
-int main() 
+class RawYieldFunctor {
+public:
+  RawYieldFunctor() {}
+  
+  vector<int> operator()(const string& arg) {
+    // Передать по ссылке или вернуть значение?
+    // Самый быстрый вариант! Нет в цикле есть IO-операции - так что измерения не очень честные.
+    // Если вне цикла, то долго. И если передавать в функцию, то тоже долго, но чуть меньше.
+    // Нет, кажется не принципиально
+    stringstream g_ss;  // он тяжелый!!! но как его сбросить?
+    vector<int> raw_code = process_data_line(arg, g_ss);
+    assert(raw_code.size() > 1);
+    return raw_code;
+  }
+  
+private:
+  // не копируемый!
+  //stringstream g_ss;  // он тяжелый!!! но как его сбросить?
+};
+
+vector<string> extract_records(const string& filename) 
 {
-  try {
-    fstream stream("../input_data/dijkstraData.txt");
-    if (!stream)
-      throw runtime_error("Error: can't open file");
-    
-    vector<string> records;
-    records.reserve(210);
+  fstream stream(filename.c_str());
+  if (!stream)
+    throw runtime_error("Error: can't open file");
+
+  vector<string> records;
+  // IO operations
+  { 
+    records.reserve(200);
     string line;  // и не видна, и не в цикле
     while (true) {
-      //string line;  // если важна производительность, то лучше вынести
-      // можно и в буффер читать, но так показалось что проще заверить чтение
+      // можно и в буффер читать, но так показалось что проще завершить чтение
       if (!std::getline(stream, line))  
 	break;
       records.push_back(line);
     }
+  }
+  return records;  
+}
+
+int main() 
+{
+  try {
+    vector<string> records = extract_records("../input_data/dijkstraData.txt");
     
+    {
+      task_scheduler_init init(task_scheduler_init::automatic); 
+    }
+    for (int i = 0; i < 100; ++i)
     { 
-      RawGraph gr(records.size());  // TODO: +1?
-      //sgr.reserve(records.size());
-      
-      
-      // TODO: replace to for_each
-      for (vector<string>::const_iterator at = records.begin(), end = records.end();
-	   at != end; ++at) 
-	{
-	// Самый быстрый вариант! Не в цикле есть IO-операции - так что измерения не очень честные.
-	// Если вне цикла, то долго. И если передавать в функцию, то тоже долго, но чуть меньше.
-	// Нет, кажется не принципиально
-	vector<int> raw_code = process_data_line(*at, g_ss);
-	assert(raw_code.size() > 1);
-	
-	//int root = raw_code[0];
+      vector<vector<int> > raw_records(records.size());  // нужно реально выделить, резервирование не подходит
+      transform(records.begin(), records.end(),
+		raw_records.begin(),
+		RawYieldFunctor());
+     
+
+    }  
+    
+  } catch (const exception& e) {
+    cout << e.what() << endl;
+    //throw;   // don't need it 
+  }  
+  return 0;
+}
+
+      /*
+       * //RawGraph gr(records.size());  // TODO: +1?
+       //int root = raw_code[0];
       
 	// Scatter
 	vector<Edge> edges;
@@ -162,18 +204,5 @@ int main()
 	assert(edges.size() == (kSize -1 ) / 2);
 	
 	// Connect to graph
-      }
-    }  
-  } catch (const exception& e) {
-    cout << e.what() << endl;
-    //throw;   // don't need it 
-  }  
-  return 0;
-}
+       */
 
-/*
- // Is correct
-    string test_line("0\t8,89\t9,90\t\n");
-    vector<int> raw_code = process_data_line(test_line, g_ss);
-    assert(raw_code.size() == 5);
- */

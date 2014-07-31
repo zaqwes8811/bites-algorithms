@@ -7,7 +7,7 @@ CCFLAGS=-I$(BOOST) -O2
 
 all:
 	$(CC) -Wall -c -pg $(APP).cc $(CCFLAGS)
-	$(CC) -o $(APP).app $(APP).o -pg
+	$(CC) -o $(APP).app $(APP).o -pg -ltbb
 	
 run:
 	./$(APP).app
