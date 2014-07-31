@@ -13,4 +13,17 @@ public:
   
 };*/
 
+
+// Failed
+/*
+template <typename T>
+void print(const T& val) {
+  cout << val << endl;
+}
+
+//template <typename T>
+void print_vec(const vector<int>& val) {
+  for_each(val.begin(), val.end(), print);  
+}*/
+
 #endif
