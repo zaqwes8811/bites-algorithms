@@ -18,6 +18,7 @@
 #include <fstream>
 #include <algorithm>
 #include <sstream>
+#include <set>
 
 // http://www.onlamp.com/pub/a/onlamp/2006/04/06/boostregex.html?page=3
 //#include <boost/regex.hpp>  // too hard
@@ -142,11 +143,11 @@ private:
 };
 
 class ApplyFoo{  
-  string* array; // map only!!
-  vector<int>* out;
-  RawYieldFunctor op;
+  const string* const array; // map only!!
+  vector<int>* const out;
+  const RawYieldFunctor op;
 public:  
-  ApplyFoo (string* a, vector<int>* out_a): array(a), out(out_a) {}  
+  ApplyFoo (const string* a, vector<int>* out_a): array(a), out(out_a) {}  
   void operator()( const blocked_range<int>& r ) const {  
       for (int i = r.begin(), end = r.end(); i != end; ++i ) {  
 	out[i] = op(array[i]);  
@@ -175,46 +176,68 @@ vector<string> extract_records(const string& filename)
   return records;  
 }
 
+vector<vector<int> > process_parallel(const vector<string>& records) {
+  // нужно реально выделить, резервирование не подходит
+  vector<vector<int> > raw_records(records.size());  
+
+
+  // No speed up
+  // Linux CPU statistic.
+  // http://superuser.com/questions/443406/how-can-i-produce-high-cpu-load-on-a-linux-server
+  //
+  //
+  // https://software.intel.com/sites/products/documentation/doclib/tbb_sa/help/reference/task_scheduler/task_scheduler_init_cls.htm#task_scheduler_init_cls
+  task_scheduler_init init(task_scheduler_init::automatic); 
+  // Trouble: "видимо у вас проблема в том, что вы ставите 486-е ядро, а оно видит только одно ядро процессора. ставьте 686-е"
+  //   uname -r  # посмотреть что за ядро
+  //
+  //for (int i = 0; i < 2000; ++i)
+  {
+    //size_t G = simple_partitioner();//4;
+    parallel_for(
+      blocked_range<int>(0,records.size()), 
+      ApplyFoo(&records[0], &raw_records[0]),
+      simple_partitioner());
+  }
+  return raw_records;
+}
+
+vector<vector<int> > process_serial(const vector<string>& records) {
+  vector<vector<int> > tmp(records.size());
+  if (true) {
+    //for (int i = 0; i < 2000; ++i)
+    { 
+      transform(records.begin(), records.end(),
+	    tmp.begin(),
+	    RawYieldFunctor());
+    } 
+  }
+  return tmp;
+}
+
 int main() 
 {
   try {
     vector<string> records = extract_records("../input_data/dijkstraData.txt");
+    vector<vector<int> > raw_records = process_parallel(records);
+    vector<vector<int> > tmp = process_serial(records);
     
-    vector<vector<int> > raw_records(records.size());  // нужно реально выделить, резервирование не подходит
-    
-    
-    // No speed up
-    int count_iter = 4000;
-    if (true)
-    {
-      // Linux CPU statistic.
-      // http://superuser.com/questions/443406/how-can-i-produce-high-cpu-load-on-a-linux-server
-      task_scheduler_init init(task_scheduler_init::automatic); 
-      // Trouble: "видимо у вас проблема в том, что вы ставите 486-е ядро, а оно видит только одно ядро процессора. ставьте 686-е"
-      //   uname -r  # посмотреть что за ядро
-      //
-      //for (int i = 0; i < count_iter; ++i)
-      {
-	//size_t G = simple_partitioner();//4;
-	parallel_for(
-	  blocked_range<int>(0,records.size()), 
-	  ApplyFoo(&records[0], &raw_records[0]),
-	  simple_partitioner());
-      }
-    }
-    
-    
-    vector<vector<int> > tmp(records.size());
-    if (true) {
-      for (int i = 0; i < count_iter; ++i)
-      { 
-	transform(records.begin(), records.end(),
-	      tmp.begin(),
-	      RawYieldFunctor());
-      } 
-    }
-      
+    // CHECK_POINT: Version alg.
     assert(equal(tmp.begin(), tmp.end(), raw_records.begin()));
+  
+    // CHECK_POINT
+    // http://stackoverflow.com/questions/7627098/what-is-a-lambda-expression-in-c11
+    // Все номера исходящих узвлов уникальны
+    set<int> probe;
+    for_each(begin(tmp), end(tmp), [&probe] (const vector<int>& val){ probe.insert(val[0]); });
+    assert(probe.size() == tmp.size());
+ 
+    // Построение графа
+    
+    // Проверка графа
+    
+    // Main()
+    
    
   } catch (const exception& e) {
     cout << e.what() << endl;
