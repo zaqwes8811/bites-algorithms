@@ -67,12 +67,14 @@ Edge::Edge(const EdgeMaker& maker) {
 }
 
 Edge EdgeMaker::create() {
-    Edge edge;
-    edge.end = end_;
-    edge.weight = weight_;
-    return edge;    
-  }
+  Edge edge;
+  edge.end = end_;
+  edge.weight = weight_;
+  return edge;    
+}
 
+typedef vector<vector<Edge> > RawGraph;
+typedef vector<pair<int, int> > Arrows; 
 
 /*
  // Is correct
@@ -81,11 +83,9 @@ Edge EdgeMaker::create() {
     assert(raw_code.size() == 5);
  */
 // TODO: Возвращаемое значение не всегда копируется?
-vector<int> process_data_line(const string& line, stringstream& ss) 
+pair<int, Arrows> process_data_line(const string& line, stringstream& ss) 
 {
   // 0\t8,89\t...  source sink, weight ... -> 0,8,89 - 
-  vector<int> result;  // TODO: to deque
-  result.reserve(100);  // защита от лишний аллокаций 
   const char kSplitter = ',';
   
   string line_copy = line;  // TODO: slow
@@ -104,36 +104,52 @@ vector<int> process_data_line(const string& line, stringstream& ss)
   // Try reload
   ss.str(line_copy); 
   ss.clear();
+  
+  // main node
+  int root = 0;
+  //ss >> root;
 
-  for (int i = 0; ss >> i; ) {
-      result.push_back(i);
-      if (ss.peek() == kSplitter || ss.peek() == '\t')
+  Arrows result;  // TODO: to deque
+  result.reserve(100);  // защита от лишний аллокаций 
+  while (true) {
+    int i = 0, j = 0;
+    if (!ss >> i)
+      break;
+    
+    if (!ss >> j)
+      throw invalid_argument("Error: String format is broken.");
+    
+    
+    cout << i << j << root << endl;
+    result.push_back(make_pair(i, j));
+    
+    // Next
+    if (ss.peek() == kSplitter || ss.peek() == '\t')
       ss.ignore();
   }
   
   // postcondition
-  if (result.size() % 2 == 0)
-    throw invalid_argument("Error: String format is broken.");
+  //if (result.size() % 2 == 0)
+  //  throw invalid_argument("Error: String format is broken.");
   
   //out.swap(result);  
-  return result; // сразу не поставил а gcc не отловил - в итоге дамп памяти
+  return make_pair(root, result); // сразу не поставил а gcc не отловил - в итоге дамп памяти
 }
 
-typedef vector<vector<Edge> > RawGraph;
 
 class RawYieldFunctor {
 public:
   RawYieldFunctor() {}
   
   //@Stateless
-  vector<int> operator()(const string& arg) const {
+  pair<int, Arrows> operator()(const string& arg) const {
     // Передать по ссылке или вернуть значение?
     // Самый быстрый вариант! Нет в цикле есть IO-операции - так что измерения не очень честные.
     // Если вне цикла, то долго. И если передавать в функцию, то тоже долго, но чуть меньше.
     // Нет, кажется не принципиально
     stringstream ss;  // он тяжелый!!! но как его сбросить?
-    vector<int> raw_code = process_data_line(arg, ss);
-    assert(raw_code.size() > 1);
+    pair<int, Arrows> raw_code = process_data_line(arg, ss);
+    //assert(raw_code.size() > 1);
     return raw_code;
   }
   
@@ -144,10 +160,10 @@ private:
 
 class ApplyFoo{  
   const string* const array; // map only!!
-  vector<int>* const out;
+  pair<int, Arrows>* const out;
   const RawYieldFunctor op;
 public:  
-  ApplyFoo (const string* a, vector<int>* out_a): array(a), out(out_a) {}  
+  ApplyFoo (const string* a, pair<int, Arrows>* out_a): array(a), out(out_a) {}  
   void operator()( const blocked_range<int>& r ) const {  
       for (int i = r.begin(), end = r.end(); i != end; ++i ) {  
 	out[i] = op(array[i]);  
@@ -176,10 +192,9 @@ vector<string> extract_records(const string& filename)
   return records;  
 }
 
-vector<vector<int> > process_parallel(const vector<string>& records) {
+vector<pair<int, Arrows> > process_parallel(const vector<string>& records) {
   // нужно реально выделить, резервирование не подходит
-  vector<vector<int> > raw_records(records.size());  
-
+  vector<pair<int, Arrows> > raw_records(records.size());  
 
   // No speed up
   // Linux CPU statistic.
@@ -202,8 +217,8 @@ vector<vector<int> > process_parallel(const vector<string>& records) {
   return raw_records;
 }
 
-vector<vector<int> > process_serial(const vector<string>& records) {
-  vector<vector<int> > tmp(records.size());
+vector<pair<int, Arrows> > process_serial(const vector<string>& records) {
+  vector<pair<int, Arrows> > tmp(records.size());
   if (true) {
     //for (int i = 0; i < 2000; ++i)
     { 
@@ -219,18 +234,18 @@ int main()
 {
   try {
     vector<string> records = extract_records("../input_data/dijkstraData.txt");
-    vector<vector<int> > raw_records = process_parallel(records);
-    vector<vector<int> > tmp = process_serial(records);
+    vector<pair<int, Arrows> > raw_records = process_parallel(records);
+    //vector<pair<int, Arrows> > tmp = process_serial(records);
     
     // CHECK_POINT: Version alg.
-    assert(equal(tmp.begin(), tmp.end(), raw_records.begin()));
+    //assert(equal(tmp.begin(), tmp.end(), raw_records.begin()));
   
     // CHECK_POINT
     // http://stackoverflow.com/questions/7627098/what-is-a-lambda-expression-in-c11
     // Все номера исходящих узвлов уникальны
-    set<int> probe;
-    for_each(begin(tmp), end(tmp), [&probe] (const vector<int>& val){ probe.insert(val[0]); });
-    assert(probe.size() == tmp.size());
+    //set<int> active_nodes;
+    //for_each(begin(tmp), end(tmp), [&active_nodes] (const vector<int>& val){ active_nodes.insert(val[0]); });
+    //assert(active_nodes.size() == tmp.size());
  
     // Построение графа
     
