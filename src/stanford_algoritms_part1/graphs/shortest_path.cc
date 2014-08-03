@@ -64,7 +64,7 @@ Edge EdgeMaker::create() {
 typedef vector<vector<Edge> > RawGraph;
 
 namespace graph_persistency {
-typedef vector<Edge> Arrows;
+typedef vector<Edge> Arrows;  // заменить на СОСЕДЕЙ
 typedef pair<int, Arrows> ArrowsData; 
 
 /*
@@ -262,6 +262,10 @@ int main()
     
     /// Main()
     // DbC release to
+    
+    /// With heap
+    // https://sites.google.com/site/indy256/algo_cpp/dijkstra_heap
+    // http://stackoverflow.com/questions/23592252/implementing-dijkstras-shortest-path-algorithm-using-c-and-stl
   } catch (const exception& e) {
     cout << e.what() << endl;
     //throw;   // don't need it 

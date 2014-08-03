@@ -19,6 +19,7 @@
 // Summary:
 // - используют как базовый
 // - можно как-то работать не только с классами, но и со структурами - см. OpenCV
+// OpenCV: //! Smart pointer for OpenGL 2D texture memory with reference counting. - 
 
 // C
 #include <cassert>
@@ -63,7 +64,7 @@ Edge EdgeMaker::create() {
 typedef vector<vector<Edge> > RawGraph;
 
 namespace graph_persistency {
-typedef vector<Edge> Arrows;
+typedef vector<Edge> Arrows;  // заменить на СОСЕДЕЙ
 typedef pair<int, Arrows> ArrowsData; 
 
 /*
@@ -261,6 +262,7 @@ int main()
     
     /// Main()
     // DbC release to
+    // https://sites.google.com/site/indy256/algo_cpp/dijkstra_heap
   } catch (const exception& e) {
     cout << e.what() << endl;
     //throw;   // don't need it 
