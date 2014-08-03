@@ -8,11 +8,18 @@
 // http://stackoverflow.com/questions/11343116/rotating-a-vector-array
 //
 // TODO:
-// shared_ptr< const V > - нужно для пероизовдительности при работе алгоритмов
+// shared_ptr< const V > - нужно для пероизовдительности при работе алгоритмов - но это обращение к куче!
 // Own ref. counting - 
+//
 // OpenCV - ass Wrapper, ReferenceHandler, refcount in core_c.h, refcount->, int* refcount;, int refcount
-//   struct PtrOwner - ptr.inl.hpp
+//   struct PtrOwner - ptr.inl.hpp, struct ImplMutex::Impl
 //   Mat-objects - ?
+// Hypertable: ReferenceCount, intrusive_ptr
+//
+// Summary:
+// - используют как базовый
+// - можно как-то работать не только с классами, но и со структурами - см. OpenCV
+// OpenCV: //! Smart pointer for OpenGL 2D texture memory with reference counting. - 
 
 // C
 #include <cassert>
