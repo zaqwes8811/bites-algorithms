@@ -28,7 +28,7 @@ public:
   void increase_decrease_key(const T& key);
 }
 
-// Похоже для алгоритма Дектсры лучше bst
+// Похоже для алгоритма Дектсры лучше bst 
 
 int main() {
   int array[] = {10,20,30,5,15};
