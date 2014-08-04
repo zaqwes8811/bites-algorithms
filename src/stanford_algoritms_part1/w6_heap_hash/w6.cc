@@ -1,4 +1,6 @@
 
+#include <cassert>
+
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -26,9 +28,36 @@ public:
   // http://stackoverflow.com/questions/649640/how-to-do-an-efficient-priority-update-in-stl-priority-queue
   // http://stackoverflow.com/questions/14016189/does-changing-a-priority-queue-element-result-in-resorting-the-queue
   void increase_decrease_key(const T& key);
-}
+};
 
 // Похоже для алгоритма Дектсры лучше bst 
+
+bool _2sum_naive(const vector<int>& in, const int target_sum)
+{
+  bool finded = false;
+  for (vector<int>::const_iterator at = in.begin(), end = in.end();
+       at != end; ++at) {
+    int elem = *at;
+    auto op = [target_sum, elem] (const int val) -> bool { return val + elem == target_sum; };
+  
+    // похоже композицию не сделать 
+    // bind2nd(bind2nd(plus<int>(), 5) )
+    // нужно pred = ((X+val) == target) - не понятно как сделать композицию
+    vector<int>::const_iterator finded_it = 
+      find_if(
+	in.begin(), in.end(), op);
+    
+    if (finded_it != in.end()) {
+      finded = true;
+      break;
+    }
+  }
+  return finded;
+}
+
+bool IsOdd (int i) {
+  return ((i%2)==1);
+}
 
 int main() {
   int array[] = {10,20,30,5,15};
@@ -51,6 +80,10 @@ int main() {
   
   /// Q1
   // TODO: сделать все три варианта
+  vector<int> in(array, array+5);
+  int target_sum = 15;
+  bool finded = _2sum_naive(in, target_sum);
+  assert(finded == true);
   
   
   /// Q2
