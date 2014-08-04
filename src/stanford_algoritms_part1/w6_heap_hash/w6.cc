@@ -32,20 +32,24 @@ public:
 
 // Похоже для алгоритма Дектсры лучше bst 
 
+template <class OP1, class OP2>
+class compose_f_gx_t 
+  : public std::unary_function<typename OP1::argument_type, typename OP2::result_type>
+{
+  OP1 op1;
+  OP2 op2;
+public:
+  
+}
+
 bool _2sum_naive(const vector<int>& in, const int target_sum)
 {
   bool finded = false;
-  for (vector<int>::const_iterator at = in.begin(), end = in.end();
-       at != end; ++at) {
-    int elem = *at;
-    auto op = [target_sum, elem] (const int val) -> bool { return val + elem == target_sum; };
-  
-    // похоже композицию не сделать 
-    // bind2nd(bind2nd(plus<int>(), 5) )
-    // нужно pred = ((X+val) == target) - не понятно как сделать композицию
+  for (vector<int>::const_iterator at = in.begin(), end = in.end(); at != end; ++at) {
     vector<int>::const_iterator finded_it = 
       find_if(
-	in.begin(), in.end(), op);
+	in.begin(), in.end(), 
+	compose_f_gx(bind2nd(equal_to<int>(), target_sum), bind2nd(plus<int>(), *at)));
     
     if (finded_it != in.end()) {
       finded = true;
@@ -53,10 +57,6 @@ bool _2sum_naive(const vector<int>& in, const int target_sum)
     }
   }
   return finded;
-}
-
-bool IsOdd (int i) {
-  return ((i%2)==1);
 }
 
 int main() {
