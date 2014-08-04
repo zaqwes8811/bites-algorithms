@@ -13,6 +13,7 @@
 
 // 3rdpary
 #include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
 
 using namespace std;
 
@@ -107,6 +108,33 @@ vector<int> extract_records(const string& filename)
   return records;  
 }
 
+int q1(const vector<int>& in) {
+  // http://publib.boulder.ibm.com/infocenter/comphelp/v9v111/index.jsp?topic=/com.ibm.xlcpp9.aix.doc/standlib/stl_unordered_set.htm
+  boost::unordered_set<int> htbl;
+
+  // de-duplication
+  BOOST_FOREACH(int val, in) {
+    if (htbl.end() == htbl.find(val))
+      htbl.insert(val); 
+  };
+  assert(htbl.size() < in.size());
+  assert(!htbl.empty());
+
+  int count_unique = 0;
+  for (int t = 2500; t < 4000+1; ++t) {
+    BOOST_FOREACH(int x, htbl) {
+      int y = t - x;
+      if (htbl.find(y) != htbl.end()) {
+	if (x != y) {
+	  count_unique++;
+	  break;
+	}
+      }
+    }
+  }
+  return count_unique;
+}
+
 int main() {
   int array[] = {10,20,30,5,15};
 
@@ -116,37 +144,13 @@ int main() {
   //assert(finded > 0);
   // TODO: сделать все три варианта
   const vector<int> in 
-    = extract_records("../input_data/HashInt.txt");
+    //= extract_records("../input_data/HashInt.txt");
+    = extract_records("../input_data/Median.txt");
     //(array, array+5);
-    
-  // http://publib.boulder.ibm.com/infocenter/comphelp/v9v111/index.jsp?topic=/com.ibm.xlcpp9.aix.doc/standlib/stl_unordered_set.htm
-  boost::unordered_set<int> htbl;
-  set<int> temp(in.begin(), in.end());
-
-  // de-duplication
-  auto action = [&htbl](const int& val) { 
-    if (htbl.end() == htbl.find(val))
-      htbl.insert(val); 
-  };
-  for_each(begin(in), end(in), action);
-  assert(htbl.size() < in.size());
-  assert(!htbl.empty());
-  assert(htbl.size() == temp.size());
-    
-  cout << "Calc..\n";
-  int count_unique = 0;
-  for (int target = 2500; target < 4000+1; ++target) {
-    auto op = [&] (const int x) {
-      // поиск комплиментарного элемента
-      int elem = target - x;
-      if ((htbl.find(elem) != htbl.end()) && (htbl.find(x) != htbl.end())) {
-	count_unique++;
-      }
-    };
-    for_each(htbl.begin(), htbl.end(), op);
-  }
-  cout << count_unique << endl;
-  assert(count_unique > 0 && count_unique < 1501);
+  //int count_unique = q1(in);  
+  //assert(count_unique > 0 && count_unique < 1501);
+  //assert(count_unique == 1477);
+  
   
   
   /// Q2
