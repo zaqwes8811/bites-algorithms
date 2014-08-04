@@ -104,7 +104,11 @@ vector<int> extract_records(const string& filename)
 	break;
       
       try {
-	records.push_back(boost::lexical_cast<int>(line));
+	int i = 0;
+	stringstream ss(line);
+	//i = boost::lexical_cast<int>(line);
+	ss >> i;
+	records.push_back(i);
       } catch (const boost::bad_lexical_cast& e) {
 	throw;
       }
@@ -155,16 +159,16 @@ int main() {
   //int count_unique = q1(in);  
   //assert(count_unique > 0 && count_unique < 1501);
   //assert(count_unique == 1477);
+  assert(!in.empty());
 
   /// Q2
+  // TODO: heap and bfs based impl.
   vector<int> in_stream = in;
   vector<int> cursor;
+  long mean = 0;
   cursor.reserve(in.size());
   BOOST_FOREACH(int elem, in_stream) {
-    cursor.push_back(elem);
-    //sort(cursor.begin(), cursor.end(), less<int>());
-    // Inv: array is sorted.
-    
+    cursor.push_back(elem);   
     int size = cursor.size();
     int nth = 0;
     if (size % 2 == 1) {
@@ -175,8 +179,11 @@ int main() {
     
     // Возможно частичная сортировка
     assert(cursor.begin()+nth != cursor.end());
-    nth_element (cursor.begin(), cursor.begin()+nth, cursor.end());
+    nth_element(cursor.begin(), cursor.begin()+nth, cursor.end());
+    mean += cursor[nth];
   }
+  cout << mean % 10000 << endl;
+  
   /*
   // похоже можно пользоваться реализацией кучи из std::
   vector<int> v(array, array+5);
