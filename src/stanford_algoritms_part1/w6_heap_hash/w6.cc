@@ -3,7 +3,11 @@
 
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <algorithm>
+#include <stdexcept>
+
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 
@@ -55,25 +59,63 @@ compose_f_gx(const OP1& o1, const OP2& o2) {
 
 }
 
-bool _2sum_naive(const vector<int>& in, const int target_sum)
+// Precond.:
+//  Keys is uniq.
+//
+int _2sum_naive(const vector<int>& in, const int target_sum)
 {
-  bool finded = false;
+  int count_unique = 0;
   for (vector<int>::const_iterator at = in.begin(), end = in.end(); at != end; ++at) {
-    const auto finded_it = 
-      find_if(
-	in.begin(), in.end(), 
+    
+    // С границами что-то не то
+    // Ищет только первый, как и нужно
+    const auto finded_it = find_if(
+	at, // begin  TODO: may be bug
+	//in.begin()
+	in.end(), 
 	fp::compose_f_gx(bind2nd(equal_to<int>(), target_sum), bind2nd(plus<int>(), *at)));
     
-    if (finded_it != in.end()) {
-      finded = true;
-      break;
+    if (finded_it != in.end())
+      count_unique++;
+  }
+  return count_unique;
+}
+
+vector<int> extract_records(const string& filename) 
+{
+  fstream stream(filename.c_str());
+  if (!stream)
+    throw runtime_error("Error: can't open file");
+
+  vector<int> records;
+  // IO operations
+  { 
+    records.reserve(500000);
+    string line;  // и не видна, и не в цикле
+    while (true) {
+      // можно и в буффер читать, но так показалось что проще завершить чтение
+      if (!std::getline(stream, line))  
+	break;
+      records.push_back(boost::lexical_cast<int>(line));
     }
   }
-  return finded;
+  return records;  
 }
 
 int main() {
   int array[] = {10,20,30,5,15};
+
+  /// Q1
+  // TODO: сделать все три варианта
+  vector<int> in(array, array+5);
+  int target_sum = 15;
+  int finded = _2sum_naive(in, target_sum);
+  assert(finded > 0);
+  
+  
+  /// Q2
+  /*
+  // похоже можно пользоваться реализацией кучи из std::
   vector<int> v(array, array+5);
   
   for_each(begin(v), end(v), [] (const int& elem) { cout << elem << " "; });
@@ -90,16 +132,6 @@ int main() {
   // http://stackoverflow.com/questions/14016921/comparator-for-min-heap-in-c
   // Где вершина то?
   // Похоже нужно использовать один и тот же компаратор
-  
-  /// Q1
-  // TODO: сделать все три варианта
-  vector<int> in(array, array+5);
-  int target_sum = 15;
-  bool finded = _2sum_naive(in, target_sum);
-  assert(finded == true);
-  
-  
-  /// Q2
-  // похоже можно пользоваться реализацией кучи из std::
+  */
   
 }
