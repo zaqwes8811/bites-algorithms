@@ -120,17 +120,20 @@ vector<int> extract_records(const string& filename)
 int q1(const vector<int>& in) {
   // http://publib.boulder.ibm.com/infocenter/comphelp/v9v111/index.jsp?topic=/com.ibm.xlcpp9.aix.doc/standlib/stl_unordered_set.htm
   boost::unordered_set<int> htbl;
+  int low = 2500;
+  int high = 4000;
 
   // de-duplication
   BOOST_FOREACH(int val, in) {
     if (htbl.end() == htbl.find(val))
-      htbl.insert(val); 
+      if (val < high+1)  // можно ужать еще
+	htbl.insert(val); 
   };
   assert(htbl.size() < in.size());
   assert(!htbl.empty());
 
   int count_unique = 0;
-  for (int t = 2500; t < 4000+1; ++t) {
+  for (int t = low; t < high+1; ++t) {
     BOOST_FOREACH(int x, htbl) {
       int y = t - x;
       if (htbl.find(y) != htbl.end()) {
@@ -144,25 +147,7 @@ int q1(const vector<int>& in) {
   return count_unique;
 }
 
-int main() {
-  int array[] = {10,20,30,5,15};
-
-  /// Q1
-  // Задание не понятно
-  //int finded = _2sum_naive(in, target);
-  //assert(finded > 0);
-  // TODO: сделать все три варианта
-  const vector<int> in 
-    //= extract_records("../input_data/HashInt.txt");
-    = extract_records("../input_data/Median.txt");
-    //(array, array+5);
-  //int count_unique = q1(in);  
-  //assert(count_unique > 0 && count_unique < 1501);
-  //assert(count_unique == 1477);
-  assert(!in.empty());
-
-  /// Q2
-  // TODO: heap and bfs based impl.
+long q2_nth(const vector<int>& in) {
   vector<int> in_stream = in;
   vector<int> cursor;
   long mean = 0;
@@ -182,7 +167,25 @@ int main() {
     nth_element(cursor.begin(), cursor.begin()+nth, cursor.end());
     mean += cursor[nth];
   }
-  cout << mean % 10000 << endl;
+  return mean;
+}
+
+int main() {
+  /// Q1
+  // Задание не понятно
+  //int finded = _2sum_naive(in, target);
+  //assert(finded > 0);
+  // TODO: сделать все три варианта
+  vector<int> in = extract_records("../input_data/HashInt.txt");
+  int count_unique = q1(in);  
+  assert(count_unique > 0 && count_unique < 1501);
+  assert(count_unique == 1477);
+  assert(!in.empty());
+
+  /// Q2
+  in = extract_records("../input_data/Median.txt");
+  // TODO: heap and bfs based impl.
+  assert(q2_nth(in) % 10000 == 1213);
   
   /*
   // похоже можно пользоваться реализацией кучи из std::
