@@ -102,7 +102,12 @@ vector<int> extract_records(const string& filename)
       // можно и в буффер читать, но так показалось что проще завершить чтение
       if (!std::getline(stream, line))  
 	break;
-      records.push_back(boost::lexical_cast<int>(line));
+      
+      try {
+	records.push_back(boost::lexical_cast<int>(line));
+      } catch (const boost::bad_lexical_cast& e) {
+	throw;
+      }
     }
   }
   return records;  
@@ -150,10 +155,28 @@ int main() {
   //int count_unique = q1(in);  
   //assert(count_unique > 0 && count_unique < 1501);
   //assert(count_unique == 1477);
-  
-  
-  
+
   /// Q2
+  vector<int> in_stream = in;
+  vector<int> cursor;
+  cursor.reserve(in.size());
+  BOOST_FOREACH(int elem, in_stream) {
+    cursor.push_back(elem);
+    //sort(cursor.begin(), cursor.end(), less<int>());
+    // Inv: array is sorted.
+    
+    int size = cursor.size();
+    int nth = 0;
+    if (size % 2 == 1) {
+      nth = (size + 1) / 2 - 1;
+    } else {
+      nth = size / 2 - 1;
+    }
+    
+    // Возможно частичная сортировка
+    assert(cursor.begin()+nth != cursor.end());
+    nth_element (cursor.begin(), cursor.begin()+nth, cursor.end());
+  }
   /*
   // похоже можно пользоваться реализацией кучи из std::
   vector<int> v(array, array+5);
