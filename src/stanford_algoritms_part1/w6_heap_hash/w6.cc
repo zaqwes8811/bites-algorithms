@@ -48,6 +48,7 @@ public:
 };
 
 template <class OP1, class OP2>
+inline compose_f_gx_t<OP1, OP2>
 compose_f_gx(const OP1& o1, const OP2& o2) {
   return compose_f_gx_t<OP1, OP2>(o1, o2);
 }
@@ -58,7 +59,7 @@ bool _2sum_naive(const vector<int>& in, const int target_sum)
 {
   bool finded = false;
   for (vector<int>::const_iterator at = in.begin(), end = in.end(); at != end; ++at) {
-    vector<int>::const_iterator finded_it = 
+    const auto finded_it = 
       find_if(
 	in.begin(), in.end(), 
 	fp::compose_f_gx(bind2nd(equal_to<int>(), target_sum), bind2nd(plus<int>(), *at)));
