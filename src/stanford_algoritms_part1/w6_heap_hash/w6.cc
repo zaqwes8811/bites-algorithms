@@ -7,6 +7,11 @@
 #include <algorithm>
 #include <stdexcept>
 
+// no standart now
+//#include <ext/hash_set>
+#include <boost/unordered_set.hpp>
+
+// 3rdpary
 #include <boost/lexical_cast.hpp>
 
 using namespace std;
@@ -62,18 +67,18 @@ compose_f_gx(const OP1& o1, const OP2& o2) {
 // Precond.:
 //  Keys is uniq.
 //
-int _2sum_naive(const vector<int>& in, const int target_sum)
+int _2sum_naive(const vector<int>& in, const int target)
 {
   int count_unique = 0;
   for (vector<int>::const_iterator at = in.begin(), end = in.end(); at != end; ++at) {
     
     // С границами что-то не то
     // Ищет только первый, как и нужно
-    const auto finded_it = find_if(
+    vector<int>::const_iterator finded_it = find_if(
 	at, // begin  TODO: may be bug
 	//in.begin()
 	in.end(), 
-	fp::compose_f_gx(bind2nd(equal_to<int>(), target_sum), bind2nd(plus<int>(), *at)));
+	fp::compose_f_gx(bind2nd(equal_to<int>(), target), bind2nd(plus<int>(), *at)));
     
     if (finded_it != in.end())
       count_unique++;
@@ -106,11 +111,42 @@ int main() {
   int array[] = {10,20,30,5,15};
 
   /// Q1
+  // Задание не понятно
+  //int finded = _2sum_naive(in, target);
+  //assert(finded > 0);
   // TODO: сделать все три варианта
-  vector<int> in(array, array+5);
-  int target_sum = 15;
-  int finded = _2sum_naive(in, target_sum);
-  assert(finded > 0);
+  const vector<int> in 
+    = extract_records("../input_data/HashInt.txt");
+    //(array, array+5);
+    
+  // http://publib.boulder.ibm.com/infocenter/comphelp/v9v111/index.jsp?topic=/com.ibm.xlcpp9.aix.doc/standlib/stl_unordered_set.htm
+  boost::unordered_set<int> htbl;
+  set<int> temp(in.begin(), in.end());
+
+  // de-duplication
+  auto action = [&htbl](const int& val) { 
+    if (htbl.end() == htbl.find(val))
+      htbl.insert(val); 
+  };
+  for_each(begin(in), end(in), action);
+  assert(htbl.size() < in.size());
+  assert(!htbl.empty());
+  assert(htbl.size() == temp.size());
+    
+  cout << "Calc..\n";
+  int count_unique = 0;
+  for (int target = 2500; target < 4000+1; ++target) {
+    auto op = [&] (const int x) {
+      // поиск комплиментарного элемента
+      int elem = target - x;
+      if ((htbl.find(elem) != htbl.end()) && (htbl.find(x) != htbl.end())) {
+	count_unique++;
+      }
+    };
+    for_each(htbl.begin(), htbl.end(), op);
+  }
+  cout << count_unique << endl;
+  assert(count_unique > 0 && count_unique < 1501);
   
   
   /// Q2
