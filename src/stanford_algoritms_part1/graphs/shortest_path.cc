@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <sstream>
 #include <set>
+#include <limits>       // std::numeric_limits
 
 // http://www.onlamp.com/pub/a/onlamp/2006/04/06/boostregex.html?page=3
 //#include <boost/regex.hpp>  // too hard
@@ -61,8 +62,6 @@ Edge EdgeMaker::create() {
   edge.weight = weight_;
   return edge;    
 }
-
-typedef vector<vector<Edge> > RawGraph;
 
 namespace graph_persistency {
 typedef vector<Edge> Neighbors;  // заменить на СОСЕДЕЙ
@@ -135,7 +134,6 @@ pair<int, Neighbors> parse_node_data(const string& line, stringstream& ss)
   //make_pair(max_node_idx
   return make_pair(root, result); // сразу не поставил а gcc не отловил - в итоге дамп памяти
 }
-
 
 class RawYieldFunctor {
 public:
@@ -230,35 +228,38 @@ vector<pair<int, Neighbors> > process_serial(const vector<string>& records) {
 }
 }  // namespace ..persistency
 
+class NodeInfo {
+public:
+  NodeInfo() : d()
+  int d;
+};
+
 int main() 
 {
+  using graph_persistency::Neighbors;
+  using graph_persistency::process_parallel;
+  using graph_persistency::process_serial;
+  using graph_persistency::extract_records;
+  
   try {
-    using graph_persistency::Neighbors;
-    using graph_persistency::process_parallel;
-    using graph_persistency::process_serial;
-    using graph_persistency::extract_records;
-    
-    
     /// IO and build graph
     // DbC debug only!
     vector<string> records = extract_records("../input_data/dijkstraData_test.txt");
-    // Не обязательно сортированные
+    // Не обязательно сортированные, поэтому граф строится отдельно
     vector<pair<int, Neighbors> > raw_records = process_parallel(records);
     
     // CHECK_POINT: Version alg.
     assert(!raw_records.empty());
-    //assert(equal(tmp.begin(), raw_records.end(), raw_records.begin()));
   
     // CHECK_POINT
-    // http://stackoverflow.com/questions/7627098/what-is-a-lambda-expression-in-c11
     // Все номера исходящих узвлов уникальны
-    set<int> active_nodes;
-    auto action = [&active_nodes] (const pair<int, Neighbors>& val) { 
-	active_nodes.insert(val.first); 
+    set<int> unique_check;
+    auto action = [&unique_check] (const pair<int, Neighbors>& val) { 
+      unique_check.insert(val.first); 
     };
     
     for_each(begin(raw_records), end(raw_records), action);
-    assert(active_nodes.size() == raw_records.size());
+    assert(unique_check.size() == raw_records.size());
     
     // Формирование графа, если узлы уникальны, то можно параллельно записать в рабочий граф.
     // Нужен нулевой индекс.
@@ -267,11 +268,9 @@ int main()
     BOOST_FOREACH(value_type elem, raw_records) {
       graph[elem.first] = elem.second;
     }
- 
-    // Построение графа
-    // http://www.threadingbuildingblocks.org/docs/help/reference/algorithms/parallel_sort_func.htm
     
     // Проверка графа
+    assert(true);
     
     /// Main()
     // DbC release to
@@ -286,24 +285,4 @@ int main()
   return 0;
 }
 
-      /*
-       * //RawGraph gr(records.size());  // TODO: +1?
-       //int root = raw_code[0];
-      
-    // Scatter
-    vector<Edge> edges;
-    edges.reserve(100);
-    
-    const size_t kSize = raw_code.size();
-    for (size_t i = 1; i < kSize; ++i) {
-      if (0 == (i + 1) % 2) {
-        // Node index
-        Edge edge = EdgeMaker().end(raw_code[i]).weight(raw_code[i+1]);
-        edges.push_back(edge);
-      }
-    }
-    assert(edges.size() == (kSize -1 ) / 2);
-    
-    // Connect to graph
-       */
 
