@@ -40,6 +40,7 @@
 
 #include <tbb/tbb.h>
 #include <tbb/parallel_for.h>
+#include <boost/foreach.hpp>
 
 #include "shortest_path.h"
 
@@ -64,18 +65,19 @@ Edge EdgeMaker::create() {
 typedef vector<vector<Edge> > RawGraph;
 
 namespace graph_persistency {
-typedef vector<Edge> Arrows;  // заменить на СОСЕДЕЙ
-typedef pair<int, Arrows> ArrowsData; 
+typedef vector<Edge> Neighbors;  // заменить на СОСЕДЕЙ
+//typedef pair<int, Neighbors> Neighbors; 
+//typedef Neighbors Neighbors; 
 
 /*
 TEST: 
   string test_line("0\t8,89\t9,90\t\n");
   stringstream ss;
-  pair<int, ArrowsData> test = parse_node_data(test_line, ss);
+  pair<int, Neighbors> test = parse_node_data(test_line, ss);
   assert(test.second.size() == 2);
  */
 // TODO: Возвращаемое значение не всегда копируется?
-pair<int, ArrowsData> parse_node_data(const string& line, stringstream& ss) 
+pair<int, Neighbors> parse_node_data(const string& line, stringstream& ss) 
 {
   // 0\t8,89\t...  source sink, weight ... -> 0,8,89 - 
   const char kSplitter = ',';
@@ -130,7 +132,8 @@ pair<int, ArrowsData> parse_node_data(const string& line, stringstream& ss)
     result.push_back(EdgeMaker().end(i).weight(j));
   }
 
-  return make_pair(root, make_pair(max_node_idx, result)); // сразу не поставил а gcc не отловил - в итоге дамп памяти
+  //make_pair(max_node_idx
+  return make_pair(root, result); // сразу не поставил а gcc не отловил - в итоге дамп памяти
 }
 
 
@@ -139,13 +142,13 @@ public:
   RawYieldFunctor() {}
   
   //@Stateless
-  pair<int, ArrowsData> operator()(const string& arg) const {
+  pair<int, Neighbors> operator()(const string& arg) const {
     // Передать по ссылке или вернуть значение?
     // Самый быстрый вариант! Нет в цикле есть IO-операции - так что измерения не очень честные.
     // Если вне цикла, то долго. И если передавать в функцию, то тоже долго, но чуть меньше.
     // Нет, кажется не принципиально
     stringstream ss;  // он тяжелый!!! но как его сбросить?
-    pair<int, ArrowsData> raw_code = parse_node_data(arg, ss);
+    pair<int, Neighbors> raw_code = parse_node_data(arg, ss);
     //assert(raw_code.size() > 1);
     return raw_code;
   }
@@ -157,10 +160,10 @@ private:
 
 class ApplyFoo{  
   const string* const array; // map only!!
-  pair<int, ArrowsData>* const out;
+  pair<int, Neighbors>* const out;
   const RawYieldFunctor op;
 public:  
-  ApplyFoo (const string* a, pair<int, ArrowsData>* out_a): array(a), out(out_a) {}  
+  ApplyFoo (const string* a, pair<int, Neighbors>* out_a): array(a), out(out_a) {}  
   void operator()( const blocked_range<int>& r ) const {  
       for (int i = r.begin(), end = r.end(); i != end; ++i ) { 
 	// TODO: i - глобальный индек или нет?
@@ -190,9 +193,9 @@ vector<string> extract_records(const string& filename)
   return records;  
 }
 
-vector<pair<int, ArrowsData> > process_parallel(const vector<string>& records) {
+vector<pair<int, Neighbors> > process_parallel(const vector<string>& records) {
   // нужно реально выделить, резервирование не подходит
-  vector<pair<int, ArrowsData> > raw_records(records.size());  
+  vector<pair<int, Neighbors> > raw_records(records.size());  
 
   // No speed up
   // Linux CPU statistic.
@@ -213,8 +216,8 @@ vector<pair<int, ArrowsData> > process_parallel(const vector<string>& records) {
   return raw_records;
 }
 
-vector<pair<int, ArrowsData> > process_serial(const vector<string>& records) {
-  vector<pair<int, ArrowsData> > tmp(records.size());
+vector<pair<int, Neighbors> > process_serial(const vector<string>& records) {
+  vector<pair<int, Neighbors> > tmp(records.size());
   if (true) {
     //for (int i = 0; i < 2000; ++i)
     { 
@@ -230,7 +233,7 @@ vector<pair<int, ArrowsData> > process_serial(const vector<string>& records) {
 int main() 
 {
   try {
-    using graph_persistency::ArrowsData;
+    using graph_persistency::Neighbors;
     using graph_persistency::process_parallel;
     using graph_persistency::process_serial;
     using graph_persistency::extract_records;
@@ -239,7 +242,8 @@ int main()
     /// IO and build graph
     // DbC debug only!
     vector<string> records = extract_records("../input_data/dijkstraData_test.txt");
-    vector<pair<int, ArrowsData> > raw_records = process_parallel(records);
+    // Не обязательно сортированные
+    vector<pair<int, Neighbors> > raw_records = process_parallel(records);
     
     // CHECK_POINT: Version alg.
     assert(!raw_records.empty());
@@ -248,12 +252,21 @@ int main()
     // CHECK_POINT
     // http://stackoverflow.com/questions/7627098/what-is-a-lambda-expression-in-c11
     // Все номера исходящих узвлов уникальны
-    //set<int> active_nodes;
-    //for_each(begin(tmp), end(tmp), [&active_nodes] (const vector<int>& val){ active_nodes.insert(val[0]); });
-    //assert(active_nodes.size() == tmp.size());
+    set<int> active_nodes;
+    auto action = [&active_nodes] (const pair<int, Neighbors>& val) { 
+	active_nodes.insert(val.first); 
+    };
+    
+    for_each(begin(raw_records), end(raw_records), action);
+    assert(active_nodes.size() == raw_records.size());
     
     // Формирование графа, если узлы уникальны, то можно параллельно записать в рабочий граф.
     // Нужен нулевой индекс.
+    vector<Neighbors> graph(raw_records.size()+1);  // 0 добавляем как фейковый узел
+    typedef std::pair<int,Neighbors> value_type;
+    BOOST_FOREACH(value_type elem, raw_records) {
+      graph[elem.first] = elem.second;
+    }
  
     // Построение графа
     // http://www.threadingbuildingblocks.org/docs/help/reference/algorithms/parallel_sort_func.htm
