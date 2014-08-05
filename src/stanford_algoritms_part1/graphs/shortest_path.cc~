@@ -19,7 +19,10 @@
 // Summary:
 // - используют как базовый
 // - можно как-то работать не только с классами, но и со структурами - см. OpenCV
-// OpenCV: //! Smart pointer for OpenGL 2D texture memory with reference counting. - 
+// OpenCV: //! Smart pointer for OpenGL 2D texture memory with reference counting. -
+//
+// Correctness:
+// http://rosettacode.org/wiki/Dijkstra's_algorithm#Python
 
 // C
 #include <cassert>
@@ -41,14 +44,14 @@
 
 #include <tbb/tbb.h>
 #include <tbb/parallel_for.h>
-#include <boost/foreach.hpp>
+#include <boost/for_each_.hpp>
 
 #include "shortest_path.h"
 
 using namespace std;
 using namespace tbb;
 
-#define foreach BOOST_FOREACH
+#define for_each_ BOOST_FOREACH
 
 Neighbor::Neighbor(const EdgeMaker& maker) {
   // TODO: посмотреть в Саттере где два объект значения
@@ -274,7 +277,7 @@ vector<graph_persistency::Neighbors> build_graph(const vector<string>& records) 
   // Нужен нулевой индекс.
   vector<Neighbors> graph(raw_nodes.size()+1);  // 0 добавляем как фейковый узел
   typedef std::pair<int, Neighbors> value_type;
-  foreach(const value_type elem, raw_nodes) {
+  for_each_(const value_type elem, raw_nodes) {
     graph[elem.first] = elem.second;
   }
   return graph;  
@@ -296,52 +299,52 @@ int main()
     // Validate graph
     assert(true);
     
-    for (int i = 0; i < 1; ++i) {
-      vector<NodeInfo> track(graph.size());
-      int v_current = 1;
-      track[v_current].d = 0;
-      track[v_current].visited = true;
-      for (int i = 1, gr_size = graph.size(); i < gr_size; ++i) {  // цикл не такой  
-	Neighbors neighbors = graph[v_current];
-	int root_d = track[v_current].d;
-	
-	// Обходим соседей
-	vector<pair<int, int> > v;  // Number, dist
-	foreach(Neighbor u, neighbors) {
-	  int w = u.end;
-	  if (!track[w].visited) {
-	    int current_d = track[w].d;  // текущее расстояние
-	    int new_d = root_d + u.weight;
-	    if (current_d > new_d)
-	      track[w].d = new_d; 
-	    
-	    v.push_back(make_pair(w, track[w].d));
+    vector<NodeInfo> track(graph.size());
+    int v_active = 1;
+    track[v_active].d = 0;
+    track[v_active].visited = true;
+    
+    // Work
+    // похоже нужна очередь как в BFS
+    for (int i = 1, gr_size = graph.size(); i < gr_size; ++i) {  // цикл не такой  
+      const Neighbors& neighbors = graph[v_active];
+      
+      int root_d = track[v_active].d;
+            
+      // Поиск минимального элемента
+      if (!v_.empty()) {
+	vector<pair<int, int> >::iterator at = min_element(begin(v_), end(v_), 
+	  [](const pair<int, int>& o1, const pair<int, int>& o2) -> bool {
+	    return o1.second < o2.second;
 	  }
-	}
-	
-	// Поиск минимальной
-	if (!v.empty()) {
-	  vector<pair<int, int> >::iterator at = min_element(begin(v), end(v), 
-	    [](const pair<int, int>& o1, const pair<int, int>& o2) -> bool {
-	      return o1.second < o2.second;
-	    }
-	  );
-	  pair<int, int> min_val = *at;
-	  v_current = min_val.first;
-	  track[v_current].visited = true;
-	}
+	);
+	v_active = *at.first;
+	track[v_active].visited = true;
       }
       
-      /*
-      int mask[] = {7,37,59,82,99,115,133,165,188,197};
-      vector<int> mask_s;
-      mask_s.assign(mask, mask+10);
-      for_each(begin(mask_s), end(mask_s), [&track] (int i) {
-	cout << track[i].d << ",";
-      });
-      cout << endl;
-      */
+      // Обходим соседей
+      for_each_(Neighbor u, neighbors) {
+	int v = u.end;
+	int w = u.weight;
+	if (!track[v].visited) {
+	  int current_d = track[v].d;  // текущее расстояние
+	  int new_d = root_d + w;
+	  if (current_d > new_d)
+	    track[v].d = new_d; 
+	}
+      }
     }
+    
+    //cout << track;
+    /*
+    int mask[] = {7,37,59,82,99,115,133,165,188,197};
+    vector<int> mask_s;
+    mask_s.assign(mask, mask+10);
+    for_each(begin(mask_s), end(mask_s), [&track] (int i) {
+      cout << track[i].d << ",";
+    });
+    cout << endl;
+    */
   } catch (const exception& e) {
     cout << e.what() << endl;
   }  
