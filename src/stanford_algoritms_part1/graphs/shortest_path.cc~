@@ -53,6 +53,8 @@ using namespace tbb;
 
 #define for_each_ BOOST_FOREACH
 
+const int kMaxVal = 1000000;//numeric_limits<int>::max();
+
 Neighbor::Neighbor(const EdgeMaker& maker) {
   // TODO: посмотреть в Саттере где два объект значения
   // No exception safe - но кажется и нельзя сделат безопасным
@@ -235,7 +237,7 @@ vector<pair<int, Neighbors> > process_serial(const vector<string>& records) {
 
 class NodeInfo {
 public:
-  NodeInfo() : d(numeric_limits<int>::max()), visited(false) { } 
+  NodeInfo() : d(kMaxVal), visited(false) { } 
   int d;
   bool visited;
   size_t idx;
@@ -244,16 +246,16 @@ public:
 std::ostream& operator<<(std::ostream& os, const NodeInfo& obj)
 {
   if (obj.d > 1000)
-    os << obj.idx << " : (" << "Inf" << ", " << obj.visited << ")";
+    os << obj.idx << " : (" << "Inf" << "/" << obj.visited << ")";
   else
-    os << obj.idx << " : (" << obj.d << ", " << obj.visited << ")";//<< endl;
+    os << obj.idx << " : (" << obj.d << "/" << obj.visited << ")";//<< endl;
   return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const vector<NodeInfo>& obj) {
   int i = 0;
   for_each(begin(obj), end(obj), [&os, &i] (const NodeInfo& info) {
-    os << info;
+    os << ' ' << info;
     ++i;
   });
   os << endl;
@@ -296,8 +298,8 @@ int main()
   try {
     /// IO and build graph
     // DbC debug only!
-    vector<string> records = extract_records("../input_data/dijkstraData_test.txt");
-    //vector<string> records = extract_records("../input_data/dijkstraData.txt");
+    //vector<string> records = extract_records("../input_data/dijkstraData_test.txt");
+    vector<string> records = extract_records("../input_data/dijkstraData.txt");
     vector<Neighbors> graph = build_graph(records);
    
     // Validate graph
@@ -310,47 +312,48 @@ int main()
       info[i].idx = i;
     int v_active = 1;
     track[v_active].d = 0;
-    track[v_active].visited = true;
-    
-    vector<int> dist(graph.size());
     
     // Work
     // похоже нужна очередь как в BFS
     // цикл не такой
-    while (!track.empty()) {  
-      // ищем минимальный элемент
+    while (true) {  // как выйти то? А если граф не связан!? 
+      // ищем минимальный элемент среди не помеченных
       vector<NodeInfo>::iterator at = min_element(begin(track), end(track), 
 	[](const NodeInfo& o1, const NodeInfo& o2) -> bool {
-	  return o1.d < o2.d;
+	  int d1 = o1.d;
+	  int d2 = o2.d;
+	  if (o1.visited) d1 = kMaxVal;
+	  if (o2.visited) d2 = kMaxVal;
+	  return d1 < d2;
 	}
       );
+      
       assert(at != end(track));  // не должны попасть, если все правильно
       NodeInfo min_node = *at;
-      int idx = distance(track.begin(), at);
-      track.erase(at);  // удаляем его
+      
+      // TODO: достаточное ли условие окончания?
+      if (min_node.d == kMaxVal)
+	break;
+      
+      at->visited = true;
+      int idx = distance(track.begin(), at);  // если удаляем то выходить ерунда - индексы сбиваются
       
       // Обходим соседей
       const Neighbors& neighbors = graph[idx];
       int root_d = min_node.d;
       
-      for_each_(Neighbor u, neighbors) {
-	int v = u.end;
-	int w = u.weight;
-	int current_d = track[v].d;  // текущее расстояние
-	int new_d = root_d + w;
-	if (current_d > new_d)
-	  track[v].d = new_d;
-	dist[v] = track[v].d;
+      for_each_(Neighbor n, neighbors) {
+	int v = n.end;
+	if (!track[v].visited) {
+	  int w = n.weight;
+	  int current_d = track[v].d;  // текущее расстояние
+	  int new_d = root_d + w;
+	  if (current_d > new_d)
+	    track[v].d = new_d;
+	}
       }
-      cout << track;
-      break;
     }
  
-    for (int i = 0; i < graph.size(); i++)
-      cout << i << " " << dist[i] << endl;
-    
-    //cout << track;
-    /*
     int mask[] = {7,37,59,82,99,115,133,165,188,197};
     vector<int> mask_s;
     mask_s.assign(mask, mask+10);
@@ -358,7 +361,6 @@ int main()
       cout << track[i].d << ",";
     });
     cout << endl;
-    */
   } catch (const exception& e) {
     cout << e.what() << endl;
   }  
