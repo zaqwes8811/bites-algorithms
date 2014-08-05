@@ -32,7 +32,7 @@ public:
   
   // Вообще как это сделать? - нужно найти позицию
   // http://stackoverflow.com/questions/2372994/search-an-element-in-a-heap
-  //void delete_elem(const T& val);  // кажется нужно для алгоритма Дейкстры
+  void delete_elem(const T& val);  // кажется нужно для алгоритма Дейкстры
   
   // Trouble
   // http://stackoverflow.com/questions/649640/how-to-do-an-efficient-priority-update-in-stl-priority-queue

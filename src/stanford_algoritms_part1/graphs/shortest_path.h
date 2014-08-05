@@ -5,12 +5,15 @@
 // Named params in ctor:
 // http://marcoarena.wordpress.com/2011/05/27/learn-how-to-support-named-parameters-in-cpp/
 class EdgeMaker;  // TODO: bad but... don't work anyway
-struct Edge {
-  Edge() : weight(), end() {}
+struct Neighbor {
+  Neighbor() : weight(), end() {}
   int weight;
   int end;  
-  bool operator==(const Edge& that) const { return (that.weight == weight) && (that.end == end); }
-  Edge(const EdgeMaker& maker);  // реализацию вынести обязательно!
+  bool operator==(const Neighbor& that) const { return (that.weight == weight) && (that.end == end); }
+  Neighbor(const EdgeMaker& maker);  // реализацию вынести обязательно!
+  
+  //http://stackoverflow.com/questions/4421706/operator-overloading
+  
 };
 
 
@@ -21,10 +24,10 @@ public:
   
   EdgeMaker& end(int end) { end_ = end; return *this;}
   EdgeMaker& weight(int weight) { weight_ = weight; return *this; }
-  Edge create();  // лучше, т.к. не нужно лезть в класс, который создается, но запись длиннее
+  Neighbor create();  // лучше, т.к. не нужно лезть в класс, который создается, но запись длиннее
   
 private:
-  friend class Edge;
+  friend class Neighbor;
   int weight_;
   int end_;
 };

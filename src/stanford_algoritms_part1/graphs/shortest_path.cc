@@ -48,7 +48,9 @@
 using namespace std;
 using namespace tbb;
 
-Edge::Edge(const EdgeMaker& maker) {
+#define foreach BOOST_FOREACH
+
+Neighbor::Neighbor(const EdgeMaker& maker) {
   // TODO: посмотреть в Саттере где два объект значения
   // No exception safe - но кажется и нельзя сделат безопасным
   // Типы базовые, поэтому таки безопасно
@@ -56,15 +58,15 @@ Edge::Edge(const EdgeMaker& maker) {
   end = maker.end_;
 }
 
-Edge EdgeMaker::create() {
-  Edge edge;
+Neighbor EdgeMaker::create() {
+  Neighbor edge;
   edge.end = end_;
   edge.weight = weight_;
   return edge;    
 }
 
 namespace graph_persistency {
-typedef vector<Edge> Neighbors;  // заменить на СОСЕДЕЙ
+typedef vector<Neighbor> Neighbors;  // заменить на СОСЕДЕЙ
 //typedef pair<int, Neighbors> Neighbors; 
 //typedef Neighbors Neighbors; 
 
@@ -104,7 +106,7 @@ pair<int, Neighbors> parse_node_data(const string& line, stringstream& ss)
   if (ss.peek() == kSplitter)
       ss.ignore();
 
-  vector<Edge> result;  // TODO: to deque
+  vector<Neighbor> result;  // TODO: to deque
   result.reserve(100);  // защита от лишний аллокаций 
   int max_node_idx = 0;
   while (true) 
@@ -156,7 +158,7 @@ private:
   //stringstream g_ss;  // он тяжелый!!! но как его сбросить?
 };
 
-class ApplyFoo{  
+class ApplyFoo {  
   const string* const array; // map only!!
   pair<int, Neighbors>* const out;
   const RawYieldFunctor op;
@@ -193,7 +195,7 @@ vector<string> extract_records(const string& filename)
 
 vector<pair<int, Neighbors> > process_parallel(const vector<string>& records) {
   // нужно реально выделить, резервирование не подходит
-  vector<pair<int, Neighbors> > raw_records(records.size());  
+  vector<pair<int, Neighbors> > raw_nodes(records.size());  
 
   // No speed up
   // Linux CPU statistic.
@@ -208,10 +210,10 @@ vector<pair<int, Neighbors> > process_parallel(const vector<string>& records) {
   {
     parallel_for(
       blocked_range<int>(0,records.size()), 
-      ApplyFoo(&records[0], &raw_records[0]),
+      ApplyFoo(&records[0], &raw_nodes[0]),
       simple_partitioner());
   }
-  return raw_records;
+  return raw_nodes;
 }
 
 vector<pair<int, Neighbors> > process_serial(const vector<string>& records) {
@@ -230,59 +232,108 @@ vector<pair<int, Neighbors> > process_serial(const vector<string>& records) {
 
 class NodeInfo {
 public:
-  NodeInfo() : d()
+  NodeInfo() : d(numeric_limits<int>::max()), visited(false) { } 
   int d;
+  bool visited;
 };
+
+std::ostream& operator<<(std::ostream& os, const NodeInfo& obj)
+{
+  os << "(" << obj.d << ", " << obj.visited << ")";//<< endl;
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const vector<NodeInfo>& obj) {
+  for_each(begin(obj), end(obj), [&os] (const NodeInfo& info) {
+    os << info;
+  });
+  os << endl;
+  return os;
+};
+
+
+vector<graph_persistency::Neighbors> build_graph(const vector<string>& records) {
+  // Не обязательно сортированные, поэтому граф строится отдельно
+  using graph_persistency::Neighbors;
+  vector<pair<int, Neighbors> > raw_nodes = graph_persistency::process_parallel(records);
+  assert(!raw_nodes.empty());
+
+  // CHECK_POINT
+  // Все номера исходящих узвлов уникальны
+  set<int> unique_check;
+  auto action = [&unique_check] (const pair<int, Neighbors>& val) { 
+    unique_check.insert(val.first); 
+  };
+
+  for_each(begin(raw_nodes), end(raw_nodes), action);
+  assert(unique_check.size() == raw_nodes.size());
+
+  // Формирование графа, если узлы уникальны, то можно параллельно записать в рабочий граф.
+  // Нужен нулевой индекс.
+  vector<Neighbors> graph(raw_nodes.size()+1);  // 0 добавляем как фейковый узел
+  typedef std::pair<int, Neighbors> value_type;
+  foreach(const value_type elem, raw_nodes) {
+    graph[elem.first] = elem.second;
+  }
+  return graph;  
+}
+
 
 int main() 
 {
   using graph_persistency::Neighbors;
-  using graph_persistency::process_parallel;
-  using graph_persistency::process_serial;
   using graph_persistency::extract_records;
   
   try {
     /// IO and build graph
     // DbC debug only!
     vector<string> records = extract_records("../input_data/dijkstraData_test.txt");
-    // Не обязательно сортированные, поэтому граф строится отдельно
-    vector<pair<int, Neighbors> > raw_records = process_parallel(records);
-    
-    // CHECK_POINT: Version alg.
-    assert(!raw_records.empty());
-  
-    // CHECK_POINT
-    // Все номера исходящих узвлов уникальны
-    set<int> unique_check;
-    auto action = [&unique_check] (const pair<int, Neighbors>& val) { 
-      unique_check.insert(val.first); 
-    };
-    
-    for_each(begin(raw_records), end(raw_records), action);
-    assert(unique_check.size() == raw_records.size());
-    
-    // Формирование графа, если узлы уникальны, то можно параллельно записать в рабочий граф.
-    // Нужен нулевой индекс.
-    vector<Neighbors> graph(raw_records.size()+1);  // 0 добавляем как фейковый узел
-    typedef std::pair<int,Neighbors> value_type;
-    BOOST_FOREACH(value_type elem, raw_records) {
-      graph[elem.first] = elem.second;
-    }
-    
-    // Проверка графа
+    vector<Neighbors> graph = build_graph(records);
+   
+    // Validate graph
     assert(true);
-    
-    /// Main()
-    // DbC release to
-    
-    /// With heap
-    // https://sites.google.com/site/indy256/algo_cpp/dijkstra_heap
-    // http://stackoverflow.com/questions/23592252/implementing-dijkstras-shortest-path-algorithm-using-c-and-stl
+
+    vector<NodeInfo> track(graph.size());
+    int v_current = 1;
+    track[v_current].d = 0;
+    for (int i = 1, gr_size = graph.size(); i < gr_size; ++i) {  // цикл не такой
+      track[v_current].visited = true;      
+      Neighbors neighbors = graph[v_current];
+      int d_root = track[v_current].d;
+      
+      // Обходим соседей
+      vector<pair<int, int> > v;  // Number, dist
+      foreach(Neighbor u, neighbors) {
+	int w = u.end;
+	if (!track[w].visited) {
+	  int d_current = track[w].d;  // текущее расстояние
+	  int d_new = d_root + u.weight;
+	  if (d_current > d_new)
+	    track[w].d = d_new; 
+	  
+	  v.push_back(make_pair(w, track[w].d));
+	}
+      }
+      
+      // Поиск минимальной
+      pair<int, int> min_val = *min_element(begin(v), end(v), 
+	[](const pair<int, int>& o1, const pair<int, int>& o2) -> bool {
+	  return o1.second < o2.second;
+	}
+      );
+      
+      v_current = min_val.first;
+      cout << track;
+    }
   } catch (const exception& e) {
     cout << e.what() << endl;
-    //throw;   // don't need it 
   }  
   return 0;
 }
+
+
+/// With heap
+// https://sites.google.com/site/indy256/algo_cpp/dijkstra_heap
+// http://stackoverflow.com/questions/23592252/implementing-dijkstras-shortest-path-algorithm-using-c-and-stl
 
 
