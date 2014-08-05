@@ -44,7 +44,7 @@
 
 #include <tbb/tbb.h>
 #include <tbb/parallel_for.h>
-#include <boost/for_each_.hpp>
+#include <boost/foreach.hpp>
 
 #include "shortest_path.h"
 
@@ -238,18 +238,22 @@ public:
   NodeInfo() : d(numeric_limits<int>::max()), visited(false) { } 
   int d;
   bool visited;
+  size_t idx;
 };
 
 std::ostream& operator<<(std::ostream& os, const NodeInfo& obj)
 {
-  os << "(" << obj.d << ", " << obj.visited << ")";//<< endl;
+  if (obj.d > 1000)
+    os << obj.idx << " : (" << "Inf" << ", " << obj.visited << ")";
+  else
+    os << obj.idx << " : (" << obj.d << ", " << obj.visited << ")";//<< endl;
   return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const vector<NodeInfo>& obj) {
   int i = 0;
   for_each(begin(obj), end(obj), [&os, &i] (const NodeInfo& info) {
-    os << i << ":" << info;
+    os << info;
     ++i;
   });
   os << endl;
@@ -300,40 +304,50 @@ int main()
     assert(true);
     
     vector<NodeInfo> track(graph.size());
+    
+    NodeInfo* info = &track[0];
+    for (size_t i = 0; i < track.size(); ++i)
+      info[i].idx = i;
     int v_active = 1;
     track[v_active].d = 0;
     track[v_active].visited = true;
     
+    vector<int> dist(graph.size());
+    
     // Work
     // похоже нужна очередь как в BFS
-    for (int i = 1, gr_size = graph.size(); i < gr_size; ++i) {  // цикл не такой  
-      const Neighbors& neighbors = graph[v_active];
-      
-      int root_d = track[v_active].d;
-            
-      // Поиск минимального элемента
-      if (!v_.empty()) {
-	vector<pair<int, int> >::iterator at = min_element(begin(v_), end(v_), 
-	  [](const pair<int, int>& o1, const pair<int, int>& o2) -> bool {
-	    return o1.second < o2.second;
-	  }
-	);
-	v_active = *at.first;
-	track[v_active].visited = true;
-      }
+    // цикл не такой
+    while (!track.empty()) {  
+      // ищем минимальный элемент
+      vector<NodeInfo>::iterator at = min_element(begin(track), end(track), 
+	[](const NodeInfo& o1, const NodeInfo& o2) -> bool {
+	  return o1.d < o2.d;
+	}
+      );
+      assert(at != end(track));  // не должны попасть, если все правильно
+      NodeInfo min_node = *at;
+      int idx = distance(track.begin(), at);
+      track.erase(at);  // удаляем его
       
       // Обходим соседей
+      const Neighbors& neighbors = graph[idx];
+      int root_d = min_node.d;
+      
       for_each_(Neighbor u, neighbors) {
 	int v = u.end;
 	int w = u.weight;
-	if (!track[v].visited) {
-	  int current_d = track[v].d;  // текущее расстояние
-	  int new_d = root_d + w;
-	  if (current_d > new_d)
-	    track[v].d = new_d; 
-	}
+	int current_d = track[v].d;  // текущее расстояние
+	int new_d = root_d + w;
+	if (current_d > new_d)
+	  track[v].d = new_d;
+	dist[v] = track[v].d;
       }
+      cout << track;
+      break;
     }
+ 
+    for (int i = 0; i < graph.size(); i++)
+      cout << i << " " << dist[i] << endl;
     
     //cout << track;
     /*
