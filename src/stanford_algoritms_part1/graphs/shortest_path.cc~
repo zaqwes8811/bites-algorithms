@@ -244,8 +244,10 @@ std::ostream& operator<<(std::ostream& os, const NodeInfo& obj)
 }
 
 std::ostream& operator<<(std::ostream& os, const vector<NodeInfo>& obj) {
-  for_each(begin(obj), end(obj), [&os] (const NodeInfo& info) {
-    os << info;
+  int i = 0;
+  for_each(begin(obj), end(obj), [&os, &i] (const NodeInfo& info) {
+    os << i << ":" << info;
+    ++i;
   });
   os << endl;
   return os;
@@ -288,43 +290,57 @@ int main()
     /// IO and build graph
     // DbC debug only!
     vector<string> records = extract_records("../input_data/dijkstraData_test.txt");
+    //vector<string> records = extract_records("../input_data/dijkstraData.txt");
     vector<Neighbors> graph = build_graph(records);
    
     // Validate graph
     assert(true);
-
-    vector<NodeInfo> track(graph.size());
-    int v_current = 1;
-    track[v_current].d = 0;
     
-    for (int i = 1, gr_size = graph.size(); i < gr_size; ++i) {  // цикл не такой
-      track[v_current].visited = true;      
-      Neighbors neighbors = graph[v_current];
-      int d_root = track[v_current].d;
-      
-      // Обходим соседей
-      vector<pair<int, int> > v;  // Number, dist
-      foreach(Neighbor u, neighbors) {
-	int w = u.end;
-	if (!track[w].visited) {
-	  int d_current = track[w].d;  // текущее расстояние
-	  int d_new = d_root + u.weight;
-	  if (d_current > d_new)
-	    track[w].d = d_new; 
-	  
-	  v.push_back(make_pair(w, track[w].d));
+    for (int i = 0; i < 1; ++i) {
+      vector<NodeInfo> track(graph.size());
+      int v_current = 1;
+      track[v_current].d = 0;
+      track[v_current].visited = true;
+      for (int i = 1, gr_size = graph.size(); i < gr_size; ++i) {  // цикл не такой  
+	Neighbors neighbors = graph[v_current];
+	int root_d = track[v_current].d;
+	
+	// Обходим соседей
+	vector<pair<int, int> > v;  // Number, dist
+	foreach(Neighbor u, neighbors) {
+	  int w = u.end;
+	  if (!track[w].visited) {
+	    int current_d = track[w].d;  // текущее расстояние
+	    int new_d = root_d + u.weight;
+	    if (current_d > new_d)
+	      track[w].d = new_d; 
+	    
+	    v.push_back(make_pair(w, track[w].d));
+	  }
+	}
+	
+	// Поиск минимальной
+	if (!v.empty()) {
+	  vector<pair<int, int> >::iterator at = min_element(begin(v), end(v), 
+	    [](const pair<int, int>& o1, const pair<int, int>& o2) -> bool {
+	      return o1.second < o2.second;
+	    }
+	  );
+	  pair<int, int> min_val = *at;
+	  v_current = min_val.first;
+	  track[v_current].visited = true;
 	}
       }
       
-      // Поиск минимальной
-      pair<int, int> min_val = *min_element(begin(v), end(v), 
-	[](const pair<int, int>& o1, const pair<int, int>& o2) -> bool {
-	  return o1.second < o2.second;
-	}
-      );
-      
-      v_current = min_val.first;
-      cout << track;
+      /*
+      int mask[] = {7,37,59,82,99,115,133,165,188,197};
+      vector<int> mask_s;
+      mask_s.assign(mask, mask+10);
+      for_each(begin(mask_s), end(mask_s), [&track] (int i) {
+	cout << track[i].d << ",";
+      });
+      cout << endl;
+      */
     }
   } catch (const exception& e) {
     cout << e.what() << endl;
