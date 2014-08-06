@@ -1,2 +1,2 @@
-greedy paradigm
+greedy paradigm - алгоритм может быть не корректным, и нужно уметь доказывать
 dyn. progr
