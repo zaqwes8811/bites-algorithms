@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <string>
-#include <iostream>  // TODO: replace smaller
+#include <ostream>
 
 // App
 #include "details/io_details.h"
