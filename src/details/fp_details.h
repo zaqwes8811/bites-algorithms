@@ -1,5 +1,7 @@
 #ifndef DETAILS_FP_H
 #define DETAILS_FP_H
+
+#include <algorithm>
  
 namespace fp {
 template <class OP1, class OP2>

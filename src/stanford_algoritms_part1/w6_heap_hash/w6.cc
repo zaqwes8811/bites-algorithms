@@ -12,8 +12,11 @@
 #include <boost/unordered_set.hpp>
 
 // 3rdpary
-#include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
+
+// App
+#include "details/io_details.h"
+#include "details/fp_details.h"
 
 using namespace std;
 
@@ -37,36 +40,6 @@ int _2sum_naive(const vector<int>& in, const int target)
       count_unique++;
   }
   return count_unique;
-}
-
-vector<int> extract_records(const string& filename) 
-{
-  fstream stream(filename.c_str());
-  if (!stream)
-    throw runtime_error("Error: can't open file");
-
-  vector<int> records;
-  // IO operations
-  { 
-    records.reserve(500000);
-    string line;  // и не видна, и не в цикле
-    while (true) {
-      // можно и в буффер читать, но так показалось что проще завершить чтение
-      if (!std::getline(stream, line))  
-	break;
-      
-      try {
-	int i = 0;
-	stringstream ss(line);
-	//i = boost::lexical_cast<int>(line);
-	ss >> i;
-	records.push_back(i);
-      } catch (const boost::bad_lexical_cast& e) {
-	throw;
-      }
-    }
-  }
-  return records;  
 }
 
 int q1(const vector<int>& in) {
@@ -128,35 +101,14 @@ int main() {
   //int finded = _2sum_naive(in, target);
   //assert(finded > 0);
   // TODO: сделать все три варианта
-  vector<int> in = extract_records("../input_data/HashInt.txt");
+  vector<int> in = io_details::extract_records("../input_data/HashInt.txt");
   int count_unique = q1(in);  
   assert(count_unique > 0 && count_unique < 1501);
   assert(count_unique == 1477);
   assert(!in.empty());
 
   /// Q2
-  in = extract_records("../input_data/Median.txt");
+  in = io_details::extract_records("../input_data/Median.txt");
   // TODO: heap and bfs based impl.
-  assert(q2_nth(in) % 10000 == 1213);
-  
-  /*
-  // похоже можно пользоваться реализацией кучи из std::
-  vector<int> v(array, array+5);
-  
-  for_each(begin(v), end(v), [] (const int& elem) { cout << elem << " "; });
-  cout << endl;
-  
-  // http://stackoverflow.com/questions/7681779/easy-way-to-maintain-a-min-heap-with-stl
-  // по умолчанию less, и выходит max-heap
-  make_heap(begin(v), end(v), greater<int>());  // min heap
-  cout << v.front() << endl;  // TODO: top() - это первый элемент?
-  
-  for_each(begin(v), end(v), [] (const int& elem) { cout << elem << " "; });
-  cout << endl;
-  
-  // http://stackoverflow.com/questions/14016921/comparator-for-min-heap-in-c
-  // Где вершина то?
-  // Похоже нужно использовать один и тот же компаратор
-  */
-  
+  assert(q2_nth(in) % 10000 == 1213); 
 }

@@ -15,5 +15,7 @@ struct Arrow {
 
 std::pair<int, std::vector<Arrow> > parse_node_data(const std::string& line, std::stringstream& ss);
 
+std::vector<int> extract_records(const std::string& filename);
+
 }
 #endif

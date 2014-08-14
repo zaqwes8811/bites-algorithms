@@ -24,6 +24,27 @@ public:
   void increase_decrease_key(const T& key);
 };
 
+  
+/*
+// похоже можно пользоваться реализацией кучи из std::
+vector<int> v(array, array+5);
+
+for_each(begin(v), end(v), [] (const int& elem) { cout << elem << " "; });
+cout << endl;
+
+// http://stackoverflow.com/questions/7681779/easy-way-to-maintain-a-min-heap-with-stl
+// по умолчанию less, и выходит max-heap
+make_heap(begin(v), end(v), greater<int>());  // min heap
+cout << v.front() << endl;  // TODO: top() - это первый элемент?
+
+for_each(begin(v), end(v), [] (const int& elem) { cout << elem << " "; });
+cout << endl;
+
+// http://stackoverflow.com/questions/14016921/comparator-for-min-heap-in-c
+// Где вершина то?
+// Похоже нужно использовать один и тот же компаратор
+*/
+
 // Похоже для алгоритма Дектсры лучше bst 
 
 class UnionFind {};

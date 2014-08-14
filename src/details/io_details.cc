@@ -12,7 +12,8 @@
 #include <vector>
 #include <algorithm>
 
-// App
+// 3rdparty
+#include <boost/lexical_cast.hpp>
 
 namespace try_deserialize {
   using namespace std;
@@ -61,6 +62,36 @@ int test() {
 
 namespace io_details {
   using namespace std;
+  
+vector<int> extract_records(const string& filename) 
+{
+  fstream stream(filename.c_str());
+  if (!stream)
+    throw runtime_error("Error: can't open file");
+
+  vector<int> records;
+  // IO operations
+  { 
+    records.reserve(500000);
+    string line;  // и не видна, и не в цикле
+    while (true) {
+      // можно и в буффер читать, но так показалось что проще завершить чтение
+      if (!std::getline(stream, line))  
+	break;
+      
+      try {
+	int i = 0;
+	stringstream ss(line);
+	//i = boost::lexical_cast<int>(line);
+	ss >> i;
+	records.push_back(i);
+      } catch (const boost::bad_lexical_cast& e) {
+	throw;
+      }
+    }
+  }
+  return records;  
+}
   
 /*
 TEST: 
