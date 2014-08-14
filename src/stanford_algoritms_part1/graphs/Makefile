@@ -3,7 +3,8 @@
 CC=g++
 APP=shortest_path
 BOOST=/home/zaqwes/work/third_party/boost_1_55_0
-CCFLAGS=-I$(BOOST) -O2
+DETAILS=../../
+CCFLAGS=-I$(BOOST) -I$(DETAILS) -O2
 
 # http://stackoverflow.com/questions/10363646/compiling-c11-with-g
 all:

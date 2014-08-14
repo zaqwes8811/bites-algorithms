@@ -2,20 +2,29 @@
 #ifndef P1_GR_SHORTEST_PATH
 #define P1_GR_SHORTEST_PATH
 
+#include <vector>
+#include <string>
+#include <iostream>  // TODO: replace smaller
+
+namespace graph_details {
+//class Neighbor;
+
+
+std::vector<std::string> extract_records(const std::string& filename);
+  
 // Named params in ctor:
 // http://marcoarena.wordpress.com/2011/05/27/learn-how-to-support-named-parameters-in-cpp/
 class EdgeMaker;  // TODO: bad but... don't work anyway
+
 struct Neighbor {
   Neighbor() : weight(), end() {}
   int weight;
   int end;  
   bool operator==(const Neighbor& that) const { return (that.weight == weight) && (that.end == end); }
   Neighbor(const EdgeMaker& maker);  // реализацию вынести обязательно!
-  
   //http://stackoverflow.com/questions/4421706/operator-overloading
-  
 };
-
+typedef std::vector<Neighbor> Neighbors;  // заменить на СОСЕДЕЙ
 
 class EdgeMaker {
 public:
@@ -54,5 +63,23 @@ void print(const T& val) {
 void print_vec(const vector<int>& val) {
   for_each(val.begin(), val.end(), print);  
 }*/
+std::vector<Neighbors> build_graph(const std::vector<std::string>& records);
+
+}  // namespace...
+
+namespace graph_statistic {
+const int kMaxVal = 1000000;//numeric_limits<int>::max();
+  
+class NodeInfo {
+public:
+  NodeInfo() : d(kMaxVal), visited(false) { } 
+  int d;
+  bool visited;
+  size_t idx;
+};
+
+std::ostream& operator<<(std::ostream& os, const NodeInfo& obj);
+std::ostream& operator<<(std::ostream& os, const std::vector<NodeInfo>& obj);
+}
 
 #endif
