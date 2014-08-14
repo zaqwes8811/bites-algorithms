@@ -8,8 +8,10 @@ CCFLAGS=-I$(BOOST) -I$(DETAILS) -O2
 
 # http://stackoverflow.com/questions/10363646/compiling-c11-with-g
 all:
-	$(CC) -std=c++11 -Wall -c -pg $(APP).cc $(CCFLAGS)
-	$(CC) -o $(APP).app $(APP).o -pg -ltbb
+	$(CC) $(CCFLAGS) -std=c++11 -Wall -c -pg $(APP).cc
+	$(CC) $(CCFLAGS) -std=c++11 -Wall -c -pg $(DETAILS)details/graph_details.cc 
+	$(CC) $(CCFLAGS) -std=c++11 -Wall -c -pg $(DETAILS)details/io_details.cc 
+	$(CC) -o $(APP).app *.o -pg -ltbb
 	
 run:
 	./$(APP).app

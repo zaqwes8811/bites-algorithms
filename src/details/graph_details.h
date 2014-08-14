@@ -6,6 +6,9 @@
 #include <string>
 #include <iostream>  // TODO: replace smaller
 
+// App
+#include "details/io_details.h"
+
 namespace graph_details {
 //class Neighbor;
 
@@ -31,12 +34,21 @@ public:
   // выдает предупреждение, если инициализация не в таком порядке как объя. в классе
   EdgeMaker() : weight_(0), end_(0)  { }  
   
+  // Приведение типа
+  EdgeMaker(const io_details::Arrow& a) {
+    weight_ = a.weight;
+    end_ = a.end;
+  }
+  
   EdgeMaker& end(int end) { end_ = end; return *this;}
   EdgeMaker& weight(int weight) { weight_ = weight; return *this; }
   Neighbor create();  // лучше, т.к. не нужно лезть в класс, который создается, но запись длиннее
   
 private:
   friend class Neighbor;
+  EdgeMaker(const EdgeMaker&);
+  EdgeMaker operator=(const EdgeMaker&);
+  
   int weight_;
   int end_;
 };

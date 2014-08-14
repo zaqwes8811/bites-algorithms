@@ -1,17 +1,21 @@
+#include "details/io_details.h"
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <stdexcept>
-
-
-using namespace std;
-
 // istream::sentry example
 #include <iostream>     // std::istream, std::cout
 #include <string>       // std::string
 #include <sstream>      // std::stringstream
 #include <locale>       // std::isspace, std::isdigit
+#include <vector>
+#include <algorithm>
 
+// App
+
+namespace try_deserialize {
+  using namespace std;
 struct Phone {
   std::string digits;
 };
@@ -28,7 +32,35 @@ std::istream& operator>>(std::istream& is, Phone& tel)
     return is;
 }
 
-namespace alg_io {
+int test() {
+  string w1_1_filename = "../stanford_algoritms_part2/in_data/jobs.txt";
+  fstream stream(w1_1_filename.c_str());
+  if (!stream)
+    throw runtime_error("Error: can't open file");
+  
+  string line;
+  while (!stream.fail()) {
+    getline(stream, line);  // разделитель что угодно
+    
+    //if (stream.peek() == ' ')
+     // stream.ignore();
+    
+    cout << line << endl;
+  }
+  
+  /// Extract objects
+  // http://www.cplusplus.com/reference/istream/istream/sentry/
+  std::stringstream parseme ("   (555)2326");
+  Phone myphone;
+  parseme >> myphone;
+  std::cout << "digits parsed: " << myphone.digits << '\n';
+  return 0;
+}
+
+}  // namespace
+
+namespace io_details {
+  using namespace std;
   
 /*
 TEST: 
@@ -37,8 +69,9 @@ TEST:
   pair<int, Neighbors> test = parse_node_data(test_line, ss);
   assert(test.second.size() == 2);
  */
+
 // TODO: Возвращаемое значение не всегда копируется?
-pair<int, Neighbors> parse_node_data(const string& line, stringstream& ss) 
+pair<int, vector<Arrow> > parse_node_data(const string& line, stringstream& ss) 
 {
   // 0\t8,89\t...  source sink, weight ... -> 0,8,89 - 
   const char kSplitter = ',';
@@ -66,7 +99,7 @@ pair<int, Neighbors> parse_node_data(const string& line, stringstream& ss)
   if (ss.peek() == kSplitter)
       ss.ignore();
 
-  vector<Neighbor> result;  // TODO: to deque
+  vector<Arrow> result;  // TODO: to deque
   result.reserve(100);  // защита от лишний аллокаций 
   int max_node_idx = 0;
   while (true) 
@@ -90,36 +123,12 @@ pair<int, Neighbors> parse_node_data(const string& line, stringstream& ss)
     if (ss.peek() == kSplitter)
       ss.ignore();
     
-    result.push_back(EdgeMaker().end(i).weight(j));
+    result.push_back(Arrow(i, j));//EdgeMaker().end(i).weight(j));
   }
 
   //make_pair(max_node_idx
   return make_pair(root, result); // сразу не поставил а gcc не отловил - в итоге дамп памяти
 }
   
-}
+}  // namespace
 
-int test() {
-  string w1_1_filename = "../stanford_algoritms_part2/in_data/jobs.txt";
-  fstream stream(w1_1_filename.c_str());
-  if (!stream)
-    throw runtime_error("Error: can't open file");
-  
-  string line;
-  while (!stream.fail()) {
-    getline(stream, line);  // разделитель что угодно
-    
-    //if (stream.peek() == ' ')
-     // stream.ignore();
-    
-    cout << line << endl;
-  }
-  
-  /// Extract objects
-  // http://www.cplusplus.com/reference/istream/istream/sentry/
-  std::stringstream parseme ("   (555)2326");
-  Phone myphone;
-  parseme >> myphone;
-  std::cout << "digits parsed: " << myphone.digits << '\n';
-  return 0;
-}

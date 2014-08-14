@@ -1,9 +1,27 @@
 
 #include "graph_details.h"
 
+#include <cassert>
+
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <fstream>
+#include <set>
+
+// 3rdparty
+#include <tbb/tbb.h>
+#include <tbb/parallel_for.h>
+#include <boost/foreach.hpp>
+
+#define for_each_ BOOST_FOREACH
+
+using namespace std;
+using namespace tbb;
+using io_details::Arrow;
 
 namespace graph_details {
-
+ 
 Neighbor::Neighbor(const EdgeMaker& maker) {
   // TODO: посмотреть в Саттере где два объект значения
   // No exception safe - но кажется и нельзя сделат безопасным
@@ -34,9 +52,14 @@ public:
     // Если вне цикла, то долго. И если передавать в функцию, то тоже долго, но чуть меньше.
     // Нет, кажется не принципиально
     stringstream ss;  // он тяжелый!!! но как его сбросить?
-    pair<int, Neighbors> raw_code = parse_node_data(arg, ss);
+    pair<int, vector<Arrow> > raw_code = io_details::parse_node_data(arg, ss);
+    Neighbors n;
+    for_each_(Arrow a, raw_code.second) {
+      n.push_back(EdgeMaker(a));
+    }
+    
     //assert(raw_code.size() > 1);
-    return raw_code;
+    return make_pair(raw_code.first, n);
   }
   
 private:
@@ -114,15 +137,10 @@ vector<pair<int, Neighbors> > process_serial(const vector<string>& records) {
   }
   return tmp;
 }
-}  // namespace ..persistency
 
-
-
-
-vector<graph_persistency::Neighbors> build_graph(const vector<string>& records) {
+vector<Neighbors> build_graph(const vector<string>& records) {
   // Не обязательно сортированные, поэтому граф строится отдельно
-  using graph_persistency::Neighbors;
-  vector<pair<int, Neighbors> > raw_nodes = graph_persistency::process_parallel(records);
+  vector<pair<int, Neighbors> > raw_nodes = process_parallel(records);
   assert(!raw_nodes.empty());
 
   // CHECK_POINT
@@ -144,18 +162,10 @@ vector<graph_persistency::Neighbors> build_graph(const vector<string>& records) 
   }
   return graph;  
 }
-}
+}   // namespace ..persistency
 
 
 namespace graph_statistic {
-class NodeInfo {
-public:
-  NodeInfo() : d(kMaxVal), visited(false) { } 
-  int d;
-  bool visited;
-  size_t idx;
-};
-
 std::ostream& operator<<(std::ostream& os, const NodeInfo& obj)
 {
   if (obj.d > 1000)
