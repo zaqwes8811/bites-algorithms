@@ -17,54 +17,6 @@
 
 using namespace std;
 
-template <typename T>
-class Heap {
-public:
-  // удаляет элемент - тут сразу проблема как со стеком
-  // setter не должен возвращать по значению
-  //T extract_min(); -> 
-  T top() const;
-  void pop();
-  
-  void insert(const T& val);
-  
-  void heapify(const vector<T>& unordered_data);
-  
-  // Вообще как это сделать? - нужно найти позицию
-  // http://stackoverflow.com/questions/2372994/search-an-element-in-a-heap
-  void delete_elem(const T& val);  // кажется нужно для алгоритма Дейкстры
-  
-  // Trouble
-  // http://stackoverflow.com/questions/649640/how-to-do-an-efficient-priority-update-in-stl-priority-queue
-  // http://stackoverflow.com/questions/14016189/does-changing-a-priority-queue-element-result-in-resorting-the-queue
-  void increase_decrease_key(const T& key);
-};
-
-// Похоже для алгоритма Дектсры лучше bst 
-
-namespace fp {
-template <class OP1, class OP2>
-class compose_f_gx_t 
-  : public std::unary_function<typename OP1::argument_type, typename OP2::result_type>
-{
-  OP1 op1;
-  OP2 op2;
-public:
-  compose_f_gx_t(const OP1& o1, const OP2& o2) : op1(o1), op2(o2) {}
-  typename OP1::result_type
-  operator()(const typename OP2::argument_type& x) const {
-    return op1(op2(x));
-  }  
-};
-
-template <class OP1, class OP2>
-inline compose_f_gx_t<OP1, OP2>
-compose_f_gx(const OP1& o1, const OP2& o2) {
-  return compose_f_gx_t<OP1, OP2>(o1, o2);
-}
-
-}
-
 // Precond.:
 //  Keys is uniq.
 //
