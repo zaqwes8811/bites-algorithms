@@ -14,12 +14,23 @@
 
 // 3rdparty
 #include <boost/lexical_cast.hpp>
+//#include <loki/ScopeGuard.h>
 
 namespace try_deserialize {
   using namespace std;
 struct Phone {
   std::string digits;
 };
+
+/*
+ /// Extract objects
+  // http://www.cplusplus.com/reference/istream/istream/sentry/
+  std::stringstream parseme ("   (555)2326");
+  Phone myphone;
+  parseme >> myphone;
+  std::cout << "digits parsed: " << myphone.digits << '\n';
+  return 0;
+ */
 
 // custom extractor for objects of type Phone
 std::istream& operator>>(std::istream& is, Phone& tel)
@@ -33,35 +44,84 @@ std::istream& operator>>(std::istream& is, Phone& tel)
     return is;
 }
 
-int test() {
-  string w1_1_filename = "../stanford_algoritms_part2/in_data/jobs.txt";
-  fstream stream(w1_1_filename.c_str());
-  if (!stream)
-    throw runtime_error("Error: can't open file");
-  
-  string line;
-  while (!stream.fail()) {
-    getline(stream, line);  // разделитель что угодно
-    
-    //if (stream.peek() == ' ')
-     // stream.ignore();
-    
-    cout << line << endl;
-  }
-  
-  /// Extract objects
-  // http://www.cplusplus.com/reference/istream/istream/sentry/
-  std::stringstream parseme ("   (555)2326");
-  Phone myphone;
-  parseme >> myphone;
-  std::cout << "digits parsed: " << myphone.digits << '\n';
-  return 0;
-}
 
 }  // namespace
 
 namespace io_details {
-  using namespace std;
+using namespace std;
+
+ostream& operator<<(ostream& o, const Job& job) 
+{
+  o << "w(" << job.weight << ") l(" << job.length << ")";
+  return o;  
+}
+
+/*
+bool operator<(const Job& j1, const Job& j2) 
+{
+  return j1.weight < j2.weight;
+}
+//*/
+
+vector<Job> get_jobs_fake(const string&) 
+{
+  vector<Job> v;
+  v.push_back(Job(1, 1));  // 0
+  v.push_back(Job(2, 1));  // 1
+  v.push_back(Job(1, 3));  // -2
+  v.push_back(Job(2, 4));  // -2
+  v.push_back(Job(3, 5));  // -2
+  return v;
+}
+
+vector<Job> get_jobs(const string& filename) {
+  stringstream ss;
+  const char kSplitter = ' ';
+  size_t count = 0;
+  
+  fstream stream(filename.c_str());
+  if (!stream)
+    throw runtime_error("Error: can't open file");
+  
+  string line;
+  {
+    // Get count
+    getline(stream, line);  // разделитель что угодно
+    ss.str(line);
+    ss.clear();  // можно выполнить через guard
+    
+    ss >> count;
+  }
+  
+  // Jobs
+  vector<Job> jobs;
+  jobs.reserve(count);
+  while (!stream.fail()) {
+    getline(stream, line);  // разделитель что угодно
+    ss.str(line);
+    ss.clear();
+    
+    int i = 0;
+    ss >> i;
+    if (!ss)
+      break;
+    if (ss.peek() == kSplitter)
+      ss.ignore();
+    
+    // W
+    int j = 0;
+    ss >> j;
+    if (!ss)
+      throw invalid_argument("Error: String format is broken.");
+    if (ss.peek() == kSplitter)
+      ss.ignore();
+    
+    Job job(i, j);
+    jobs.push_back(job);
+  }
+  assert(count == jobs.size());
+  return jobs;
+}
   
 vector<int> extract_records(const string& filename) 
 {

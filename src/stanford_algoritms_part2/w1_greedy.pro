@@ -8,6 +8,7 @@ CONFIG -= qt
 BOOST=/home/zaqwes/work/third_party/boost_1_55_0
 DETAILS=..
 
+# но лучше бы 11 убрать, т.к. не ясно нужно ли доопределять некоторые функции
 QMAKE_CXXFLAGS += -O2 -std=c++11 -Wall -Wno-deprecated -pg
 
 SOURCES += w1_greedy.cc \
