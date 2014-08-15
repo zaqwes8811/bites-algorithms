@@ -15,6 +15,10 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
 
+
+// App
+#include "details/io_details.h"
+
 using namespace std;
 
 
