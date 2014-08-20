@@ -1,1 +1,0 @@
-g++ -c -pipe -O2 -std=c++11 -Wall -Wno-deprecated -pg -O2 -Wall -W -DQT_WEBKIT -I/usr/share/qt4/mkspecs/linux-g++ -I. -I../../../third_party/boost_1_55_0 -I.. -o obj/w1_greedy.o w1_greedy.cc

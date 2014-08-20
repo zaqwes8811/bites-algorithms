@@ -26,11 +26,21 @@ using io_details::Job;
 //using io_details::JobDecreaseWeightCompator;
 
 namespace {
+  
+template <typename T>
+struct Comp {
+  Comp(ostream* _o) : o(_o) { }
+  
+  void operator()(const T& elem) {
+    o* << elem << " / ";
+  }
+  
+  ostream* const o;
+};
+  
 template <typename T>
 ostream& operator<<(ostream& o, const vector<T>& v) {
-  for_each(begin(v), end(v), [&o](const T& elem) {
-    o << elem << " / ";
-  });
+  for_each(v.begin(), v.end(), Comp(&o));
   o << endl;
   return o;
 }
@@ -67,6 +77,8 @@ int main() {
   // Нужна стабильность
   stable_sort(jobs.begin(), jobs.end(), JobDecreaseDeltaCompator());  // сперва по уменьшения разницы
   cout << jobs;
+  
+  // считаем для ответа
 
   
   /// Q2

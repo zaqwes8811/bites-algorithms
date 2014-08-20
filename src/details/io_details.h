@@ -32,6 +32,10 @@ public:
     return weight-length;
   }
   
+  float get_ration() const {
+    return (1.0f*weight) / length;
+  }
+  
 //private:
   // лучше сделать maker - в конструкторое можно перепутать параметры
   Job(int weight_, int id_) : weight(weight_), length(id_) { } 
