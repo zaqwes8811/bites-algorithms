@@ -4,12 +4,19 @@
 #include <algorithm> 
 
 #include <gtest/gtest.h>
+
+#include "reuse/view.h"
  
 using std::vector;
+using namespace std;
+using namespace view;
 
+// http://stackoverflow.com/questions/8967521/c-class-template-with-template-class-friend-whats-really-going-on-here
+// http://msdn.microsoft.com/en-us/library/f1b2td24.aspx
 template <typename T>
 class HeapEasy {
 public:
+  // Стандартная пара
   // удаляет элемент - тут сразу проблема как со стеком
   // setter не должен возвращать по значению
   //T extract_min(); -> 
@@ -18,8 +25,25 @@ public:
   
   void insert(const T& val);
   
-  void heapify(const vector<T>& unordered_data);
+  void heapify(const vector<T>& unordered_data) {
+    
+  }
   
+private:
+  template <typename U>
+  friend ostream& operator<<(ostream& o, const HeapEasy<U>& e);
+  
+  vector<T> c_;
+};
+
+template <typename T>
+ostream& operator<<(ostream& o, const HeapEasy<T>& e) {
+  o << e.c_;
+  return o;
+}
+
+class AdvHeap 
+{
   // Вообще как это сделать? - нужно найти позицию
   // http://stackoverflow.com/questions/2372994/search-an-element-in-a-heap
   //void delete_elem(const T& val);  // кажется нужно для алгоритма Дейкстры
@@ -28,14 +52,14 @@ public:
   // http://stackoverflow.com/questions/649640/how-to-do-an-efficient-priority-update-in-stl-priority-queue
   // http://stackoverflow.com/questions/14016189/does-changing-a-priority-queue-element-result-in-resorting-the-queue
   //void increase_decrease_key(const T& key);
-public:
-  
 };
 
 TEST(DS, HeapV0) {
   HeapEasy<int> e;
   int arr[] = {1, 4, 7, 3, 7, 9, 2, 9};
   vector<int> in(arr, arr+sizeof arr / sizeof arr[0]);
+  
+  cout << e;
 }
 
   

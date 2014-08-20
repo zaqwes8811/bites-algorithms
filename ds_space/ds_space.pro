@@ -18,7 +18,8 @@ SOURCES += ds_apps.cc \
   ../src/launcher.cc
 
 INCLUDEPATH += $$BOOST $$DETAILS \
-  ../3rdparty/gmock-1.6.0/fused-src/
+  ../3rdparty/gmock-1.6.0/fused-src/ \
+  /home/zaqwes/work/in-the-vicinity-cc/src
 
 LIBS += -lpthread -lrt -ltbb
 
