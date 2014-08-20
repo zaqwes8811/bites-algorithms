@@ -42,6 +42,10 @@ ostream& operator<<(ostream& o, const HeapEasy<T>& e) {
   return o;
 }
 
+// Похоже куча нужна прямо с нуля
+// ADT очень разниться в зависимости от задачи
+//
+// http://en.wikipedia.org/wiki/Heap_%28data_structure%29
 class AdvHeap 
 {
   // Вообще как это сделать? - нужно найти позицию
@@ -52,6 +56,10 @@ class AdvHeap
   // http://stackoverflow.com/questions/649640/how-to-do-an-efficient-priority-update-in-stl-priority-queue
   // http://stackoverflow.com/questions/14016189/does-changing-a-priority-queue-element-result-in-resorting-the-queue
   //void increase_decrease_key(const T& key);
+  
+  // Heap for graph:
+  // http://stackoverflow.com/questions/9189402/stl-implementation-of-reheapify?rq=1
+  // http://stackoverflow.com/questions/9849752/implementing-decrease-key-with-stl-heap-in-ologn-time?rq=1
 };
 
 TEST(DS, HeapV0) {
