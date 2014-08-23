@@ -1,4 +1,6 @@
 
+#include <gtest/gtest.h>
+
 #include <cassert>
 
 #include <vector>
@@ -24,23 +26,30 @@ using namespace std;
 using namespace io_details;
 using io_details::Job;
 //using io_details::JobDecreaseWeightCompator;
+//using io_details::operator<<;
 
-namespace {
+namespace hided {
   
-template <typename T>
-struct Comp {
-  Comp(ostream* _o) : o(_o) { }
+// TODO: почему-то не заработало!
+class Comp {
+public:
+  explicit Comp(ostream* _o) : o(_o) { }
   
-  void operator()(const T& elem) {
-    o* << elem << " / ";
+  // TODO: что такое шаблонный метод класса
+  // https://toster.ru/q/20466
+  template <typename U>
+  void operator()(const U& elem) {
+    *o << elem << " / ";
   }
   
+private:
   ostream* const o;
 };
   
 template <typename T>
 ostream& operator<<(ostream& o, const vector<T>& v) {
-  for_each(v.begin(), v.end(), Comp(&o));
+  Comp cmp(&o);
+  for_each(v.begin(), v.end(), cmp);
   o << endl;
   return o;
 }
@@ -62,9 +71,10 @@ struct JobDecreaseDeltaCompator {
 }
 
 
-int main() {
+TEST(W1, All) {
   /// Q1
   using io_details::Job;
+  using namespace hided;
   
   string w1_1_filename = "../stanford_algoritms_part2/in_data/jobs.txt";
   vector<Job> jobs = io_details::get_jobs_fake(w1_1_filename);
