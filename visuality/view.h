@@ -34,6 +34,14 @@ std::ostream& operator<<(std::ostream& o, const std::list<T>& a)
   return o;
 }
 
+/*
+template <typename E>
+std::ostream& operator<<(std::ostream& o, const std::vector<std::vector<int> >& arr) 
+{
+  
+}
+*/
+
 
 }
 

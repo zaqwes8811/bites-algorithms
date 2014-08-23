@@ -16,7 +16,7 @@ SOURCES += \
   ../launcher.cc \
   ../../3rdparty/gmock-1.6.0/fused-src/gmock-gtest-all.cc \
   w1_greedy.cc \
-  w3_wis.cc \
+  w3_dyn_pro.cc \
   $$DETAILS/details/io_details.cc
 
 
