@@ -126,9 +126,12 @@ TEST(DataStructures, HashTables) {
   // Если уточнять ключ, то как быть с коллизиями - в задаче при поиске нужно быть уверенным.
   // Хотя... Вообще два разных объекта с равными кешами очень вероятны.
   //
-  // Bloom filter:
-  //   http://code.google.com/p/bloom/
   //
   //unordered_map<Item, int> table;  // not compiled - можно, но нужно уточнить операции с ключами
   unordered_map<int, int> table;
+}
+
+TEST(DataStructures, BloomFilter) {
+  // Bloom filter:
+  //   http://code.google.com/p/bloom/
 }
