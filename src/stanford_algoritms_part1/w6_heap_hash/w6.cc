@@ -1,4 +1,6 @@
 
+#include <gtest/gtest.h>
+
 #include <cassert>
 
 #include <vector>
@@ -6,6 +8,9 @@
 #include <fstream>
 #include <algorithm>
 #include <stdexcept>
+
+// C++11
+#include <unordered_map>
 
 // no standart now
 //#include <ext/hash_set>
@@ -95,20 +100,35 @@ long q2_nth(const vector<int>& in) {
   return mean;
 }
 
-int main() {
+TEST(W5_6, PQuestions) {
   /// Q1
   // Задание не понятно
   //int finded = _2sum_naive(in, target);
   //assert(finded > 0);
   // TODO: сделать все три варианта
-  vector<int> in = io_details::extract_records("../input_data/HashInt.txt");
+  vector<int> in = io_details::extract_records("./input_data/HashInt.txt");
   int count_unique = q1(in);  
   assert(count_unique > 0 && count_unique < 1501);
   assert(count_unique == 1477);
   assert(!in.empty());
 
   /// Q2
-  in = io_details::extract_records("../input_data/Median.txt");
+  in = io_details::extract_records("./input_data/Median.txt");
   // TODO: heap and bfs based impl.
   assert(q2_nth(in) % 10000 == 1213); 
+}
+
+
+TEST(DataStructures, HashTables) {
+  // http://stackoverflow.com/questions/2179946/i-would-like-to-see-a-hash-map-example-in-c
+  //
+  // http://msdn.microsoft.com/en-us/library/1s1byw77.aspx
+  // Если уточнять ключ, то как быть с коллизиями - в задаче при поиске нужно быть уверенным.
+  // Хотя... Вообще два разных объекта с равными кешами очень вероятны.
+  //
+  // Bloom filter:
+  //   http://code.google.com/p/bloom/
+  //
+  //unordered_map<Item, int> table;  // not compiled - можно, но нужно уточнить операции с ключами
+  unordered_map<int, int> table;
 }
