@@ -11,15 +11,24 @@ using namespace std;
 using view::operator<<;
 
 namespace {
-pair<int, vector<pair<int, int> > > get_test_items(const string& filename) 
+  
+struct Item {
+  Item() : v(0), w(0) {}
+  Item(int _v, int _w) : v(_v), w(_w) {}
+  
+  int v;
+  int w;
+};
+  
+pair<int, vector<Item> > get_test_items(const string& filename) 
 {
   int W = 6;
-  vector<pair<int, int> > items;  // (vi, wi)
-  items.push_back(make_pair(0, 0));
-  items.push_back(make_pair(3, 4));
-  items.push_back(make_pair(2, 3));
-  items.push_back(make_pair(4, 2));
-  items.push_back(make_pair(4, 3));
+  vector<Item> items;  // (vi, wi)
+  items.push_back(Item(0, 0));
+  items.push_back(Item(3, 4));
+  items.push_back(Item(2, 3));
+  items.push_back(Item(4, 2));
+  items.push_back(Item(4, 3));
   return make_pair(W, items);
 }
   
@@ -59,8 +68,8 @@ TEST(W3, Wis)
 
 TEST(W3, KnapsackProblem) 
 {
-  pair<int, vector<pair<int, int> > > tmp = get_test_items("NoFile");
-  vector<pair<int, int> > items = tmp.second;
+  pair<int, vector<Item > > tmp = get_test_items("NoFile");
+  vector<Item> items = tmp.second;
   int W = tmp.first;
   
   
@@ -71,8 +80,8 @@ TEST(W3, KnapsackProblem)
     
     // Значения объема может быть любым с точностью до единицы
     for (int x = 0; x <= W; ++x) {
-      int w_boundary = x - items[i].second;
-      int v = items[i].first;
+      int w_boundary = x - items[i].w;
+      int v = items[i].v;
       if (w_boundary < 0) {
         w_boundary = x;
         v = 0;
@@ -100,8 +109,8 @@ TEST(W3, BigKnapsackProblem)
   // - Образать веса которых не может быть - как в задаче из 1 части
   // - Хэш таблица похоже безсмысленна, она реализована на основе массива - хотя...
   // - Сортировка
-  pair<int, vector<pair<int, int> > > tmp = get_test_items("NoFile");
-  vector<pair<int, int> > items = tmp.second;
+  pair<int, vector<Item > > tmp = get_test_items("NoFile");
+  vector<Item> items = tmp.second;
   int W = tmp.first;
   
   
@@ -109,8 +118,8 @@ TEST(W3, BigKnapsackProblem)
   int N = items.size();
   vector<vector<int> > A(N, vector<int>(W+1, 0)); 
   for (int i = 1; i < N; ++i) {
-    const int v = items[i].first;
-    const int w = items[i].second;
+    const int v = items[i].v;
+    const int w = items[i].w;
     
     // Значения объема может быть любым с точностью до единицы
     // Итерация по емкостям
