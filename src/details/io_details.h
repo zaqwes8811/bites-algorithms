@@ -53,5 +53,17 @@ std::vector<Job> get_jobs(const std::string& filename);
 
 // http://stackoverflow.com/questions/2436705/defining-for-stl-sort-algorithm-operator-overload-functor-or-standalone-fun
 //bool operator<(const Job& j1, const Job& j2);
+
+struct Item {
+  Item() : v(0), w(0) {}
+  Item(int _v, int _w) : v(_v), w(_w) {}
+  
+  int v;
+  int w;
+};
+
+std::pair<int, std::vector<Item> > get_test_items(const std::string& filename);
+std::pair<int, std::vector<Item> > get_dyn_items(const std::string& filename);
+
 }
 #endif

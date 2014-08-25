@@ -6,107 +6,184 @@
 #include <string>
 
 // C++11
-//#include <unordered_map>
+#include <unordered_map>
 
+// 3rdparty
 #include <boost/unordered_map.hpp>
+#include <google/dense_hash_map>
+#include <google/sparse_hash_map>
 
 // inner
 #include "visuality/view.h"
+#include "details/io_details.h"
 
 using namespace std;
 using view::operator<<;
+using io_details::Item;
+using io_details::get_test_items;
+using io_details::get_dyn_items;
 
 namespace {
-  
-struct Item {
-  Item() : v(0), w(0) {}
-  Item(int _v, int _w) : v(_v), w(_w) {}
-  
-  int v;
-  int w;
-};
-
 struct TaskId {
-  TaskId(int _current_boundary, int _idx) : current_boundary(_current_boundary), idx(_idx) {}
-  int current_boundary;
+  TaskId(int _w_bound, int _idx) : w_bound(_w_bound), idx(_idx) {}
+  TaskId() : w_bound(0), idx(0) {}
+  int w_bound;
   int idx;
 };
 
 struct KeyHash {
- std::size_t operator()(const TaskId& k) const
- {
-   // Watch "Eff. Java."  
-   // Проблема в том как скомбинировать.
-   return boost::hash<int>()(k.idx) ^ (boost::hash<int>()(k.current_boundary) << 1);
- }
+  std::size_t operator()(const TaskId& k) const
+  {
+    // Watch "Eff. Java."  
+    // Проблема в том как скомбинировать.
+    // TODO: other method calc.
+    //
+    // Good hash for pair:
+    //  http://stackoverflow.com/questions/12764645/good-hash-function-with-2-integer-for-a-special-key
+    //  http://stackoverflow.com/questions/2634690/good-hash-function-for-a-2d-index
+    //  !!! http://web.archive.org/web/20071223173210/http://www.concentric.net/~Ttwang/tech/inthash.htm
+    //
+    //return boost::hash<pair<int, int> >()(make_pair(k.idx,k.w_bound));  // slow
+    return boost::hash<int>()(k.idx) ^ (boost::hash<int>()(k.w_bound) << 1);  // max speed
+    //return boost::hash<int>()(k.w_bound) ^ (boost::hash<int>()(k.idx) << 1);
+    //return boost::hash<int>()(k.idx) ^ (boost::hash<int>()(k.w_bound) >> 1);
+    //return (size_t)((k.idx << 19) | (k.w_bound << 7));
+    //return boost::hash<int>()(k.idx) * 37 + (boost::hash<int>()(k.w_bound));
+    //return ((997 + boost::hash<int>()(k.idx)))*997 + boost::hash<int>()(k.w_bound);
+  }
+};
+
+struct KeyHashStd {
+  std::size_t operator()(const TaskId& k) const
+  {
+    // Watch "Eff. Java."  
+    // Проблема в том как скомбинировать.
+    // TODO: other method calc.
+    // Влияет очень не слабо! Возможно лучше 2D version
+    return ((std::hash<int>()(k.idx)) ^ (std::hash<int>()(k.w_bound) << 1));
+    //return boost::hash<int>()(k.idx) * 37 + (boost::hash<int>()(k.w_bound));
+    return ((51 + std::hash<int>()(k.idx)))*51 + std::hash<int>()(k.w_bound);
+  }
 };
  
 struct KeyEqual {
- bool operator()(const TaskId& lhs, const TaskId& rhs) const
- {
-    return lhs.idx == rhs.idx && lhs.current_boundary == rhs.current_boundary;
- }
+  bool operator()(const TaskId& lhs, const TaskId& rhs) const
+  {
+    return lhs.idx == rhs.idx && lhs.w_bound == rhs.w_bound;
+  }
 };
-  
-pair<int, vector<Item> > get_test_items(const string& filename) 
+
+ostream& operator<<(ostream& o, const TaskId& id) 
 {
-  int W = 6;
-  vector<Item> items;  // (vi, wi)
-  items.push_back(Item(0, 0));
-  items.push_back(Item(3, 4));
-  items.push_back(Item(2, 3));
-  items.push_back(Item(4, 2));
-  items.push_back(Item(4, 3));
-  return make_pair(W, items);
+  o << "(" << id.w_bound << ", " << id.idx << ")\n";
+  return o;
 }
-  
+    
 // Returns the maximum value that can be put in a knapsack of capacity W
-int knapSackExp(int current_boundary, int n, const vector<Item>& items)
+int knapSackExp(int w_bound, int n, const vector<Item>& items)
 {
   // Base Case
-  if (n == 0 || current_boundary == 0)
+  if (n == 0 || w_bound == 0)
       return 0;
 
   // If weight of the nth item is more than Knapsack capacity W, then
   // this item cannot be included in the optimal solution
-  cout << current_boundary << " "<< n << endl;
-  if (items[n-1].w > current_boundary)
-      return knapSackExp(current_boundary, n-1, items);
+  cout << w_bound << " "<< n << endl;
+  if (items[n-1].w > w_bound)
+      return knapSackExp(w_bound, n-1, items);
 
   // Return the maximum of two cases: (1) nth item included (2) not included
   else {
     int sum_values = std::max( 
-      knapSackExp(current_boundary - items[n-1].w, n-1, items) + items[n-1].v, 
-      knapSackExp(current_boundary,                n-1, items));
+      knapSackExp(w_bound - items[n-1].w, n-1, items) + items[n-1].v, 
+      knapSackExp(w_bound,                n-1, items));
 
     return sum_values;
-    
   }   
 }
 
 // Returns the maximum value that can be put in a knapsack of capacity W
-int knapSack_hashtable(int current_boundary, int n, const vector<Item>& items)
+template <typename Store>
+int knapSack_hashtable(const TaskId& id, 
+                       const vector<Item>& items, 
+                       Store& store)
 {
+  // check task is solved
+  if (store.end() != store.find(id)) {
+    return store[id];
+  }
+  
+  // Work
+  int n = id.idx;
+  int w_bound = id.w_bound;
+  
   // Base Case
-  if (n == 0 || current_boundary == 0)
+  if (n == 0 || w_bound == 0)
       return 0;
 
   // If weight of the nth item is more than Knapsack capacity W, then
   // this item cannot be included in the optimal solution
-  cout << current_boundary << " "<< n << endl;
-  if (items[n-1].w > current_boundary)
-      return knapSackExp(current_boundary, n-1, items);
-
-  // Return the maximum of two cases: (1) nth item included (2) not included
-  else {
+  if (items[n-1].w > w_bound) {
+    return 
+      knapSack_hashtable(TaskId(w_bound,                n-1), items, store);
+  } else {
+    // Return the maximum of two cases: (1) nth item included (2) not included
     int sum_values = std::max( 
-      knapSackExp(current_boundary - items[n-1].w, n-1, items) + items[n-1].v, 
-      knapSackExp(current_boundary,                n-1, items));
-
+      knapSack_hashtable(TaskId(w_bound - items[n-1].w, n-1), items, store) + items[n-1].v, 
+      knapSack_hashtable(TaskId(w_bound,                n-1), items, store));
+    
+    // Добавляем решенную
+    store.insert(make_pair(id, sum_values));
     return sum_values;
-    
+  } 
+}
+
+//template <typename Store>
+// Too slooow
+int knapSack_hashtable_2d(const TaskId& id, 
+                         const vector<Item>& items, 
+                         std::unordered_map<int, std::unordered_map<int, int> >& store)
+{
+  // check task is solved
+  {
+    std::unordered_map<int, std::unordered_map<int, int> >::iterator it = store.find(id.w_bound);
+    if (store.end() != it) {
+      std::unordered_map<int, int> tmp = it->second;
+      if (tmp.end() != tmp.find(id.idx))
+        return tmp[id.idx];
+    }
   }
+  
+  // Work
+  int n = id.idx;
+  int w_bound = id.w_bound;
+  
+  // Base Case
+  if (n == 0 || w_bound == 0)
+      return 0;
+
+  // If weight of the nth item is more than Knapsack capacity W, then
+  // this item cannot be included in the optimal solution
+  if (items[n-1].w > w_bound) {
+    return 
+      knapSack_hashtable_2d(TaskId(w_bound,                n-1), items, store);
+  } else {
+    // Return the maximum of two cases: (1) nth item included (2) not included
+    int sum_values = std::max( 
+      knapSack_hashtable_2d(TaskId(w_bound - items[n-1].w, n-1), items, store) + items[n-1].v, 
+      knapSack_hashtable_2d(TaskId(w_bound,                n-1), items, store));
     
+    // Добавляем решенную
+    // Если первый раз, то создаем пустую таблицу
+    if (store.end() == store.find(id.w_bound)) {
+      store.insert(make_pair(id.w_bound, std::unordered_map<int, int>()));
+    }
+    
+    store[id.w_bound].insert(make_pair(id.idx, sum_values));
+      
+    //store.insert(make_pair(id, sum_values));
+    return sum_values;
+  } 
 }
 
 int knapSack(int W, int wt[], int val[], int n)
@@ -262,8 +339,63 @@ TEST(W3, GeeksForGeek_hashtable)
   int W = tmp.first;
 
   int count = items.size();
-  //Item root()
-  printf("sum(v(i)) = %d \n", knapSack_hashtable(W, count, items));
+  TaskId root(W, count);
+  boost::unordered_map<TaskId, int, KeyHash, KeyEqual> store;
+  int result = knapSack_hashtable(root, items, store);
+  printf("sum(v(i)) = %d \n", result);
+  assert(result == 8);
+}
+
+TEST(W3, GeeksForGeek_hashtable_homework) 
+{ 
+  //pair<int, vector<Item > > tmp = get_dyn_items("./input_data/knapsack1.txt");
+  pair<int, vector<Item > > tmp = get_dyn_items("./input_data/knapsack_big.txt");
+  
+  ///*
+  vector<Item> items = tmp.second;
+  int W = tmp.first;
+
+  int count = items.size();
+  TaskId root(W, count);
+  
+  boost::unordered_map<TaskId, int, KeyHash, KeyEqual> store;//(4000);
+  //std::unordered_map<TaskId, int, KeyHashStd, KeyEqual> store;
+  
+  
+  /* 
+  //DANGER: it's slooooow or incorrect
+  //google::dense_hash_map<
+  google::sparse_hash_map<
+    TaskId, int
+    , KeyHashStd, KeyEqual
+    > store;
+  //store.set_empty_key(TaskId());
+  //*/
+  cout << store.max_bucket_count() << endl;
+  
+  int result = knapSack_hashtable(root, items, store);
+  printf("sum(v(i)) = %d \n", result);
+  assert(result == 4243395);
+}
+
+// Very slooow.
+TEST(W3, GeeksForGeek_hashtable_2homework) 
+{ 
+  pair<int, vector<Item > > tmp = get_dyn_items("./input_data/knapsack1.txt");
+  //pair<int, vector<Item > > tmp = get_test_items("./input_data/knapsack_big.txt");
+  
+  ///*
+  vector<Item> items = tmp.second;
+  int W = tmp.first;
+
+  int count = items.size();
+  TaskId root(W, count);
+  //boost::unordered_map<TaskId, int, KeyHash, KeyEqual> store;
+  std::unordered_map<int, std::unordered_map<int, int> > store;
+  
+  int result = knapSack_hashtable_2d(root, items, store);
+  printf("sum(v(i)) = %d \n", result);
+  //assert(result == 4243395);
 }
 
 

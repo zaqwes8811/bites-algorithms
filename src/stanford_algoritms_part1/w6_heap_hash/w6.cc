@@ -24,6 +24,11 @@
 // C++:
 // TODO: как переопределение хэш функции влияет на работу? Может быть использовать двумерную таблицу?
 //   Похоже по получнному ключу таблица еще раз считает хэш.
+//
+// Benchmarks:
+//   http://research.neustar.biz/tag/unordered_map/
+//   http://preshing.com/20110603/hash-table-performance-tests/
+
 #include <gtest/gtest.h>
 
 #include <cassert>
@@ -41,6 +46,9 @@
 //#include <ext/hash_set>
 #include <boost/unordered_set.hpp>
 #include <boost/unordered_map.hpp>
+
+// DANGER: Кажется с пользовательскими типами как-то не очень. Что то похоже и про строки слышал, кажется.
+#include <google/dense_hash_map>
 
 // 3rdpary
 #include <boost/foreach.hpp>
@@ -186,6 +194,13 @@ TEST(DataStructures, HashTables) {
   unordered_map<int, int> table;
   
   boost::unordered_map<TaskId, int, KeyHash, KeyEqual> htbl;
+  google::dense_hash_map<TaskId, int, KeyHash, KeyEqual> g_tbl;
+  g_tbl.set_empty_key(TaskId(0, 0));
+  g_tbl[TaskId(1, 5)] = 9;
+  
+  cout << g_tbl[TaskId(1, 5)] << endl;
+  assert(g_tbl.end() != g_tbl.find(TaskId(1, 5)));
+  
 }
 
 TEST(DataStructures, BloomFilter) {

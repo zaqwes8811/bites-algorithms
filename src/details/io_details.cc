@@ -50,6 +50,73 @@ std::istream& operator>>(std::istream& is, Phone& tel)
 namespace io_details {
 using namespace std;
 
+pair<int, vector<Item> > get_dyn_items(const string& filename) {
+  const char kSplitter = ' ';
+  fstream stream(filename.c_str());
+  if (!stream)
+    throw runtime_error("Error: can't open file");
+  
+  // W, count items
+  int W;
+  int count_items;
+  string line;
+  stringstream ss;
+  {
+    // Get count
+    getline(stream, line);  // разделитель что угодно
+    ss.str(line);
+    ss.clear();  // можно выполнить через guard
+    
+    ss >> W;
+    ss >> count_items;
+  }
+  
+  cout << count_items << endl;
+  
+  vector<Item> items;
+  items.reserve(count_items);
+  while (!stream.fail()) {
+    getline(stream, line);  // разделитель что угодно
+    ss.str(line);
+    ss.clear();
+    
+    int i = 0;
+    ss >> i;
+    if (!ss)
+      break;
+    if (ss.peek() == kSplitter)
+      ss.ignore();
+    
+    // W
+    int j = 0;
+    ss >> j;
+    if (!ss)
+      throw invalid_argument("Error: String format is broken.");
+    if (ss.peek() == kSplitter)
+      ss.ignore();
+    
+    Item job(i, j);
+    items.push_back(job);
+  }
+  
+  if (items.size() != count_items)
+    throw runtime_error("Error: brocken file  "+filename);
+
+  return make_pair(W, items);
+}
+
+pair<int, vector<Item> > get_test_items(const string& filename) 
+{
+  int W = 6;
+  vector<Item> items;  // (vi, wi)
+  items.push_back(Item(0, 0));  // TODO: move
+  items.push_back(Item(3, 4));
+  items.push_back(Item(2, 3));
+  items.push_back(Item(4, 2));
+  items.push_back(Item(4, 3));
+  return make_pair(W, items);
+}
+
 ostream& operator<<(ostream& o, const Job& job) 
 {
   o << "w(" << job.weight << ") l(" << job.length << ")";

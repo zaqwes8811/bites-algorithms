@@ -10,7 +10,9 @@ DETAILS=..
 
 # но лучше бы 11 убрать, т.к. не ясно нужно ли доопределять некоторые функции
 # -std=c++11
-QMAKE_CXXFLAGS += -O2  -Wall -Wno-deprecated -pg -std=c++11
+# Opt. keys:
+# http://publib.boulder.ibm.com/infocenter/comphelp/v7v91/index.jsp?topic=%2Fcom.ibm.xlf91a.doc%2Fxlfug%2Fhu00509.htm
+QMAKE_CXXFLAGS += -O3  -Wall -Wno-deprecated -pg -std=c++11
 
 SOURCES += \
   ../launcher.cc \
