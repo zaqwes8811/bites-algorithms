@@ -1,4 +1,29 @@
-
+// TODO: а есть ли адаптивные хэш-таблицы?
+//
+// Используется рандомизация, но как потом искать?
+//
+// см. effective Java - там есть про хэш коды - если переорп. equal then переорп. hashCode!
+// Равные объекты должны иметь равные хэши.
+//
+// DANGER: Good hashtable:
+// - good hash functon - равномерно разбрасывает по бакетам
+//   && good load factor - n/(count_buckets) - при первом условии делает связанные списки (или аналог) как можно короче
+//   && O(1) calc hash value
+// 
+// Pro:
+// 
+//
+// Cons:
+//   - для больших объемов данных?
+//   - O(1) при вычислении это да, но константы могут быть большими
+//   - нельзя делать сложные выборки
+//
+// Java:
+//  http://docs.oracle.com/javase/7/docs/api/java/util/HashMap.html
+//
+// C++:
+// TODO: как переопределение хэш функции влияет на работу? Может быть использовать двумерную таблицу?
+//   Похоже по получнному ключу таблица еще раз считает хэш.
 #include <gtest/gtest.h>
 
 #include <cassert>
@@ -15,6 +40,7 @@
 // no standart now
 //#include <ext/hash_set>
 #include <boost/unordered_set.hpp>
+#include <boost/unordered_map.hpp>
 
 // 3rdpary
 #include <boost/foreach.hpp>
@@ -24,6 +50,9 @@
 #include "details/fp_details.h"
 
 using namespace std;
+
+using std::hash;  // C++11
+//using boost::hash;  // нужно точечно указать
 
 // Precond.:
 //  Keys is uniq.
@@ -118,20 +147,63 @@ TEST(W5_6, PQuestions) {
   assert(q2_nth(in) % 10000 == 1213); 
 }
 
+namespace {
+struct TaskId {
+  TaskId() : v(0), w(0) {}
+  TaskId(int _v, int _w) : v(_v), w(_w) {}
+  
+  int v;
+  int w;
+};
+
+struct KeyHash {
+ std::size_t operator()(const TaskId& k) const
+ {
+   // Watch "Eff. Java."  
+   // Проблема в том как скомбинировать.
+   return boost::hash<int>()(k.v) ^ (boost::hash<int>()(k.w) << 1);
+ }
+};
+ 
+struct KeyEqual {
+ bool operator()(const TaskId& lhs, const TaskId& rhs) const
+ {
+    return lhs.v == rhs.v && lhs.w == rhs.w;
+ }
+};
+
+}
 
 TEST(DataStructures, HashTables) {
   // http://stackoverflow.com/questions/2179946/i-would-like-to-see-a-hash-map-example-in-c
   //
   // http://msdn.microsoft.com/en-us/library/1s1byw77.aspx
   // Если уточнять ключ, то как быть с коллизиями - в задаче при поиске нужно быть уверенным.
-  // Хотя... Вообще два разных объекта с равными кешами очень вероятны.
+  // Хотя... Вообще два разных объекта с равными кешами очень вероятны. Еще передается функция эквивалетности.
   //
   //
-  //unordered_map<Item, int> table;  // not compiled - можно, но нужно уточнить операции с ключами
+  //unordered_map<TaskId, int> table;  // not compiled - можно, но нужно уточнить операции с ключами
   unordered_map<int, int> table;
+  
+  boost::unordered_map<TaskId, int, KeyHash, KeyEqual> htbl;
 }
 
 TEST(DataStructures, BloomFilter) {
   // Bloom filter:
   //   http://code.google.com/p/bloom/
+  //
+  // Pro:
+  //   - more then hashtable space efficient - DANGER: не всегда можно проверить ложноположительное срабатывание
+  // Cons:
+  //   - can't store value
+  //   - can't delete
+  //   - ложно положительные срабатывания
+}
+
+/// Хранение в разнобой
+// See sparese arrays, skeep list
+TEST(DataStructures, JudyArrays) {
+  // http://judy.sourceforge.net/
+  // Cons:
+  //   - похоже запатентовано
 }

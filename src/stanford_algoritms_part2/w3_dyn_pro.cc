@@ -6,7 +6,9 @@
 #include <string>
 
 // C++11
-#include <unordered_map>
+//#include <unordered_map>
+
+#include <boost/unordered_map.hpp>
 
 // inner
 #include "visuality/view.h"
@@ -23,6 +25,28 @@ struct Item {
   int v;
   int w;
 };
+
+struct TaskId {
+  TaskId(int _current_boundary, int _idx) : current_boundary(_current_boundary), idx(_idx) {}
+  int current_boundary;
+  int idx;
+};
+
+struct KeyHash {
+ std::size_t operator()(const TaskId& k) const
+ {
+   // Watch "Eff. Java."  
+   // Проблема в том как скомбинировать.
+   return boost::hash<int>()(k.idx) ^ (boost::hash<int>()(k.current_boundary) << 1);
+ }
+};
+ 
+struct KeyEqual {
+ bool operator()(const TaskId& lhs, const TaskId& rhs) const
+ {
+    return lhs.idx == rhs.idx && lhs.current_boundary == rhs.current_boundary;
+ }
+};
   
 pair<int, vector<Item> > get_test_items(const string& filename) 
 {
@@ -38,6 +62,30 @@ pair<int, vector<Item> > get_test_items(const string& filename)
   
 // Returns the maximum value that can be put in a knapsack of capacity W
 int knapSackExp(int current_boundary, int n, const vector<Item>& items)
+{
+  // Base Case
+  if (n == 0 || current_boundary == 0)
+      return 0;
+
+  // If weight of the nth item is more than Knapsack capacity W, then
+  // this item cannot be included in the optimal solution
+  cout << current_boundary << " "<< n << endl;
+  if (items[n-1].w > current_boundary)
+      return knapSackExp(current_boundary, n-1, items);
+
+  // Return the maximum of two cases: (1) nth item included (2) not included
+  else {
+    int sum_values = std::max( 
+      knapSackExp(current_boundary - items[n-1].w, n-1, items) + items[n-1].v, 
+      knapSackExp(current_boundary,                n-1, items));
+
+    return sum_values;
+    
+  }   
+}
+
+// Returns the maximum value that can be put in a knapsack of capacity W
+int knapSack_hashtable(int current_boundary, int n, const vector<Item>& items)
 {
   // Base Case
   if (n == 0 || current_boundary == 0)
@@ -205,8 +253,19 @@ TEST(W3, GeeksForGeekSrc) {
     int  W = 50;
     int n = sizeof(val)/sizeof(val[0]);
     printf("%d", knapSack(W, wt, val, n));
-
 }
+
+TEST(W3, GeeksForGeek_hashtable) 
+{ 
+  pair<int, vector<Item > > tmp = get_test_items("NoFile");
+  vector<Item> items = tmp.second;
+  int W = tmp.first;
+
+  int count = items.size();
+  //Item root()
+  printf("sum(v(i)) = %d \n", knapSack_hashtable(W, count, items));
+}
+
 
 
 // 
