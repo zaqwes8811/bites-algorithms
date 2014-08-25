@@ -1,34 +1,3 @@
-// TODO: а есть ли адаптивные хэш-таблицы?
-//
-// Используется рандомизация, но как потом искать?
-//
-// см. effective Java - там есть про хэш коды - если переорп. equal then переорп. hashCode!
-// Равные объекты должны иметь равные хэши.
-//
-// DANGER: Good hashtable:
-// - good hash functon - равномерно разбрасывает по бакетам
-//   && good load factor - n/(count_buckets) - при первом условии делает связанные списки (или аналог) как можно короче
-//   && O(1) calc hash value
-// 
-// Pro:
-// 
-//
-// Cons:
-//   - для больших объемов данных?
-//   - O(1) при вычислении это да, но константы могут быть большими
-//   - нельзя делать сложные выборки
-//
-// Java:
-//  http://docs.oracle.com/javase/7/docs/api/java/util/HashMap.html
-//
-// C++:
-// TODO: как переопределение хэш функции влияет на работу? Может быть использовать двумерную таблицу?
-//   Похоже по получнному ключу таблица еще раз считает хэш.
-//
-// Benchmarks:
-//   http://research.neustar.biz/tag/unordered_map/
-//   http://preshing.com/20110603/hash-table-performance-tests/
-
 #include <gtest/gtest.h>
 
 #include <cassert>
@@ -182,6 +151,41 @@ struct KeyEqual {
 
 }
 
+/// HashTables
+// TODO: а есть ли адаптивные хэш-таблицы?
+//
+// Используется рандомизация, но как потом искать?
+//
+// см. effective Java - там есть про хэш коды - если переорп. equal then переорп. hashCode!
+// Равные объекты должны иметь равные хэши.
+//
+// DANGER: Good hashtable:
+// - good hash functon - равномерно разбрасывает по бакетам
+//   && good load factor - n/(count_buckets) - при первом условии делает связанные списки (или аналог) как можно короче
+//   && O(1) calc hash value
+// 
+// Pro:
+// 
+//
+// Cons:
+//   - для больших объемов данных?
+//   - O(1) при вычислении это да, но константы могут быть большими
+//   - нельзя делать сложные выборки
+//
+// Java:
+//  http://docs.oracle.com/javase/7/docs/api/java/util/HashMap.html
+//
+// C++:
+// TODO: как переопределение хэш функции влияет на работу? Может быть использовать двумерную таблицу?
+//   Похоже по получнному ключу таблица еще раз считает хэш.
+//
+// Benchmarks:
+//   http://research.neustar.biz/tag/unordered_map/
+//   http://preshing.com/20110603/hash-table-performance-tests/
+//
+// Hash functions:
+//   http://programmers.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed
+//
 TEST(DataStructures, HashTables) {
   // http://stackoverflow.com/questions/2179946/i-would-like-to-see-a-hash-map-example-in-c
   //
@@ -215,10 +219,24 @@ TEST(DataStructures, BloomFilter) {
   //   - ложно положительные срабатывания
 }
 
-/// Хранение в разнобой
-// See sparese arrays, skeep list
+// Хранение в разнобой
+// http://preshing.com/20130107/this-hash-table-is-faster-than-a-judy-array/
+// TODO: See sparese arrays, skeep list
 TEST(DataStructures, JudyArrays) {
   // http://judy.sourceforge.net/
   // Cons:
   //   - похоже запатентовано
 }
+
+
+/// BST
+// Sorted array 
+//   search - log(n)
+//   selection(orger) - 1
+//   min/max - 1
+//   predcessor/successor - 1
+//   rank(key) - сколько меньше ключа - log(n)
+//   << - n
+//  TROUBLE: insert, deletions
+//
+// -> BST
