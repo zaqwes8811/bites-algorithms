@@ -229,7 +229,7 @@ TEST(DataStructures, JudyArrays) {
 }
 
 
-/// BST
+/// Search-Trees
 // Sorted array 
 //   search - log(n)
 //   selection(orger) - 1
@@ -240,3 +240,12 @@ TEST(DataStructures, JudyArrays) {
 //  TROUBLE: insert, deletions
 //
 // -> BST
+//   predcessor/successor - O(h) - не конст. по указателю не перейти, была бы константная
+//   in-orger-traversal
+
+/// RB-Tree
+
+/// ALV-Tree
+
+/// Splay-Tree
+// - модифицируется и при поиске
