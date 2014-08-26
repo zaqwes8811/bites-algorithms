@@ -45,8 +45,108 @@ struct TBBHashCompare {
 };
 
 // Аллокатор тоже не помогает
-typedef concurrent_hash_map<TaskId, int, TBBHashCompare, tbb::scalable_allocator<pair<TaskId, int> > > TaskTable;
-TaskTable g_task_table;
+//  tbb::scalable_allocator<pair<TaskId, int> >
+typedef concurrent_hash_map<TaskId, int, TBBHashCompare> TaskTable;
+
+// скорости не добавляет, а наоборот медленнее работает
+template <typename Store>
+struct Future: public task {
+    int* const r_;
+    int x;
+    int y;
+    Store* const store_;
+    const TaskId id_;
+    int delta;
+    
+    Future( int* sum_, Store* store, const TaskId& id) : r_(sum_), store_(store), id_(id) {}
+    task* execute() {
+      
+      x += delta;
+      *r_ = std::max(x, y);
+        
+      bool connect = true;      
+      if (connect) {
+        // DANGER: похоже некоторые задачи таки решаются не один раз - и это уменьшает быстродействие
+        TaskTable::accessor a;
+        if (store_->insert(a, id_)) {
+          a->second = *r_;
+        } else {
+          // DANGER: промахов очень много
+          //cout << "BAD: Vain solved\n";
+        }
+      }
+      return NULL;
+    }
+};
+
+template <typename Store>
+class KnapsackTaskFuture : public task  {
+  Store* const store_;
+  const vector<Item>* items_;
+  int* const r_;
+  const TaskId id_;
+  
+  KnapsackTaskFuture(const KnapsackTaskFuture&);
+  KnapsackTaskFuture& operator=(const KnapsackTaskFuture&);
+  
+public:
+  KnapsackTaskFuture(const vector<Item>& items, Store& store, int& result, const TaskId& id) 
+    : store_(&store), items_(&items), r_(&result), id_(id)
+  {}
+  
+  task* execute()
+  { 
+    const bool connect = true;
+    // Похоже так лихо не выйдет - задача обязуется выполнить вычисления а сумма фейковая
+    // Если решена то вернуть результат
+    // Распространить лок не удалось пока что.
+    if (connect) {
+      //TaskTable::accessor a;
+      TaskTable::const_accessor a;
+      if (store_->find(a, id_)) {
+        *r_ = a->second;
+        return NULL;
+      }
+    }
+    
+    // Некоторые задачи отбросили, но некоторые в процессе решения и будут готовы к моменту записи
+    {
+      // Work
+      int n = id_.idx;
+      int w_bound = id_.w_bound;
+      
+      // Base Case
+      if (n == 0 || w_bound == 0) {
+        *r_ = 0;  // можно сохранять, но на производительность сильно не влияет
+        return NULL;
+      }
+      
+      // Prepare
+      int delta = 0;
+      TaskId work_id(w_bound, n-1);
+      if (!((*items_)[n-1].w > w_bound)) {
+        work_id = TaskId(w_bound-(*items_)[n-1].w, n-1);
+        delta = (*items_)[n-1].v;
+      }
+      TaskId old_task(w_bound, n-1);
+
+      // Actions 
+      Future<TaskTable>& c = *new( allocate_continuation() ) Future<TaskTable>(r_, store_, id_);
+      c.delta = delta;
+      KnapsackTaskFuture& a = *new( c.allocate_child() ) KnapsackTaskFuture(*items_, *store_, c.x, work_id);
+      KnapsackTaskFuture& b = *new( c.allocate_child() ) KnapsackTaskFuture(*items_, *store_, c.y, old_task);
+      // Set ref_count to 'two children plus one for the wait".
+      c.set_ref_count(2);
+      // Start b running.
+      spawn( b );
+      spawn( a );
+      // Start a running and wait for all children (a and b).
+      //spawn_and_wait_for_all(a);
+      
+    }   
+    return NULL;
+  }
+};
 
 // DANGER: алгоритм пробуксовывает - иногда решает уже решенные задачи
 template <typename Store>
@@ -110,7 +210,7 @@ public:
       // Start b running.
       spawn( b );
       // Start a running and wait for all children (a and b).
-      spawn_and_wait_for_all(a);
+      spawn_and_wait_for_all(a);  // BAD: NEED NO WAIT!
       
       x += delta;
       *r_ = std::max(x, y);
@@ -133,6 +233,7 @@ public:
 }
  
 TEST(W3, ParallelKnap) {
+  TaskTable g_task_table;
   pair<int, vector<Item > > tmp = 
     get_dyn_items("./input_data/knapsack_big.txt");
     //get_test_items("NoFile");
@@ -145,6 +246,28 @@ TEST(W3, ParallelKnap) {
   //int store = 0;
   KnapsackTaskSerial<TaskTable>& a = *new(task::allocate_root()) 
       KnapsackTaskSerial<TaskTable>(items, g_task_table, result, root);
+  task::spawn_root_and_wait(a);
+  //KnapsackTaskSerial<int>(items, store, result, root).execute();
+  
+  printf("sum(v(i)) = %d \n", result);
+  //assert(result == 8);
+  assert(result == 4243395);
+}
+
+TEST(W3, ParallelKnapNoWait) {
+  TaskTable g_task_table;
+  pair<int, vector<Item > > tmp = 
+    get_dyn_items("./input_data/knapsack_big.txt");
+    //get_test_items("NoFile");
+  vector<Item> items = tmp.second;
+  int W = tmp.first;
+  int count = items.size();
+  int result = 0;
+  
+  TaskId root(W, count);
+  //int store = 0;
+  KnapsackTaskFuture<TaskTable>& a = *new(task::allocate_root()) 
+      KnapsackTaskFuture<TaskTable>(items, g_task_table, result, root);
   task::spawn_root_and_wait(a);
   //KnapsackTaskSerial<int>(items, store, result, root).execute();
   
