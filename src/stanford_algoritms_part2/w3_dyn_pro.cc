@@ -13,11 +13,17 @@
 #include <google/dense_hash_map>
 #include <google/sparse_hash_map>
 
+#include "tbb/task_scheduler_init.h"
+#include "tbb/task.h"
+#include "tbb/concurrent_hash_map.h"
+
 // inner
 #include "visuality/view.h"
 #include "details/io_details.h"
 
 using namespace std;
+using namespace tbb;
+
 using view::operator<<;
 using io_details::Item;
 using io_details::get_test_items;
@@ -186,6 +192,7 @@ int knapSack_hashtable_2d(const TaskId& id,
   } 
 }
 
+// 
 int knapSack(int W, int wt[], int val[], int n)
 {
    // Base Case
@@ -204,6 +211,70 @@ int knapSack(int W, int wt[], int val[], int n)
       knapSack(W - wt[n-1], wt, val, n-1) + val[n-1],
       knapSack(W,           wt, val, n-1));
 }
+
+//template <typename Store>
+int knapSackParallel(const TaskId& id, const vector<Item>& items, int& store)
+{ 
+  // Work
+  int n = id.idx;
+  int w_bound = id.w_bound;
+  
+  
+  // Base Case
+  if (n == 0 || w_bound == 0)
+      return 0;
+  
+  // Work
+  int delta = 0;
+  TaskId work_id(w_bound, n-1);
+  if (!(items[n-1].w > w_bound)) {
+    work_id = TaskId(w_bound - items[n-1].w, n-1);
+    delta = items[n-1].v;
+  }
+
+  /// Actions 
+  int x = knapSackParallel(work_id, items, store);
+  int y = knapSackParallel(TaskId(w_bound, n-1), items, store);
+  /// Actions
+  
+  x += delta;
+  int sum_values = std::max(x, y);
+  return sum_values;
+
+}
+
+template <class Store>
+class KnapsackTask: public task {
+public:
+    //const long n;
+    //int* const sum;
+    Store* store_;
+    
+    KnapsackTask()// long n_, long* sum_ ) 
+      //: n(n_), sum(sum_)
+    {}
+    
+    task* execute() {      // Overrides virtual function task::execute
+        
+        /*if( n<CutOff ) {
+            *sum = SerialFib(n);
+        } else {
+            long x, y;
+            KnapsackTask& a = *new( allocate_child() ) KnapsackTask(n-1, &x);
+            KnapsackTask& b = *new( allocate_child() ) KnapsackTask(n-2, &y);
+            // Set ref_count to 'two children plus one for the wait".
+            set_ref_count(3);
+            // Start b running.
+            spawn( b );
+            // Start a running and wait for all children (a and b).
+            spawn_and_wait_for_all(a);
+            // Do the sum
+            *sum = x+y;
+        }*/
+        return NULL;
+    }
+};
+
 }
 
 TEST(W3, Wis) 
@@ -398,6 +469,21 @@ TEST(W3, GeeksForGeek_hashtable_2homework)
   //assert(result == 4243395);
 }
 
+
+TEST(W3, ParallelKnap) {
+  pair<int, vector<Item > > tmp = get_test_items("NoFile");
+  vector<Item> items = tmp.second;
+  int W = tmp.first;
+  int count = items.size();
+  int result = 0;
+  
+  TaskId root(W, count);
+  int store = 0;
+  result = knapSackParallel(root, items, store);
+  
+  printf("sum(v(i)) = %d \n", result);
+  assert(result == 8);
+}
 
 
 // 

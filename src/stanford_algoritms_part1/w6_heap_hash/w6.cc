@@ -249,3 +249,8 @@ TEST(DataStructures, JudyArrays) {
 
 /// Splay-Tree
 // - модифицируется и при поиске
+//
+// Cons:
+//   - может быть O(n)
+
+/// B-Tree
