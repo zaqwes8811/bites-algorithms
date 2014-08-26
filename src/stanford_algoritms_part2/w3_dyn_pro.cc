@@ -212,36 +212,52 @@ int knapSack(int W, int wt[], int val[], int n)
       knapSack(W,           wt, val, n-1));
 }
 
-//template <typename Store>
-int knapSackParallel(const TaskId& id, const vector<Item>& items, int& store)
-{ 
-  // Work
-  int n = id.idx;
-  int w_bound = id.w_bound;
+template <typename Store>
+class KnapsackTaskSerial {
+  int* const store_;
+  const vector<Item>* items_;
+  int* const r_;
   
+  KnapsackTaskSerial(const KnapsackTaskSerial&);
+  KnapsackTaskSerial& operator=(const KnapsackTaskSerial&);
   
-  // Base Case
-  if (n == 0 || w_bound == 0)
-      return 0;
+public:
+  KnapsackTaskSerial(const vector<Item>& items, Store& store, int& result) 
+    : store_(&store), items_(&items), r_(&result)
+  {}
   
-  // Work
-  int delta = 0;
-  TaskId work_id(w_bound, n-1);
-  if (!(items[n-1].w > w_bound)) {
-    work_id = TaskId(w_bound - items[n-1].w, n-1);
-    delta = items[n-1].v;
+  void execute(const TaskId& id)
+  { 
+    // Work
+    int n = id.idx;
+    int w_bound = id.w_bound;
+    
+    
+    // Base Case
+    if (n == 0 || w_bound == 0) {
+      *r_ = 0;  
+      return;
+    }
+    
+    // Work
+    int delta = 0;
+    TaskId work_id(w_bound, n-1);
+    if (!((*items_)[n-1].w > w_bound)) {
+      work_id = TaskId(w_bound - (*items_)[n-1].w, n-1);
+      delta = (*items_)[n-1].v;
+    }
+
+    /// Actions 
+    int x = 0;
+    KnapsackTaskSerial(*items_, *store_, x).execute(work_id);
+    int y = 0;
+    KnapsackTaskSerial(*items_, *store_, y).execute(TaskId(w_bound, n-1));
+    /// Actions
+    
+    x += delta;
+    *r_ = std::max(x, y);
   }
-
-  /// Actions 
-  int x = knapSackParallel(work_id, items, store);
-  int y = knapSackParallel(TaskId(w_bound, n-1), items, store);
-  /// Actions
-  
-  x += delta;
-  int sum_values = std::max(x, y);
-  return sum_values;
-
-}
+};
 
 template <class Store>
 class KnapsackTask: public task {
@@ -479,7 +495,7 @@ TEST(W3, ParallelKnap) {
   
   TaskId root(W, count);
   int store = 0;
-  result = knapSackParallel(root, items, store);
+  KnapsackTaskSerial<int>(items, store, result).execute(root);
   
   printf("sum(v(i)) = %d \n", result);
   assert(result == 8);
