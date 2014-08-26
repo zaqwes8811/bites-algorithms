@@ -30,6 +30,6 @@ INCLUDEPATH += \
   $$ADOBE \
   ../../3rdparty/gmock-1.6.0/fused-src/
 
-LIBS += -lpthread -lrt -ltbb
+LIBS += -lpthread -lrt -ltbb -ltbbmalloc
 
 OBJECTS_DIR = obj

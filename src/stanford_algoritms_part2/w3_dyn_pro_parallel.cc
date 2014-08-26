@@ -11,6 +11,7 @@
 #include "tbb/task_scheduler_init.h"
 #include "tbb/task.h"
 #include "tbb/concurrent_hash_map.h"
+#include <tbb/scalable_allocator.h>
 
 // inner
 #include "visuality/view.h"
@@ -43,7 +44,8 @@ struct TBBHashCompare {
     }
 };
 
-typedef concurrent_hash_map<TaskId, int, TBBHashCompare> TaskTable;
+// Аллокатор тоже не помогает
+typedef concurrent_hash_map<TaskId, int, TBBHashCompare, tbb::scalable_allocator<pair<TaskId, int> > > TaskTable;
 TaskTable g_task_table;
 
 // DANGER: алгоритм пробуксовывает - иногда решает уже решенные задачи
