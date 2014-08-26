@@ -69,7 +69,9 @@ public:
     const bool connect = true;
     // Похоже так лихо не выйдет - задача обязуется выполнить вычисления а сумма фейковая
     // Если решена то вернуть результат
+    // Распространить лок не удалось пока что.
     if (connect) {
+      //TaskTable::accessor a;
       TaskTable::const_accessor a;
       if (store_->find(a, id_)) {
         *r_ = a->second;
