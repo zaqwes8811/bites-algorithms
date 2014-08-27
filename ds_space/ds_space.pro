@@ -12,12 +12,17 @@ DETAILS=../src
 # -std=c++11
 QMAKE_CXXFLAGS += -O2  -Wall -Wno-deprecated -pg
 
-SOURCES += ds_apps.cc \
+SOURCES += \
+  ds_apps.cc \
 #  $$DETAILS/details/io_details.cc \
+  ./thread_safe_ds_test.cc \
   ../3rdparty/gmock-1.6.0/fused-src/gmock-gtest-all.cc \
   ../src/launcher.cc
 
-INCLUDEPATH += $$BOOST $$DETAILS \
+INCLUDEPATH += \
+  $$BOOST \
+  $$DETAILS \
+  ../ \
   ../3rdparty/gmock-1.6.0/fused-src/ \
   /home/zaqwes/work/in-the-vicinity-cc/src
 

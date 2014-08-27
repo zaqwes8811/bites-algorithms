@@ -48,6 +48,9 @@ struct TBBHashCompare {
 //  tbb::scalable_allocator<pair<TaskId, int> >
 typedef concurrent_hash_map<TaskId, int, TBBHashCompare> TaskTable;
 
+// Alse exist:
+//   http://www.threadingbuildingblocks.org/docs/help/reference/containers_overview/concurrent_unordered_map_cls.htm
+
 // скорости не добавляет, а наоборот медленнее работает
 template <typename Store>
 struct Future: public task {
@@ -139,7 +142,8 @@ public:
       c.set_ref_count(2);
       // Start b running.
       spawn( b );
-      spawn( a );
+      //spawn( a );
+      return &a;  // кажется чуть быстрее чем spawn(a), но все равно медленно
       // Start a running and wait for all children (a and b).
       //spawn_and_wait_for_all(a);
       

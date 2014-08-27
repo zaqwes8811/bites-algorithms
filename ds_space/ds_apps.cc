@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 
-#include "reuse/view.h"
+#include "visuality/view.h"
  
 using std::vector;
 using namespace std;
