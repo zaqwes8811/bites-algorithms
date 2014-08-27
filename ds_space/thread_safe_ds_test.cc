@@ -1,3 +1,7 @@
+/// Concurent core info:
+// http://www.boost.org/doc/libs/1_55_0/doc/html/thread/synchronization.html
+// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2406.html
+//
 // Передает пакеты и prodecer thread to consimer
 // Так похоже правильнее было реализовать поток данных
 //   из интерфейса в базу данных
@@ -28,6 +32,10 @@
 // Finded tut.:
 //   https://computing.llnl.gov/tutorials/pthreads/
 //   https://computing.llnl.gov/tutorials/parallel_comp/
+//
+//
+// Concurent code style
+//   http://www.codingstandard.com/section/18-concurrency/
 
 // C
 #include <pthread.h>
@@ -38,6 +46,7 @@
 
 // C++11
 #include <mutex>
+#include <thread>
 
 // 3rdparty
 #include <gtest/gtest.h>
@@ -241,6 +250,60 @@ TEST(STL, LRefThinking) {
 // Summary:
 //   лучше сперва вообще запретить.
 // http://stackoverflow.com/questions/13030272/how-to-implement-an-atomic-thread-safe-and-exception-safe-deep-copy-assignment
+class A
+{
+  mutable std::mutex  mut_;
+  std::vector<double> data_;
+
+public:
+  // ...
+
+  A& operator=(const A& rhs)
+  {
+    if (this != &rhs)  // важно, чтобы не было самоблокировки
+    {
+      // Так захватывает он лок или нет?  
+      std::unique_lock<std::mutex> lhs_lock(mut_,     std::defer_lock);
+      std::unique_lock<std::mutex> rhs_lock(rhs.mut_, std::defer_lock);
+      std::lock(lhs_lock, rhs_lock);  // похоже правильно обрабатывает a = a
+      
+      // V0
+      //std::unique_lock<std::mutex> lhs_lock(mut_);
+      //std::unique_lock<std::mutex> rhs_lock(rhs.mut_);  // deadlock!
+        // assign data ...
+      data_ = rhs.data_;
+    }
+    return *this;
+  }
+
+    // ...
+};
+void task1(A* a, A* b)
+{
+    //std::cout << "task1 says: " << msg;
+    for (int i = 0; i < 100000; ++i) {
+      *a = *b;  // deadlock - v0
+      ;
+    }
+}
+TEST(DS, Mutex) {
+  std::mutex mut;
+  
+  // http://stackoverflow.com/questions/20516773/stdunique-lockstdmutex-or-stdlock-guardstdmutex
+  std::unique_lock<std::mutex> lk(mut, std::defer_lock);
+  assert(lk.owns_lock() == false);
+  
+  A a, b;
+  
+  std::thread t1(task1, &a, &b);
+  std::thread t2(task1, &b, &a);
+  std::thread t3(task1, &a, &a);
+  std::thread t4(task1, &a, &a);
+  t1.join();
+  t2.join();
+  t3.join();
+  t4.join();
+}
 
 // TODO: из толков от яндекса
 // https://tech.yandex.ru/events/yagosti/cpp-user-group/talks/1798/
@@ -266,3 +329,5 @@ void push(const T& t){
 // TODO: интерфейс С++11 потокобезопасных контейнеров.
 // http://stackoverflow.com/questions/15278343/c11-thread-safe-queue
 
+// TODO: Try all
+// http://www.boost.org/doc/libs/1_55_0/doc/html/thread/synchronization.html
