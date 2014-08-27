@@ -34,6 +34,7 @@
 
 // C++
 #include <list>
+#include <ostream>
 
 // C++11
 #include <mutex>
@@ -42,6 +43,23 @@
 #include <gtest/gtest.h>
 
 using std::list;
+
+class Fake {
+public:
+  Fake() {
+    std::cout << "ctor\n";
+  }
+  Fake(const Fake& rhs) {
+    std::cout << "copy ctor\n";
+  }
+  Fake& operator=(const Fake& rhs) {
+    std::cout << "assign operator\n";
+    return *this;
+  }
+private:
+  Fake(Fake&&) = delete;
+  Fake& operator=(Fake&&) = delete;
+};
 
 // Part1
 // http://www.ibm.com/developerworks/ru/library/au-multithreaded_structures1/
@@ -59,13 +77,13 @@ public:
   
   void push(const T& value) {
     pthread_mutex_lock(&_lock);
-    _list.push_back(value);
+    _list.push_back(value);  // лучше врезка нового списка и вне критической секции
     pthread_mutex_unlock(&_lock);
   }
   
   // вообще из сетторов по значению возвращать не стоит
   // но операция должна быть атомарной
-  T pop() {
+  T pop(/*T& r - тоже плохо, т.к. возвращаем хэндл, нет это возвращение ссылки на то чего быть не должно*/) {
     // TODO: а то что не под локом это нормально?
     if (_list.empty()) {
       throw "Elem not founded.";
@@ -78,11 +96,34 @@ public:
     return _temp;
   }
   
+  //  Плохо, т.к. возвращаем хэндл - нет - может не так и плохо
+  // нет это возвращение ссылки на то чего быть не должно - это из Саттера, но не про то - T& pop();
+  // 
+  // похоже этот вариант лучший
+  void pop(T& r) {
+    // TODO: а то что не под локом это нормально?
+    if (_list.empty()) {
+      throw "Elem not founded.";
+    }
+    
+    pthread_mutex_lock(&_lock);
+    T _temp = _list.front();
+    r = _temp;
+    _list.pop_front();
+    pthread_mutex_unlock(&_lock);
+  }
+  
 private:
+  // DANGER: !!!
+  QueuePthread(const QueuePthread&);
+  QueuePthread& operator=(const QueuePthread&);
+  
   list<T> _list;
   pthread_mutex_t _lock;
 };
 
+// No correct:
+// http://codereview.stackexchange.com/questions/41604/thread-safe-concurrent-fifo-queue-in-c
 template <typename T>
 class QueuePthreadV2 {
 public:
@@ -118,6 +159,11 @@ public:
   
 private:
   list<T> _list;
+  
+  // DANGER: !!!
+  QueuePthreadV2(const QueuePthreadV2&);
+  QueuePthreadV2& operator=(const QueuePthreadV2&);
+  
   // http://hardclub.donntu.edu.ua/projects/qt/qq/qq11-mutex.html
   pthread_mutex_t _rlock, _wlock;  // TODO: а как так? А не должен быть один?
 };
@@ -179,6 +225,15 @@ public:
   // ...
 };
 
+void foo(Fake& fake) {
+  Fake tmp;
+  fake = tmp;  // assign
+}
+TEST(STL, LRefThinking) {
+  Fake f;
+  foo(f);
+}
+ 
 // TODO:
 // thread-safe copy ctor and assign
 // http://stackoverflow.com/questions/5070161/designing-a-thread-safe-copyable-class
@@ -209,4 +264,5 @@ void push(const T& t){
 */
 
 // TODO: интерфейс С++11 потокобезопасных контейнеров.
+// http://stackoverflow.com/questions/15278343/c11-thread-safe-queue
 
