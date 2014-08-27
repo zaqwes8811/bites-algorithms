@@ -35,6 +35,9 @@
 // C++
 #include <list>
 
+// C++11
+#include <mutex>
+
 // 3rdparty
 #include <gtest/gtest.h>
 
@@ -150,6 +153,31 @@ public:
 
 // TODO: очередь от Шена
 // http://channel9.msdn.com/Events/GoingNative/2013/Cpp-Seasoning
+//
+// В вопросах кто-то не лестно отозвался о реализации, но что он сказал?
+template <typename T>
+class concurent_queue 
+{
+  std::mutex mutex_;
+  list<T> q_;
+public:
+  void enqueue(T x) {
+    // allocation here
+    list<T> tmp;
+    tmp.push_back(move(x));
+    
+    // threading
+    {
+      std::lock_guard<std::mutex> lock(mutex_);
+      // вроде бы константное время
+      q_.splice(end(q_), tmp);
+      
+      // для вектора может неожиданно потреб. реаллокация
+    }
+  }
+  
+  // ...
+};
 
 // TODO:
 // thread-safe copy ctor and assign
@@ -158,4 +186,27 @@ public:
 // Summary:
 //   лучше сперва вообще запретить.
 // http://stackoverflow.com/questions/13030272/how-to-implement-an-atomic-thread-safe-and-exception-safe-deep-copy-assignment
+
+// TODO: из толков от яндекса
+// https://tech.yandex.ru/events/yagosti/cpp-user-group/talks/1798/
+// Для контейнеров нужна внешняя синхронизация.
+//
+// ref base and value base - похоже не то же самое что смартпоинтеры в контейнерах
+//
+// Нельзя зывать чужой код под "замком"!!
+/*
+void push(const T& t){
+  //node* p_node = new node(t);  // TODO: сделать безопасным в плане искл.
+  // http://www.gotw.ca/publications/using_auto_ptr_effectively.htm
+  auto_ptr<node> p_node(new node(t));
+  lock_guard lck(mtx);
+  
+  p_node->next = head;
+  
+  head = p_node.release();  // not get!!
+}
+// когда забираем из стека, то тоже можно захватить auto_ptr'ом
+*/
+
+// TODO: интерфейс С++11 потокобезопасных контейнеров.
 

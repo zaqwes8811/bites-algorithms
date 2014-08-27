@@ -9,8 +9,8 @@ BOOST=/home/zaqwes/work/third_party/boost_1_55_0
 DETAILS=../src
 
 # но лучше бы 11 убрать, т.к. не ясно нужно ли доопределять некоторые функции
-# -std=c++11
-QMAKE_CXXFLAGS += -O2  -Wall -Wno-deprecated -pg
+# 
+QMAKE_CXXFLAGS += -O2  -Wall -Wno-deprecated -pg -std=c++11
 
 SOURCES += \
   ds_apps.cc \
