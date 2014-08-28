@@ -16,6 +16,7 @@ SOURCES += \
   ds_apps.cc \
 #  $$DETAILS/details/io_details.cc \
   ./thread_safe_ds_test.cc \
+  ./thread_safe_boost_sync_test.cc \
   ../3rdparty/gmock-1.6.0/fused-src/gmock-gtest-all.cc \
   ../src/launcher.cc
 
