@@ -332,6 +332,9 @@ TEST(DS, Mutex) {
   t4.join();
 }
 
+// TODO: Try all
+// http://www.boost.org/doc/libs/1_55_0/doc/html/thread/synchronization.html
+
 // TODO: из толков от яндекса
 // https://tech.yandex.ru/events/yagosti/cpp-user-group/talks/1798/
 // Для контейнеров нужна внешняя синхронизация.
@@ -356,5 +359,3 @@ void push(const T& t){
 // TODO: интерфейс С++11 потокобезопасных контейнеров.
 // http://stackoverflow.com/questions/15278343/c11-thread-safe-queue
 
-// TODO: Try all
-// http://www.boost.org/doc/libs/1_55_0/doc/html/thread/synchronization.html
