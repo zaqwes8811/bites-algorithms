@@ -51,6 +51,13 @@
 // 3rdparty
 #include <gtest/gtest.h>
 
+
+// !!
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/shared_mutex.hpp>
+#include <boost/thread/locks.hpp>
+#include <boost/thread/lock_algorithms.hpp>
+
 using std::list;
 
 class Fake {
@@ -256,6 +263,7 @@ class A
   std::vector<double> data_;
 
 public:
+  A() {}
   // ...
 
   A& operator=(const A& rhs)
@@ -276,6 +284,9 @@ public:
     return *this;
   }
 
+  
+private:
+  A(const A&);  // !!
     // ...
 };
 void task1(A* a, A* b)
@@ -286,6 +297,38 @@ void task1(A* a, A* b)
       ;
     }
 }
+
+class B {
+  typedef boost::shared_mutex mutex_type;
+  typedef boost::shared_lock<mutex_type> SharedLock;
+  typedef boost::unique_lock<mutex_type> ExclusiveLock;
+  
+  // TODO: shared_lock = read_lock?
+  
+  mutable mutex_type mut_;
+  std::vector<double> data_;
+
+public:
+  B& operator=(const B& rhs)
+    {
+        if (this != &rhs)
+        {
+            // assign data ...
+            // expensive code here ... !!!
+            ExclusiveLock lhs_lock(mut_, boost::defer_lock);  // свой эксклюзивный
+            SharedLock rhs_lock(mut_, boost::defer_lock);
+            boost::lock(lhs_lock, rhs_lock);
+            data_ = rhs.data_;
+        }
+        return *this;
+    }
+//private:
+  B(const B& rhs) {
+    SharedLock _(rhs.mut_);
+    data_ = rhs.data_;
+  }
+};
+
 TEST(DS, Mutex) {
   std::mutex mut;
   

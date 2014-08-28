@@ -27,5 +27,6 @@ INCLUDEPATH += \
   /home/zaqwes/work/in-the-vicinity-cc/src
 
 LIBS += -lpthread -lrt -ltbb
+LIBS += -L$$BOOST/stage/lib -lboost_thread -lboost_system
 
 OBJECTS_DIR = obj
