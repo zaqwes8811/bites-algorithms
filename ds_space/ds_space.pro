@@ -14,6 +14,8 @@ QMAKE_CXXFLAGS += -O2  -Wall -Wno-deprecated -pg -std=c++11
 
 SOURCES += \
   ds_apps.cc \
+  thread_safe_queue_test.cc \
+  some_lock_free_magic_test.cc \
 #  $$DETAILS/details/io_details.cc \
   ./thread_safe_ds_test.cc \
   ../3rdparty/gmock-1.6.0/fused-src/gmock-gtest-all.cc \
