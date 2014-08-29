@@ -1,5 +1,7 @@
+// TODO: multiple consumers 
  
 // Sys 
+// DANGER: unlock unlocked - undef. beh.
 #include <pthread.h>
 
 // C++
@@ -119,17 +121,57 @@ class BlockedQueue
  : public boost::noncopyable  // DANGER: вообще то зависимотсь от буста
  {
 public:
+  //
+  typedef T value_type;
+  
+  // construct/destroy/copy
   BlockedQueue() {
     pthread_mutex_init(&lock_, NULL);
     pthread_cond_init(&cond_, NULL);
   }
   
   ~BlockedQueue() {
+    pthread_mutex_destroy(&lock_);
+    pthread_cond_destroy(&cond_);
+  }
+  
+  void push(const T& src) {
+    {
+      pthread_mutex_lock(&lock_);
+      const bool was_empty = list_.empty();
+      list_.push_back(src);  // bad onder lock
+      pthread_mutex_unlock(&lock_);
+    }
     
+    if (was_empty)
+      pthread_cond_broadcast(&cond_);
+  }
+  
+  void try_pop(T& dst) {
+    // http://stackoverflow.com/questions/2763714/why-do-pthreads-condition-variable-functions-require-a-mutex
+    
+    // DANGER: спонтанные просыпания!!
+    pthread_mutex_lock(&lock_);
+    /// atomic
+    if (list_.empty()) {
+    /// atomic
+      // Q: мьютекс разблокируется?
+      // Чтобы дать producer'у разблокироваться
+      pthread_cond_wait(&cond_, &lock_);  
+      // "magically locked again"
+    }
+    
+    dst = list_.front();
+    
+    // http://stackoverflow.com/questions/1778780/if-you-unlock-an-already-unlocked-mutex-is-the-behavior-undefined
+    pthread_mutex_unlock(&lock_); // не опасно ли? 
   }
   
 private:
+  list<T> list_;
   // http://bytes.com/topic/c/answers/493246-copying-mutexes-cv-pthread_ts
+  pthread_mutex_t lock_;
+  pthread_cond_t cond_;
 };
 
 }
