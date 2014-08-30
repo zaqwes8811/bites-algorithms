@@ -129,7 +129,7 @@ void foo(Fake& fake) {
   Fake tmp;
   fake = tmp;  // assign
 }
-TEST(STL, LRefThinking) {
+TEST(Lang, LRefThinking) {
   Fake f;
   foo(f);
 }

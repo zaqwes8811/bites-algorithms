@@ -1,4 +1,5 @@
 // TODO: multiple consumers 
+// TODO: нельзя прочитать до истечения некоторого интервала времени после вставки
  
 // Sys 
 // DANGER: unlock unlocked - undef. beh.
@@ -6,8 +7,10 @@
 
 // C++
 #include <list>
+#include <iostream>
 
 #include <boost/noncopyable.hpp>
+#include <gtest/gtest.h>
 
 using std::list;
 
@@ -73,6 +76,7 @@ private:
 };
 
 // No correct:
+// Возможно с двумя списками да
 // http://codereview.stackexchange.com/questions/41604/thread-safe-concurrent-fifo-queue-in-c
 template <typename T>
 class QueuePthreadV2 {
@@ -136,12 +140,12 @@ public:
   }
   
   void push(const T& src) {
-    {
+    //{
       pthread_mutex_lock(&lock_);
       const bool was_empty = list_.empty();
       list_.push_back(src);  // bad onder lock
       pthread_mutex_unlock(&lock_);
-    }
+    //}
     
     if (was_empty)
       pthread_cond_broadcast(&cond_);
@@ -153,15 +157,19 @@ public:
     // DANGER: спонтанные просыпания!!
     pthread_mutex_lock(&lock_);
     /// atomic
-    if (list_.empty()) {
+    while (list_.empty())  // так правильнее - защита от пробуждений
+    //if (list_.empty()) 
+    {
     /// atomic
       // Q: мьютекс разблокируется?
       // Чтобы дать producer'у разблокироваться
+      // Мьютек должен быть захвачен
       pthread_cond_wait(&cond_, &lock_);  
       // "magically locked again"
     }
     
     dst = list_.front();
+    list_.pop_front();
     
     // http://stackoverflow.com/questions/1778780/if-you-unlock-an-already-unlocked-mutex-is-the-behavior-undefined
     pthread_mutex_unlock(&lock_); // не опасно ли? 
@@ -174,4 +182,110 @@ private:
   pthread_cond_t cond_;
 };
 
+// V0 - hard now - DANGER: в статье много ошибок
+template <typename T>
+class BlockedTimedQueue
+ : public boost::noncopyable  // DANGER: вообще то зависимотсь от буста
+ {
+public:
+  //
+  typedef T value_type;
+   
+private:
+   list<T> list_;
+  // http://bytes.com/topic/c/answers/493246-copying-mutexes-cv-pthread_ts
+  pthread_mutex_t lock_;
+  pthread_cond_t cond_;
+};
+
+template <typename T>
+class BoundedBlockedQueue
+ : public boost::noncopyable  // DANGER: вообще то зависимотсь от буста
+ {
+public:
+  //
+  typedef T value_type;
+  
+  // construct/destroy/copy
+  explicit BoundedBlockedQueue(int size) : size_(0), maxSize_(size) {
+    pthread_mutex_init(&lock_, NULL);
+    pthread_cond_init(&rcond_, NULL);
+    pthread_cond_init(&wcond_, NULL);
+  }
+  
+  ~BoundedBlockedQueue() {
+    pthread_mutex_destroy(&lock_);
+    pthread_cond_destroy(&rcond_);
+    pthread_cond_destroy(&wcond_);
+  }
+  
+  void push(const T& src) {
+    // Resize vector - non thread safe
+    pthread_mutex_lock(&lock_);
+    const bool was_empty = list_.empty();
+    while (get_size_() == maxSize_) {
+      pthread_cond_wait(&wcond_, &lock_);
+    }
+    
+    list_.push_back(src);
+    ++size_;
+    pthread_mutex_unlock(&lock_);
+    if (was_empty)
+      pthread_cond_broadcast(&rcond_);
+  }
+  
+  void pop(T& dst) {
+    pthread_mutex_lock(&lock_);
+    const bool was_full = (get_size_( ) == maxSize_);
+    while (list_.empty()) {
+      pthread_cond_wait(&rcond_, &lock_);
+    }
+    dst = list_.front();  // may throw - assign
+    
+    list_.pop_front();  // no throw
+    --size_;
+    
+    pthread_mutex_unlock(&lock_);
+    if (was_full)
+      pthread_cond_broadcast(&wcond_);
+  }
+   
+private:
+  int get_size_() const { return size_; }
+  list<T> list_;  // size() - O(n)
+  int size_;  // list size - O(1)
+  const int maxSize_;
+  
+  // не тужен вектор - его длина - O(1) - удаление из начала очень дорогая операция
+  //vector<T> array_;  
+  
+  pthread_mutex_t lock_;
+  pthread_cond_t rcond_, wcond_;
+};
+}
+
+namespace {
+class Fake {
+public:
+  Fake() {
+    std::cout << "ctor\n";
+  }
+  Fake(const Fake& rhs) {
+    std::cout << "copy ctor\n";
+  }
+  Fake& operator=(const Fake& rhs) {
+    std::cout << "assign operator\n";
+    return *this;
+  }
+private:
+  Fake(Fake&&) = delete;
+  Fake& operator=(Fake&&) = delete;
+};
+}
+
+TEST(Lang, Ref) {
+  Fake fake;
+  Fake& ref = fake;
+  Fake fake1;
+  fake1 = ref;
 }
