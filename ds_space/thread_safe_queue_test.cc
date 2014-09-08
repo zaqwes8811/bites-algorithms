@@ -1,5 +1,6 @@
 // TODO: multiple consumers 
 // TODO: нельзя прочитать до истечения некоторого интервала времени после вставки
+// TODO: а как разблокировать очередь - завершить поток? wait some time?
  
 // Sys 
 // DANGER: unlock unlocked - undef. beh.
