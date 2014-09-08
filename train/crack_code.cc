@@ -45,6 +45,10 @@ void reverse_string(char* line
 
 // 1.3 Remove dupl. chapters
 // сложнее - нелзя использовать ничего доп. (большого дополнительного) - только локальные переменные
+// похож на жадный? Greedy?
+// информация есть обо всех - они в начале массива, и мы удалим если будет второе вхождение
+// Инвариант - все до тайла уникальные
+// Если сдвигать и идти до конца то похое - O(n^3)
 void unique_n2(char* str, const unsigned size) {
   // сортировать вроде бы нельзя
   //for ()
@@ -52,11 +56,42 @@ void unique_n2(char* str, const unsigned size) {
   assert(str);
 
   // work
-  char tmp(str[0]);
-  int tail(0);  // нужно одновременно удалять
-  for (int i = 0; i < size; ++i) {
+  int end(1);  // нужно одновременно удалять, т.е. сдвигать?
+  for (int current = 1; current < size; ++current) {
+    
+    int finded = 0;
+    const char elem = str[current];
+
+    // ищем в нашей псевдотаблице
+    while (finded < end) {
+      if (str[finded] == elem) 
+        break;  // нашли. просто переходим к следующему элементу
+      ++finded;
+    }
+
+    // не нашел. добавить
+    if (finded == end) {
+      str[end] = elem;
+      ++end;
+    }
 
   }
+  str[end] = 0;  // все что за ним уже мусор
+}
+
+// 1.4
+
+// 1.6
+struct Pixel {
+  char r;
+  char g;
+  char b;
+  char i;
+};
+
+void rotate_img_90() {
+  //
+  Pixel tmp; 
 }
 
 }
@@ -66,6 +101,10 @@ int main() {
   arr_and_strings::reverse_string(&s[0]);
   assert(s == "edcba");
 
+  char str[] = "aabbcc";
+  //char* str = "aabbcc";  // Seg. fault
+  arr_and_strings::unique_n2(str, strlen(str));
+  assert(string(str) == "abc");
 
   return 0;
 }
