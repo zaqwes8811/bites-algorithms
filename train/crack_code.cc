@@ -210,6 +210,7 @@ public:
   }
 
   void push_back(const T& elem) {
+    // FIXME: error here!!
     auto_ptr<node> tmp(new node());
     tmp->next = 0;
     tmp->elem = elem;  // может бросить исключение
@@ -256,6 +257,7 @@ ostream& operator<<(ostream& o, const single_linked_list<T>& l) {
 TEST(Crack, LinkedList) {
   single_linked_list<int> l;
   l.push_back(9);
+  l.push_back(10);
   l.push_back(10);
   cout << l;
 }
