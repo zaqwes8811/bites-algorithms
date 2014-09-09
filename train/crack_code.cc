@@ -215,6 +215,7 @@ public:
     tmp->next = 0;
     tmp->elem = elem;  // может бросить исключение
 
+    // FIXME: а если искать конец, то время вставки будет O(n)
     // change state
     node* ptr = tmp.release();
     if (root_ptr_)
@@ -261,6 +262,9 @@ TEST(Crack, LinkedList) {
   l.push_back(10);
   cout << l;
 }
+
+// Doubled linked list
+// http://www.youtube.com/watch?v=k0pjD12bzP0&list=PLTxllHdfUq4dp5Hrsw3FJzI1nnlXBre0v
 
 }
 
