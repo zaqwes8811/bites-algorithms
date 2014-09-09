@@ -6,6 +6,7 @@
 #include <algorithm>  // hm...
 #include <vector>
 #include <memory>
+#include <stdexcept>
 
 #include <string.h>
 #include <assert.h>
@@ -193,11 +194,11 @@ public:
   typedef T element_type;
 
   // construction/destruction
-  single_linked_list() : root_ptr_(0) {}
+  single_linked_list() : head_(0), tail_(0) {}
   ~single_linked_list() {
     // удаляеть нужно!
     // http://stackoverflow.com/questions/3840582/still-reachable-leak-detected-by-valgrind
-    node* ptr = root_ptr_;
+    node* ptr = head_;
     if (ptr) {
       while (ptr->next) {
         auto_ptr<node> _(ptr);  // удалит текущий при выходе из блока
@@ -210,18 +211,30 @@ public:
   }
 
   void push_back(const T& elem) {
-    // FIXME: error here!!
-    auto_ptr<node> tmp(new node());
-    tmp->next = 0;
-    tmp->elem = elem;  // может бросить исключение
+    //auto_ptr<node> tmp(new node(elem, 0));
+    // в принципе умный указатель не нужен, если есть конструктор
+    //tmp->next = 0;
+    //tmp->elem = elem;  // может бросить исключение
 
-    // FIXME: а если искать конец, то время вставки будет O(n)
     // change state
-    node* ptr = tmp.release();
-    if (root_ptr_)
-      root_ptr_->next = ptr;
-    else
-      root_ptr_ = ptr;
+    // если конструктор бросит искл. то new ...
+    // FIXME: а что будет то? Деструктор может и не вызваться. Если и бросит, то состояние списка не изменится
+    node* const ptr = new node(elem, 0);//tmp.release();
+    if (head_) {
+      tail_->next = ptr;
+      
+      // соединяем голову с остальным, иначе будет разрыв
+      // нет не будет, т.к. изначально head and tail указывают на один динамический элемент
+      //   и что происходит с хвостом, то происходит и с головой
+      //if (!head_->next)
+        //head_->next = tail_;
+
+      tail_ = ptr;
+    } else {
+      // создаем первый элемент
+      head_ = tail_ = ptr;
+      //head_->next = tail_;  // connect - при траверсе может быть ошибка - зациклится если элемент один
+    }
   }
 
 private:
@@ -229,21 +242,30 @@ private:
   friend ostream& operator<<(ostream& o, const single_linked_list<U>&);
 
   // no copy and assign
+  // FIXME: сделать exception-safe - проблема с том, что если возникнет искл. при конструировании, то деструктор не вызовется
+  //   и память утечет. Может catch(...) throw;
   single_linked_list& operator=(const single_linked_list&);
   single_linked_list(const single_linked_list&);
 
+  // лучше сделать с конструктором, тогда можно будет положиться на new если возникнет исключение
   struct node
   {
+    node(const T& _elem, node* const _next) : elem(_elem), next(_next) { throw runtime_error(""); }
     T elem;
     node* next;  
+    ~node() {
+      cout << "node dtor\n";
+    }
   };
 
-  node* root_ptr_;
+  // пока не вставим первый соеденить их нельзя
+  node* head_;
+  node* tail_;  // без него вставка за O(n)
 };
 
 template <typename T>
 ostream& operator<<(ostream& o, const single_linked_list<T>& l) {
-  typename single_linked_list<T>::node* it = l.root_ptr_;
+  typename single_linked_list<T>::node* it = l.head_;
   if (it) {
     while (it->next) {
       cout << it->elem << ", ";
@@ -259,7 +281,7 @@ TEST(Crack, LinkedList) {
   single_linked_list<int> l;
   l.push_back(9);
   l.push_back(10);
-  l.push_back(10);
+  l.push_back(11);
   cout << l;
 }
 
