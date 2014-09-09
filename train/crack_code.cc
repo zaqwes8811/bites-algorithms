@@ -1,8 +1,11 @@
 
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <string>
 #include <algorithm>  // hm...
 #include <vector>
+#include <memory>
 
 #include <string.h>
 #include <assert.h>
@@ -106,6 +109,9 @@ struct Pixel {
 //   А раз добавил границы, значит их нужно будет проверять!
 template <typename T>
 void rotate_img_90(std::vector<std::vector<T> >& mat, const int N) {
+  assert(mat.size() == N);
+  assert(mat[0].size() == N);
+
   // границы как-то автоматом вошли
   for (int layer = 0; layer < N/2; ++layer) {
     int first = layer;
@@ -136,15 +142,17 @@ void rotate_img_90(std::vector<std::vector<T> >& mat, const int N) {
 // будет какое-то ускорение - часть удалиться... 
 // все может начать зависеть от пути обхода! нужно пройти несколько раз
 
+// 1.8
+
+bool isSubstring(const string& where, const string& what) {
+  return false;
 }
 
-namespace stacks_and_queues {
-// ?.?
-// делать трек min при вставке можно за O(n). Но pop() будет O(n), т.к. если удаляем минимальный, то что его заменит?
+void rotated() {
 
 }
 
-int main() {
+TEST(Crack, ArrAndStrings) {
   string s("abcde");
   arr_and_strings::reverse_string(&s[0]);
   assert(s == "edcba");
@@ -158,32 +166,106 @@ int main() {
   const int N = 5;
   int mat_raw[N][N] = 
   {
-    11, 12, 13, 14, 92, 
-    15, 16, 17, 18, 92,
-    19, 10, 11, 12, 92,
-    13, 14, 15, 16, 92,
-    70, 70, 70, 70, 70
+    {11, 12, 13, 14, 92}, 
+    {15, 16, 17, 18, 92},
+    {19, 10, 11, 12, 92},
+    {13, 14, 15, 16, 92},
+    {70, 70, 70, 70, 70}
   };
   
   std::vector<std::vector<int> > v;
 
   for (int i = 0; i < N; ++i) {
     v.push_back(std::vector<int>(mat_raw[i], mat_raw[i]+N));
-    for (int j = 0; j < N; ++j)
-      cout << mat_raw[i][j] << ", ";
-    cout  << endl;
   }
-  cout << endl;
 
   //int** pp_mat = &mat[0];
-  //arr_and_strings::rotate_img_90((int**)mat, N);  // segfault
+  //arr_and_strings::rotate_img_90((int**)mat, N);  // segfault - что-то с преобразованием было не то
   arr_and_strings::rotate_img_90(v, N);
+}
 
-  for (int i = 0; i < N; ++i) {
-    for (int j = 0; j < N; ++j)
-      cout << v[i][j] << ", ";
-    cout  << endl;
+}
+
+namespace lists {
+template <typename T>
+class single_linked_list {
+public:
+  typedef T element_type;
+
+  // construction/destruction
+  single_linked_list() : root_ptr_(0) {}
+  ~single_linked_list() {
+    // удаляеть нужно!
+    // http://stackoverflow.com/questions/3840582/still-reachable-leak-detected-by-valgrind
+    node* ptr = root_ptr_;
+    if (ptr) {
+      while (ptr->next) {
+        auto_ptr<node> _(ptr);  // удалит текущий при выходе из блока
+        ptr = ptr->next;
+      }
+
+      // удалит последний
+      auto_ptr<node> _(ptr);
+    }
   }
 
-  return 0;
+  void push_back(const T& elem) {
+    auto_ptr<node> tmp(new node());
+    tmp->next = 0;
+    tmp->elem = elem;  // может бросить исключение
+
+    // change state
+    node* ptr = tmp.release();
+    if (root_ptr_)
+      root_ptr_->next = ptr;
+    else
+      root_ptr_ = ptr;
+  }
+
+private:
+  template <typename U>
+  friend ostream& operator<<(ostream& o, const single_linked_list<U>&);
+
+  // no copy and assign
+  single_linked_list& operator=(const single_linked_list&);
+  single_linked_list(const single_linked_list&);
+
+  struct node
+  {
+    T elem;
+    node* next;  
+  };
+
+  node* root_ptr_;
+};
+
+template <typename T>
+ostream& operator<<(ostream& o, const single_linked_list<T>& l) {
+  typename single_linked_list<T>::node* it = l.root_ptr_;
+  if (it) {
+    while (it->next) {
+      cout << it->elem << ", ";
+      it = it->next;
+    }
+    cout << it->elem;
+  }
+  cout << endl;
+  return o;
 }
+
+TEST(Crack, LinkedList) {
+  single_linked_list<int> l;
+  l.push_back(9);
+  l.push_back(10);
+  cout << l;
+}
+
+}
+
+namespace stacks_and_queues {
+// ?.?
+// делать трек min при вставке можно за O(n). Но pop() будет O(n), т.к. если удаляем минимальный, то что его заменит?
+
+}
+
+
