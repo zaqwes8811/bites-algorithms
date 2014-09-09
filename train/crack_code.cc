@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>  // hm...
+#include <vector>
 
 #include <string.h>
 #include <assert.h>
@@ -82,6 +83,7 @@ void unique_n2(char* str, const unsigned size) {
 // 1.4
 
 // 1.6
+// нужно как-то обеспечить выполнения границ - желательно автоматом
 struct Pixel {
   char r;
   char g;
@@ -89,14 +91,56 @@ struct Pixel {
   char i;
 };
 
-void rotate_img_90() {
-  //
-  Pixel tmp[4];  // очередь из 4 пикселей  
+// xy-координаты не очень подходят, лучше четверть вращать, а кольца
+// нужно изолировать область для размышлений - стараться на каждом шаге делать задачу меньше
+//
+// FAIL: свое решение не ахти
+//
+// FAIL: базовую часть прявильно понял, но укрупнение сделал не правильно - не естественно
+//   но с другой стороны если четвертью, то локальность ссылок больше(?), хотя если развертка по х, то кольцами лучше
+//   хотя локальность при записи или чтении быдет все равно плохой.
+//
+// FAIL: в задаче есть симметрия по координатам
+//
+// FAIL: нужно было не добавлять разбиений - уже есть границы квадрата, зачем было делить еще пополам
+//   А раз добавил границы, значит их нужно будет проверять!
+template <typename T>
+void rotate_img_90(std::vector<std::vector<T> >& mat, const int N) {
+  // границы как-то автоматом вошли
+  for (int layer = 0; layer < N/2; ++layer) {
+    int first = layer;
+    int last = N - 1 - layer;
+    // [first, last)
+    for (int i = first; i < last; ++i) {
+      // i - реальный доступ
+      int offset = i - first;  // локальная система координат
+      
+      T top = mat[first][i]; 
+
+      // left -> top
+      mat[first][i] = mat[last - offset][first];
+
+      // bottom -> left
+      mat[last - offset][first] = mat[last][last - offset];
+
+      // right -> bottom
+      mat[last][last - offset] = mat[i][last];
+
+      // top -> right
+      mat[i][last] = top;
+    }
+  }
 }
 
 // 1.7 - однуления столбцов
 // будет какое-то ускорение - часть удалиться... 
 // все может начать зависеть от пути обхода! нужно пройти несколько раз
+
+}
+
+namespace stacks_and_queues {
+// ?.?
+// делать трек min при вставке можно за O(n). Но pop() будет O(n), т.к. если удаляем минимальный, то что его заменит?
 
 }
 
@@ -109,6 +153,37 @@ int main() {
   //char* str = "aabbcc";  // Seg. fault
   arr_and_strings::unique_n2(str, strlen(str));
   assert(string(str) == "abc");
+
+
+  const int N = 5;
+  int mat_raw[N][N] = 
+  {
+    11, 12, 13, 14, 92, 
+    15, 16, 17, 18, 92,
+    19, 10, 11, 12, 92,
+    13, 14, 15, 16, 92,
+    70, 70, 70, 70, 70
+  };
+  
+  std::vector<std::vector<int> > v;
+
+  for (int i = 0; i < N; ++i) {
+    v.push_back(std::vector<int>(mat_raw[i], mat_raw[i]+N));
+    for (int j = 0; j < N; ++j)
+      cout << mat_raw[i][j] << ", ";
+    cout  << endl;
+  }
+  cout << endl;
+
+  //int** pp_mat = &mat[0];
+  //arr_and_strings::rotate_img_90((int**)mat, N);  // segfault
+  arr_and_strings::rotate_img_90(v, N);
+
+  for (int i = 0; i < N; ++i) {
+    for (int j = 0; j < N; ++j)
+      cout << v[i][j] << ", ";
+    cout  << endl;
+  }
 
   return 0;
 }
