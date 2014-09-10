@@ -190,23 +190,39 @@ TEST(Crack, ArrAndStrings) {
 namespace lists {
 template <typename T>
 class single_linked_list {
+private:
+  struct node
+  {
+    node(const T& _elem, node* const _next) : elem(_elem), next(_next) { 
+      //throw runtime_error(""); 
+    }
+
+    T elem;
+    node* next;  
+    ~node() {
+      //cout << "node dtor\n";
+    }
+  };
+
 public:
   typedef T element_type;
 
   // construction/destruction
-  single_linked_list() : head_(0), tail_(0) {}
+  single_linked_list() : head_(0), tail_(0), attached_(true) {}
   ~single_linked_list() {
     // удаляеть нужно!
     // http://stackoverflow.com/questions/3840582/still-reachable-leak-detected-by-valgrind
-    node* ptr = head_;
-    if (ptr) {
-      while (ptr->next) {
-        auto_ptr<node> _(ptr);  // удалит текущий при выходе из блока
-        ptr = ptr->next;
-      }
+    if (attached_) {
+      node* ptr = head_;
+      if (ptr) {
+        while (ptr->next) {
+          auto_ptr<node> _(ptr);  // удалит текущий при выходе из блока
+          ptr = ptr->next;
+        }
 
-      // удалит последний
-      auto_ptr<node> _(ptr);
+        // удалит последний
+        auto_ptr<node> _(ptr);
+      }
     }
   }
 
@@ -244,33 +260,68 @@ public:
   }
 
 private:
+  // для реализации move - false - не владеет, и поэтому можно перемещать указатели
+  // BAD: но как по другому?
+  void off_ownership_() {
+    attached_ = false;
+  }
+
+  // управление ресурсами - можно было бы сделать статически, но уже есть список, работающий с ними
+  // удаляет цепочку
+  // думаю поможет сделать безопасным конструктор копирования
+  //static void delete_chain_(node* const head) /*nothrow()*/;
+  // FIXME: create by copy chain
+  // нужно вернуть два указателя
+  //static node* create_new(const node* const src_head);
+
   template <typename U>
   friend ostream& operator<<(ostream& o, const single_linked_list<U>&);
 
+public:
   // no copy and assign
+  single_linked_list<T>& operator=(const single_linked_list<T>& rhs) {
+    // http://stackoverflow.com/questions/12015156/what-is-wrong-with-checking-for-self-assignment-and-what-does-it-mean
+    if (&rhs != this) {
+      single_linked_list<T> tmp(rhs);  // накопитель
+
+      // nothrow()
+      tmp.off_ownership_();
+      head_ = tmp.head_;
+      tail_ = tmp.tail_;
+    }
+    return *this;
+  }
+
   // FIXME: сделать exception-safe - проблема с том, что если возникнет искл. при конструировании, то деструктор не вызовется
   //   и память утечет. Может catch(...) throw; Похоже не всегда катит. Если члены - values - то вообще проблема, см. у Саттера
-  single_linked_list& operator=(const single_linked_list&);
-  single_linked_list(const single_linked_list&);
+  // это обычный конструктор по сути то.
+  single_linked_list<T>(const single_linked_list<T>& rhs) : head_(0), tail_(0), attached_(true) {
+    single_linked_list<T> tmp;  // накопитель    
+    node* it = rhs.head_;
+    if (it) {
+      while (it->next) {
+        tmp.push_back(it->elem);
+        it = it->next;
+      }
+      // last
 
+      tmp.push_back(it->elem);
+    } 
+
+    // nothrow()
+    tmp.off_ownership_();
+    head_ = tmp.head_;
+    tail_ = tmp.tail_;
+  }
+
+private:
   // лучше сделать с конструктором, тогда можно будет положиться на new если возникнет исключение
-  struct node
-  {
-    node(const T& _elem, node* const _next) : elem(_elem), next(_next) { 
-      //throw runtime_error(""); 
-    }
-
-    T elem;
-    node* next;  
-    ~node() {
-      //cout << "node dtor\n";
-    }
-  };
-
+  
   // пока не вставим первый соеденить их нельзя
   // Это указатели, исключения не кидаются!
   node* head_;
   node* tail_;  // без него вставка за O(n)
+  bool attached_;  // владеем ресурсами или нет - нужно для копирования и как бы move-семантики
 };
 
 template <typename T>
@@ -293,6 +344,13 @@ TEST(Crack, LinkedList) {
   l.push_back(10);
   l.push_back(11);
   cout << l;
+
+  single_linked_list<int> l_copy(l);
+  cout << l_copy;
+
+  single_linked_list<int> l_copy_assign;
+  l_copy_assign = l_copy;
+  cout << l_copy_assign;
 }
 
 // Doubled linked list
