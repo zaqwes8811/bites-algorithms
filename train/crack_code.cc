@@ -208,11 +208,11 @@ public:
   typedef T element_type;
 
   // construction/destruction
-  single_linked_list() : head_(0), tail_(0), attached_(true) {}
+  single_linked_list() : head_(0), tail_(0)/*, attached_(true)*/ {}
   ~single_linked_list() {
     // удаляеть нужно!
     // http://stackoverflow.com/questions/3840582/still-reachable-leak-detected-by-valgrind
-    if (attached_) {
+    //if (attached_) {
       node* ptr = head_;
       if (ptr) {
         while (ptr->next) {
@@ -223,7 +223,7 @@ public:
         // удалит последний
         auto_ptr<node> _(ptr);
       }
-    }
+    //}
   }
 
   node* end() {
@@ -304,9 +304,9 @@ public:
 private:
   // для реализации move - false - не владеет, и поэтому можно перемещать указатели
   // BAD: но как по другому?
-  void off_ownership_() {
-    attached_ = false;
-  }
+  //void off_ownership_() {
+  //  attached_ = false;
+  //}
 
   // управление ресурсами - можно было бы сделать статически, но уже есть список, работающий с ними
   // удаляет цепочку
@@ -323,13 +323,16 @@ public:
   // no copy and assign
   single_linked_list<T>& operator=(const single_linked_list<T>& rhs) {
     // http://stackoverflow.com/questions/12015156/what-is-wrong-with-checking-for-self-assignment-and-what-does-it-mean
-    if (&rhs != this) {
+    if (this != &rhs) {
       single_linked_list<T> tmp(rhs);  // накопитель
 
       // nothrow()
-      tmp.off_ownership_();
+      //tmp.off_ownership_();
       head_ = tmp.head_;
       tail_ = tmp.tail_;
+
+      tmp.head_ = 0;
+      tmp.tail_ = 0;
     }
     return *this;
   }
@@ -337,7 +340,7 @@ public:
   // FIXME: сделать exception-safe - проблема с том, что если возникнет искл. при конструировании, то деструктор не вызовется
   //   и память утечет. Может catch(...) throw; Похоже не всегда катит. Если члены - values - то вообще проблема, см. у Саттера
   // это обычный конструктор по сути то.
-  single_linked_list<T>(const single_linked_list<T>& rhs) : head_(0), tail_(0), attached_(true) {
+  single_linked_list<T>(const single_linked_list<T>& rhs) : head_(0), tail_(0)/*, attached_(true)*/ {
     single_linked_list<T> tmp;  // накопитель    
     node* it = rhs.head_;
     if (it) {
@@ -351,9 +354,12 @@ public:
     } 
 
     // nothrow()
-    tmp.off_ownership_();
+    //tmp.off_ownership_();
     head_ = tmp.head_;
     tail_ = tmp.tail_;
+
+    tmp.head_ = 0;
+    tmp.tail_ = 0;
   }
 
 private:
@@ -363,7 +369,9 @@ private:
   // Это указатели, исключения не кидаются!
   node* head_;
   node* tail_;  // без него вставка за O(n)
-  bool attached_;  // владеем ресурсами или нет - нужно для копирования и как бы move-семантики
+  
+  // просто обнуляем указатели и прочие данные
+  //bool attached_;  // владеем ресурсами или нет - нужно для копирования и как бы move-семантики
 };
 
 template <typename T>
