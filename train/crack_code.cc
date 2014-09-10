@@ -190,7 +190,7 @@ TEST(Crack, ArrAndStrings) {
 namespace lists {
 template <typename T>
 class single_linked_list {
-private:
+public:
   struct node
   {
     node(const T& _elem, node* const _next) : elem(_elem), next(_next) { 
@@ -226,6 +226,17 @@ public:
     }
   }
 
+  node* end() {
+    // слудующий за - нулевой next
+    return 0;  // ?
+  }
+
+  int size() const {
+    // FIXME: сделать за линейное время, константное мешает врезке
+    throw logic_error("Non impl. yet");
+    return 0;
+  }
+
   void push_back(const T& elem) {
     // FIXME: как быть с конструктором кидающим исключения? он сам должен как-то обрабатывать это?
     //   в противном случае есть ограничения на элементы, хранимые в контейнере
@@ -257,6 +268,37 @@ public:
       head_ = tail_ = ptr;
       //head_->next = tail_;  // connect - при траверсе может быть ошибка - зациклится если элемент один
     }
+  }
+
+  // 2.2
+  // список односвязный, поэтому можно двигаться только вперед
+  node* get_nth_to_last(const int nth) const {
+    assert(nth > 1);
+    if (!head_)
+      return 0;
+
+    // двигаем окно
+    node* p1 = head_;
+    node* p2 = head_;
+
+    int win = nth;
+    // длинна списка - O(n)
+    // лучше for - мы знаем сколько посторений!  сперва был while и плохая проверка гр. условий
+    for (int i = 0; i < nth - 1; ++i) {
+      if (!p2->next)
+        return 0;  // нет столько элементов
+      p2 = p2->next;  // указывает на nth+1
+    }
+
+    //if (win != 0)  // BAD: где локальность переменных?
+    //  return 0;
+
+    // двигаем полнстью раздвинутое окно [i, i+N]
+    while (p2->next) {
+      p2 = p2->next;
+      p1 = p1->next;
+    }
+    return p1;
   }
 
 private:
@@ -353,8 +395,32 @@ TEST(Crack, LinkedList) {
   cout << l_copy_assign;
 }
 
+TEST(Crack, Nth) {
+  single_linked_list<int> l;
+  l.push_back(9);
+  l.push_back(10);
+  l.push_back(11);
+  l.push_back(13);
+  l.push_back(14);
+  cout << l;
+
+  single_linked_list<int>::node* p = l.get_nth_to_last(2);
+  assert(p);
+
+  cout << p->elem << endl;
+
+}
+
 // Doubled linked list
 // http://www.youtube.com/watch?v=k0pjD12bzP0&list=PLTxllHdfUq4dp5Hrsw3FJzI1nnlXBre0v
+
+
+// 2.1
+
+// 2.2 - nth-elem - Selection problem - нет - поиск nth c конца
+//   DaC - наврядли сработает, т.к. нужен произвольный доступ
+
+// 2.3 - не понял - похоже указатель уже дан
 
 }
 
