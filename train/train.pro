@@ -16,6 +16,7 @@ QMAKE_CXXFLAGS += -pg  # для профайлера
 
 SOURCES += \
   crack_code.cc \
+  crack_code_lists.cc \
   sutter_stack_test.cc \
   ../3rdparty/gmock-1.6.0/fused-src/gmock-gtest-all.cc \
   ../src/launcher.cc
