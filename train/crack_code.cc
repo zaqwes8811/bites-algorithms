@@ -211,6 +211,10 @@ public:
   }
 
   void push_back(const T& elem) {
+    // FIXME: как быть с конструктором кидающим исключения? он сам должен как-то обрабатывать это?
+    //   в противном случае есть ограничения на элементы, хранимые в контейнере
+    // http://ders.stml.net/cpp/xcppcomm/xcppcomm.html#149
+    //
     //auto_ptr<node> tmp(new node(elem, 0));
     // в принципе умный указатель не нужен, если есть конструктор
     //tmp->next = 0;
@@ -219,7 +223,9 @@ public:
     // change state
     // если конструктор бросит искл. то new ...
     // FIXME: а что будет то? Деструктор может и не вызваться. Если и бросит, то состояние списка не изменится
-    node* const ptr = new node(elem, 0);//tmp.release();
+    node* const ptr = 
+        new node(elem, 0);
+        //tmp.release();
     if (head_) {
       tail_->next = ptr;
       
@@ -243,22 +249,26 @@ private:
 
   // no copy and assign
   // FIXME: сделать exception-safe - проблема с том, что если возникнет искл. при конструировании, то деструктор не вызовется
-  //   и память утечет. Может catch(...) throw;
+  //   и память утечет. Может catch(...) throw; Похоже не всегда катит. Если члены - values - то вообще проблема, см. у Саттера
   single_linked_list& operator=(const single_linked_list&);
   single_linked_list(const single_linked_list&);
 
   // лучше сделать с конструктором, тогда можно будет положиться на new если возникнет исключение
   struct node
   {
-    node(const T& _elem, node* const _next) : elem(_elem), next(_next) { throw runtime_error(""); }
+    node(const T& _elem, node* const _next) : elem(_elem), next(_next) { 
+      //throw runtime_error(""); 
+    }
+
     T elem;
     node* next;  
     ~node() {
-      cout << "node dtor\n";
+      //cout << "node dtor\n";
     }
   };
 
   // пока не вставим первый соеденить их нельзя
+  // Это указатели, исключения не кидаются!
   node* head_;
   node* tail_;  // без него вставка за O(n)
 };
