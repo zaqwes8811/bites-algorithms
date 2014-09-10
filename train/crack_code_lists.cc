@@ -147,7 +147,7 @@ private:
   friend ostream& operator<<(ostream& o, const single_linked_list<U>&);
 
 public:
-  // no copy and assign
+  // no copy and assign - по суте реализует move-семантику
   single_linked_list<T>& operator=(const single_linked_list<T>& rhs) {
     // http://stackoverflow.com/questions/12015156/what-is-wrong-with-checking-for-self-assignment-and-what-does-it-mean
     if (this != &rhs) {
@@ -155,7 +155,7 @@ public:
 
       // nothrow()
       //tmp.off_ownership_();
-      head_ = tmp.head_;
+      head_ = tmp.head_;  // если бы это были автопоинтеры, то обнулять бы не пришлось
       tail_ = tmp.tail_;
 
       tmp.head_ = 0;
@@ -193,6 +193,10 @@ private:
   
   // пока не вставим первый соеденить их нельзя
   // Это указатели, исключения не кидаются!
+  // FIXME: если использовать auto_ptr, то легче будет реализовать move семантику 
+  //   кажется нужно только для этих указателей, а не для всех частей цепочки - но вообще стремно
+  //   проблемы возникнут, т.к. некоторое время оба указателя ссылаются на один и тот же объект, хотя, по сути нам нужен только head
+  //   Кажется ради удаления пары строчек, не стоит изголятся.
   node* head_;
   node* tail_;  // без него вставка за O(n)
   
@@ -259,6 +263,7 @@ std::ostream& operator<<(std::ostream& os, const list<T>& l)
 }
 
 // 2.1
+// O(n^2)
 TEST(Crack, List2_1) {
   int arr[] = {1, 3, 6, 7, 7, 8, 3, 9};
   list<int> l(arr, arr + sizeof arr / sizeof arr[0]);
