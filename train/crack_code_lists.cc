@@ -179,6 +179,20 @@ public:
       tmp.push_back(it->elem);
     } 
 
+    // FIXME: МОЖНО СДЕЛАТЬ И swap!!
+    /*
+      Matrix & operator = (const Matrix & m)
+      {
+        Matrix(m).swap(*this);
+        return *this;
+      }
+
+      void swap(Matrix & m)
+      {
+        std::swap(dim, m.dim);
+        std::swap(data, m.data);
+      }
+    */
     // nothrow()
     //tmp.off_ownership_();
     head_ = tmp.head_;
