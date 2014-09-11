@@ -30,6 +30,9 @@ class test
 // - ~dtor() nothrow() - Yes
 // - !! безопасный оператор присваивания - No - не используется никогда
 //   но если использовать не top/pop, а pop(T&) то присваивание понадобится
+//
+// Desing:
+//   It's value not entity -> need copy
 template <typename T>
 class single_linked_list {
 public:
@@ -162,14 +165,14 @@ private:
   friend ostream& operator<<(ostream& o, const single_linked_list<U>&);
 
 public:
-  // no copy and assign - по суте реализует move-семантику
+  // no copy and assign - по суте реализует move-семантику! да но вообще оператор уничтожает данные что слева!! затирает
   single_linked_list<T>& operator=(
     single_linked_list<T> rhs  // по значению
     //const single_linked_list<T>& rhs
     ) {
     // http://stackoverflow.com/questions/12015156/what-is-wrong-with-checking-for-self-assignment-and-what-does-it-mean
     //if (this != &rhs) {
-      //single_linked_list<T>(rhs)
+      //single_linked_list<T> tmp(rhs);
       rhs.swap(*this);  // накопитель
 
       // nothrow()
@@ -177,7 +180,7 @@ public:
       //head_ = tmp.head_;  // если бы это были автопоинтеры, то обнулять бы не пришлось
       //tail_ = tmp.tail_;
 
-      //tmp.head_ = 0;
+      //tmp.head_ = 0;  // BUG!! нужно либо swap и данный левого удалить временный объект, либо как-то обменять указатели
       //tmp.tail_ = 0;
     //}
     return *this;
@@ -191,6 +194,8 @@ public:
   // FIXME: сделать exception-safe - проблема с том, что если возникнет искл. при конструировании, то деструктор не вызовется
   //   и память утечет. Может catch(...) throw; Похоже не всегда катит. Если члены - values - то вообще проблема, см. у Саттера
   // это обычный конструктор по сути то.
+  //
+  // Здесь можно и обнулить - объект пустой, но в assign так нельзя!! BUG!!
   single_linked_list<T>(const single_linked_list<T>& rhs) : head_(0), tail_(0)/*, attached_(true)*/ {
     single_linked_list<T> tmp;  // накопитель    
     node* it = rhs.head_;
@@ -270,6 +275,8 @@ TEST(Crack, LinkedList) {
   single_linked_list<int> l_copy_assign;
   l_copy_assign = l_copy;
   cout << l_copy_assign;
+
+  l_copy = l;  // may be leak
 
   single_linked_list<test> l_t;
   l_t.push_back(test(0, 0));
