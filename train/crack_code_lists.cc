@@ -15,6 +15,20 @@ using namespace std;
 
 
 namespace lists {
+class test
+{
+  public:
+    // не нужне конструктор по умолчанию
+    test(int, int) {}
+    test(const test& rhs) {}
+  private:
+    test& operator=(const test&);
+};
+// FIXME: какие требования на T?
+// - ctor() - No
+// - copy_ctor() - Yes
+// - ~dtor() nothrow() - Yes
+// - !! безопасный оператор присваивания - No - не используется нигде
 template <typename T>
 class single_linked_list {
 public:
@@ -148,20 +162,29 @@ private:
 
 public:
   // no copy and assign - по суте реализует move-семантику
-  single_linked_list<T>& operator=(const single_linked_list<T>& rhs) {
+  single_linked_list<T>& operator=(
+    single_linked_list<T> rhs
+    //const single_linked_list<T>& rhs
+    ) {
     // http://stackoverflow.com/questions/12015156/what-is-wrong-with-checking-for-self-assignment-and-what-does-it-mean
-    if (this != &rhs) {
-      single_linked_list<T> tmp(rhs);  // накопитель
+    //if (this != &rhs) {
+      //single_linked_list<T>(rhs)
+      rhs.swap(*this);  // накопитель
 
       // nothrow()
       //tmp.off_ownership_();
-      head_ = tmp.head_;  // если бы это были автопоинтеры, то обнулять бы не пришлось
-      tail_ = tmp.tail_;
+      //head_ = tmp.head_;  // если бы это были автопоинтеры, то обнулять бы не пришлось
+      //tail_ = tmp.tail_;
 
-      tmp.head_ = 0;
-      tmp.tail_ = 0;
-    }
+      //tmp.head_ = 0;
+      //tmp.tail_ = 0;
+    //}
     return *this;
+  }
+
+  void swap(single_linked_list<T>& rhs) {
+    std::swap(head_, rhs.head_);
+    std::swap(tail_, rhs.tail_);
   }
 
   // FIXME: сделать exception-safe - проблема с том, что если возникнет искл. при конструировании, то деструктор не вызовется
@@ -195,11 +218,12 @@ public:
     */
     // nothrow()
     //tmp.off_ownership_();
-    head_ = tmp.head_;
-    tail_ = tmp.tail_;
+    tmp.swap(*this);
+    //head_ = tmp.head_;
+    //tail_ = tmp.tail_;
 
-    tmp.head_ = 0;
-    tmp.tail_ = 0;
+    //tmp.head_ = 0;
+    //tmp.tail_ = 0;
   }
 
 private:
@@ -245,6 +269,9 @@ TEST(Crack, LinkedList) {
   single_linked_list<int> l_copy_assign;
   l_copy_assign = l_copy;
   cout << l_copy_assign;
+
+  single_linked_list<test> l_t;
+  l_t.push_back(test(0, 0));
 }
 
 TEST(Crack, Nth) {
