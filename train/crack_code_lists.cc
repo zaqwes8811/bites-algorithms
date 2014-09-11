@@ -28,7 +28,8 @@ class test
 // - ctor() - No
 // - copy_ctor() - Yes
 // - ~dtor() nothrow() - Yes
-// - !! безопасный оператор присваивания - No - не используется нигде
+// - !! безопасный оператор присваивания - No - не используется никогда
+//   но если использовать не top/pop, а pop(T&) то присваивание понадобится
 template <typename T>
 class single_linked_list {
 public:
@@ -163,7 +164,7 @@ private:
 public:
   // no copy and assign - по суте реализует move-семантику
   single_linked_list<T>& operator=(
-    single_linked_list<T> rhs
+    single_linked_list<T> rhs  // по значению
     //const single_linked_list<T>& rhs
     ) {
     // http://stackoverflow.com/questions/12015156/what-is-wrong-with-checking-for-self-assignment-and-what-does-it-mean

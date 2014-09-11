@@ -325,6 +325,13 @@ TEST(Sutter, StackFirst) {
 
 namespace esafty {
 
+// если какая-то часть объекта при конструировании сгенерировала исключение, то и весь констр. должен сгенерировать искл.
+//   восстанавливать ничего нельзя!!
+// 
+// Та же фигня с двухфайзным конструированием.
+//
+// DANGER: Сильно влияет на резработку класса
+
 struct elem {
   explicit elem(int) {}
   ~elem() {
@@ -355,4 +362,51 @@ struct compose {
 TEST(Exc, Composite) {
   EXPECT_ANY_THROW(compose());
 }
+
+/*
+class Widget {
+public:
+  Widget& operator=(const Widget&);
+private:
+  // могут бросить искл. оба, как сделать безоп. оператор присв. не изменяя структуру
+  // Нужно атомартно изменить оба - не возможно
+  //T1 t1_;
+  //T2 t2_;
+
+  // V0 - pimpl
+};
+
+// "Почти" безопасно - если есть side-effects то изменения не откатить
+class Widget {
+public:
+  Widget& operator=(const Widget& other) {
+    Widget tmp(other);  // конструктор копирования
+    swap(tmp);
+    return *this;
+  }
+
+  void swap(Widget& other) {
+    // much Move - не факт что сработает std::swap!!
+    auto_ptr<WidgetImpl> tmp(pimpl_);  // передаем влядение
+    pimpl_ = other.pimpl_;
+    other.pimpl_ = tmp;
+  }
+
+private:
+  // могут бросить искл. оба, как сделать безоп. оператор присв. не изменяя структуру
+  // Нужно атомартно изменить оба - не возможно
+  
+
+  // V0 - pimpl
+  class WidgetImpl;
+  auto_ptr<WidgetImpl> pimpl_;
+};
+
+class Widget::WidgetImpl {
+public:
+  //T1 t1_;
+  //T2 t2_;
+};
+*/
+
 }
