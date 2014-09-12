@@ -35,6 +35,7 @@ class test
 //   It's value not entity -> need copy
 //
 // Own stl-like iterator
+//   FIXME: можно ли будет использовать с алгоритмами? Для списков сомнительная затея
 //   http://stackoverflow.com/questions/8054273/how-to-implement-an-stl-style-iterator-and-avoid-common-pitfalls
 //   http://stackoverflow.com/questions/22793127/creating-my-own-iterators-for-non-stl-container?rq=1
 //   http://doc.qt.digia.com/qq/qq19-containers.html - "can use STL-style iterators or Java-style iterators"
@@ -273,8 +274,9 @@ ostream& operator<<(ostream& o, const own_forward_list<T>& l) {
   return o;
 }
 
-template <class T, class A = std::allocator<T> >
-void swap(own_forward_list<T,A>&, own_forward_list<T,A>&); //optional
+// Я не использовал аллокатор, поэтому swap не заработал
+//template <class T, class A = std::allocator<T> >
+//void swap(own_forward_list<T,A>&, own_forward_list<T,A>&); //optional
 
 TEST(Crack, LinkedList) {
   own_forward_list<int> l;
@@ -345,6 +347,9 @@ TEST(Crack, List2_1) {
     }
   }
 
+  cout << l;
+
+  //random_shuffle(l.begin(), l.end());  // нужен случайный доступ
   cout << l;
 
 }
