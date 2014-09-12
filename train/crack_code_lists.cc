@@ -33,8 +33,19 @@ class test
 //
 // Desing:
 //   It's value not entity -> need copy
+//
+// Own stl-like iterator
+//   http://stackoverflow.com/questions/8054273/how-to-implement-an-stl-style-iterator-and-avoid-common-pitfalls
+//   http://stackoverflow.com/questions/22793127/creating-my-own-iterators-for-non-stl-container?rq=1
+//   http://doc.qt.digia.com/qq/qq19-containers.html - "can use STL-style iterators or Java-style iterators"
+//
+//
+// Own stl like container
+//   http://stackoverflow.com/questions/7758580/writing-your-own-stl-container/7759622#7759622
+//   STL and Qt cont. style: - "I recommend the rule "When in Rome... Do as the Romans Do"" сложный вопрос
+//     http://stackoverflow.com/questions/1668259/stl-or-qt-containers?rq=1
 template <typename T>
-class single_linked_list {
+class own_forward_list {
 public:
   struct node
   {
@@ -53,8 +64,8 @@ public:
   typedef T element_type;
 
   // construction/destruction
-  single_linked_list() : head_(0), tail_(0)/*, attached_(true)*/ {}
-  ~single_linked_list() {
+  own_forward_list() : head_(0), tail_(0)/*, attached_(true)*/ {}
+  ~own_forward_list() {
     // удаляеть нужно!
     // http://stackoverflow.com/questions/3840582/still-reachable-leak-detected-by-valgrind
     //if (attached_) {
@@ -162,17 +173,17 @@ private:
   //static node* create_new(const node* const src_head);
 
   template <typename U>
-  friend ostream& operator<<(ostream& o, const single_linked_list<U>&);
+  friend ostream& operator<<(ostream& o, const own_forward_list<U>&);
 
 public:
   // no copy and assign - по суте реализует move-семантику! да но вообще оператор уничтожает данные что слева!! затирает
-  single_linked_list<T>& operator=(
-    single_linked_list<T> rhs  // по значению
-    //const single_linked_list<T>& rhs
+  own_forward_list<T>& operator=(
+    own_forward_list<T> rhs  // по значению
+    //const own_forward_list<T>& rhs
     ) {
     // http://stackoverflow.com/questions/12015156/what-is-wrong-with-checking-for-self-assignment-and-what-does-it-mean
     //if (this != &rhs) {
-      //single_linked_list<T> tmp(rhs);
+      //own_forward_list<T> tmp(rhs);
       rhs.swap(*this);  // накопитель
 
       // nothrow()
@@ -186,7 +197,7 @@ public:
     return *this;
   }
 
-  void swap(single_linked_list<T>& rhs) {
+  void swap(own_forward_list<T>& rhs) {
     std::swap(head_, rhs.head_);
     std::swap(tail_, rhs.tail_);
   }
@@ -196,8 +207,8 @@ public:
   // это обычный конструктор по сути то.
   //
   // Здесь можно и обнулить - объект пустой, но в assign так нельзя!! BUG!!
-  single_linked_list<T>(const single_linked_list<T>& rhs) : head_(0), tail_(0)/*, attached_(true)*/ {
-    single_linked_list<T> tmp;  // накопитель    
+  own_forward_list<T>(const own_forward_list<T>& rhs) : head_(0), tail_(0)/*, attached_(true)*/ {
+    own_forward_list<T> tmp;  // накопитель    
     node* it = rhs.head_;
     if (it) {
       while (it->next) {
@@ -249,8 +260,8 @@ private:
 };
 
 template <typename T>
-ostream& operator<<(ostream& o, const single_linked_list<T>& l) {
-  typename single_linked_list<T>::node* it = l.head_;
+ostream& operator<<(ostream& o, const own_forward_list<T>& l) {
+  typename own_forward_list<T>::node* it = l.head_;
   if (it) {
     while (it->next) {
       cout << it->elem << ", ";
@@ -262,28 +273,31 @@ ostream& operator<<(ostream& o, const single_linked_list<T>& l) {
   return o;
 }
 
+template <class T, class A = std::allocator<T> >
+void swap(own_forward_list<T,A>&, own_forward_list<T,A>&); //optional
+
 TEST(Crack, LinkedList) {
-  single_linked_list<int> l;
+  own_forward_list<int> l;
   l.push_back(9);
   l.push_back(10);
   l.push_back(11);
   cout << l;
 
-  single_linked_list<int> l_copy(l);
+  own_forward_list<int> l_copy(l);
   cout << l_copy;
 
-  single_linked_list<int> l_copy_assign;
+  own_forward_list<int> l_copy_assign;
   l_copy_assign = l_copy;
   cout << l_copy_assign;
 
   l_copy = l;  // may be leak
 
-  single_linked_list<test> l_t;
+  own_forward_list<test> l_t;
   l_t.push_back(test(0, 0));
 }
 
 TEST(Crack, Nth) {
-  single_linked_list<int> l;
+  own_forward_list<int> l;
   l.push_back(9);
   l.push_back(10);
   l.push_back(11);
@@ -291,7 +305,7 @@ TEST(Crack, Nth) {
   l.push_back(14);
   cout << l;
 
-  single_linked_list<int>::node* p = l.get_nth_to_last(2);
+  own_forward_list<int>::node* p = l.get_nth_to_last(2);
   assert(p);
 
   cout << p->elem << endl;
