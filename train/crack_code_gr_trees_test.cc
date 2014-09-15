@@ -210,7 +210,13 @@ TEST(Crack, BSTCreate) {
   node* root = make_bst(v);
 
   in_order_traversal(root);
+  destroy_tree(root);
+}
 
+// 4.4 - make layers
+TEST(Crack, BSTLayers) {
+  // список списков, а потом обход в глубину - что-то не сто с поиском в ширину, не ясно
+  //   как разбить на слои.
 }
 
 }
