@@ -11,10 +11,8 @@
 #include <stack>
 #include <queue>
 
-using namespace view;
-
 namespace crack_trees_and_gr {
-
+using namespace view;
 using namespace std;
 
 //template <typename T>
@@ -215,6 +213,8 @@ TEST(Crack, BSTCreate) {
 
 // 4.4 - make layers
 // вряд ли нужно хранить трек
+//
+// FAIL: не все граничные условия выполнены
 void split_into_layers(node* root, int level, vector<vector<int> >& vv) {
   // снизу вверх, хотя может и не нужно
   // post-orger way
@@ -225,8 +225,9 @@ void split_into_layers(node* root, int level, vector<vector<int> >& vv) {
   split_into_layers(root->left, level, vv);
   split_into_layers(root->right, level, vv);
 
+  // FIXME: здесь ошибка в границе
   // Расширяем список - мы не знаем сколько слоев
-  while (vv.size() <= level+1) {
+  while (vv.size() < level+1) {  // <= добавляет пустой элемент в конец
     vv.push_back(vector<int>());
   }
 
@@ -253,5 +254,40 @@ TEST(Crack, BSTLayers) {
   //in_order_traversal(root);
   destroy_tree(root);
 }
+
+}
+
+namespace leet_code {
+using namespace crack_trees_and_gr;
+
+// не оптимально, если дерево не сбалансировано
+int find_min_depth(node* const root) 
+{
+  if (!root)
+    return 0;
+
+  // что-то не так с понятием глубины
+  // 1+std::min(find_min_depth(root->left), find_min_depth(root->right));
+
+  int l = find_min_depth(root->left);
+  int r = find_min_depth(root->right);
+
+  if (!l && !r)
+    return 1;
+            
+  if (!l || !r)
+    return std::max(l, r) + 1;
+
+  return std::min(l, r) + 1;
+}
+
+TEST(LeetCode, MinDepthBT) {
+  node* root = create_tree();
+  cout << find_min_depth(root) << " < min\n";
+}
+}
+
+namespace glassdoor_com {
+// http://www.glassdoor.com/Interview/Find-the-minimum-depth-of-binary-search-tree-QTN_127018.htm
 
 }
