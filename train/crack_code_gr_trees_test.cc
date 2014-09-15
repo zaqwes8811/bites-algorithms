@@ -1,12 +1,17 @@
  // "Not all binary trees are binary search trees"
 
+#include "visuality/view.h"
+
 #include <gtest/gtest.h>
 
 #include <iostream>
+#include <memory>
 
 //
 #include <stack>
 #include <queue>
+
+using namespace view;
 
 namespace crack_trees_and_gr {
 
@@ -36,36 +41,78 @@ node* create_tree() {
   current->right = new node(5);
 
   current = root;
-  current->right = new node(6);
+  current->right = new node(3);
   return root;
 }
 
-void destroy_tree() {
+void destroy_tree(node* root) {
   // снизу вверх, хотя может и не нужно
-}
-
-void print_tree_in_order(node* root) 
-{
-  // l -> current -> r
-  // FIXME: как снять данные
-
-  // out - лишний заход кстати
+  // post-orger way
   if (!root)
     return;
 
-  print_tree_in_order(root->left);
-  //cout << root->left->data << endl;
-  print_tree_in_order(root->right);
-  
+  destroy_tree(root->left);
+  destroy_tree(root->right);
+  auto_ptr<node> _(root);  // visited
+}
+
+// вряд ли нужно хранить трек
+void post_order_tree(node* root, int level) {
+  // снизу вверх, хотя может и не нужно
+  // post-orger way
+  if (!root)
+    return;
+
+  ++level;
+  post_order_tree(root->left, level);
+  post_order_tree(root->right, level);
+
+  // extra space
+  if (!root->left && !root->right)
+    cout << root->data << "/" << level << " ";
+}
+
+
+void print_tree_pre_order_iterative(node* const root) 
+{
+  // root -> l -> r
+  // FIXME: как снять данные
+
+  stack<node*> parent_stack;
+  parent_stack.push(0);
+
+  node* top = root;
+
+  while (top) {
+    cout << top->data << ", ";  
+
+    // правый уходит вниз
+    if (top->right)
+      parent_stack.push(top->right);
+
+    if (top->left)
+      parent_stack.push(top->left);
+
+    top = parent_stack.top();
+    parent_stack.pop();
+  }
 }
 
 /// Traversal
 //   http://en.wikipedia.org/wiki/Corecursion
 //   http://programmers.stackexchange.com/questions/144274/whats-the-difference-between-recursion-and-corecursion
 //
+// depth-first order:
+//   pre-order,[1] in-order,[1] and post-order - l->r но положение r меняется
+//
+// In Bra
 TEST(Crack, CreateTree) {
   using namespace crack_trees_and_gr;
   node* root = create_tree();
+  print_tree_pre_order_iterative(root);
+  cout << endl;
+
+  destroy_tree(root);
 }
 
 // std::stack and std::queue
@@ -77,6 +124,93 @@ TEST(Std, StackAndQueue) {
 
   // Queue - кстати deque по умолчанию, а в многопоточных использвал список
   // if size == 0 - front(), back(), pop() - UB!!
+}
+
+void check_balansing(node* const root) {
+  queue<node*> q;
+  q.push(root);
+  int level = -1;
+
+  // одна итерация не равна обработки одного уровня
+  while (!q.empty()) {
+    // как выделить границу?
+    node* tmp = q.front();
+    q.pop();
+    cout << tmp->data << ", ";
+
+    if (tmp->left)
+      q.push(tmp->left);
+
+    if (tmp->right)
+      q.push(tmp->right);
+
+    // если одинаковые пустые
+    //if ()
+
+    //++level;
+  }
+}
+
+// 4.1 - балансировка
+//
+// FAIL: решил, но понадобилась дополнительная память.
+TEST(Crack, CheckBalansing) {
+  // delta(li, lj) <= 1
+  // у листа оба указателя нулевые? т.е. нет дочерних
+  using namespace crack_trees_and_gr;
+  node* root = create_tree();
+  int level = -1;
+  
+  // можно сделать два прохода
+  //post_order_tree(root, level);
+  cout << endl;
+
+  destroy_tree(root);
+}
+
+// 4.2 - связанность вершин
+
+// 4.3. - создание bst
+// http://leetcode.com/2010/04/binary-search-tree-in-order-traversal.html
+void in_order_traversal(node *p) {
+  if (!p) 
+    return;
+  in_order_traversal(p->left);
+  cout << p->data;
+  in_order_traversal(p->right);
+}
+
+node* make_bst(vector<int>& v) 
+{
+  if (v.empty())
+    return 0;
+
+  // ищем центр
+  int elem_idx = v.size() / 2;
+  int elem = v[elem_idx];
+  node* root = new node(elem);
+
+  vector<int> v_left(v.begin(), v.begin()+elem_idx);
+  vector<int> v_right(v.begin()+elem_idx+1, v.end());
+
+  cout << v_left << v_right;
+
+  root->left = make_bst(v_left);
+  root->right = make_bst(v_right);
+
+  return root;
+}
+
+TEST(Crack, BSTCreate) {
+  int arr[] = {1, 2, 3, 4, 5, 6, 7};
+  vector<int> v(arr, arr + sizeof(arr)/sizeof(arr[0]));
+
+  // раз отсортирован, значит корень - где-то в середине
+
+  node* root = make_bst(v);
+
+  in_order_traversal(root);
+
 }
 
 }
