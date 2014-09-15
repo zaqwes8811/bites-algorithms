@@ -193,7 +193,7 @@ node* make_bst(vector<int>& v)
   vector<int> v_left(v.begin(), v.begin()+elem_idx);
   vector<int> v_right(v.begin()+elem_idx+1, v.end());
 
-  cout << v_left << v_right;
+  //cout << v_left << v_right;
 
   root->left = make_bst(v_left);
   root->right = make_bst(v_right);
@@ -214,9 +214,44 @@ TEST(Crack, BSTCreate) {
 }
 
 // 4.4 - make layers
+// вряд ли нужно хранить трек
+void split_into_layers(node* root, int level, vector<vector<int> >& vv) {
+  // снизу вверх, хотя может и не нужно
+  // post-orger way
+  if (!root)
+    return;
+
+  ++level;  // она локальная копия
+  split_into_layers(root->left, level, vv);
+  split_into_layers(root->right, level, vv);
+
+  // Расширяем список - мы не знаем сколько слоев
+  while (vv.size() <= level+1) {
+    vv.push_back(vector<int>());
+  }
+
+  vv[level].push_back(root->data);
+}
+
 TEST(Crack, BSTLayers) {
   // список списков, а потом обход в глубину - что-то не сто с поиском в ширину, не ясно
   //   как разбить на слои.
+
+  int arr[] = {1, 2, 3, 4, 5, 6, 7};
+  vector<int> v(arr, arr + sizeof(arr)/sizeof(arr[0]));
+
+  // раз отсортирован, значит корень - где-то в середине
+
+  node* root = make_bst(v);
+  cout << endl;
+
+  vector<vector<int> > vv;
+  split_into_layers(root, -1, vv);
+
+  cout << vv;
+
+  //in_order_traversal(root);
+  destroy_tree(root);
 }
 
 }
