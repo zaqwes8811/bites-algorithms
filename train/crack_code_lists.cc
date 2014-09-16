@@ -280,8 +280,15 @@ ostream& operator<<(ostream& o, const own_forward_list<T>& l) {
 }
 
 // Я не использовал аллокатор, поэтому swap не заработал
-//template <class T, class A = std::allocator<T> >
-//void swap(own_forward_list<T,A>&, own_forward_list<T,A>&); //optional
+// многие алгоритмы ее используют
+// http://stackoverflow.com/questions/11562/how-to-overload-stdswap
+//
+// argument-dependent lookup (ADL)
+template <class T>//, class A = std::allocator<T> >
+void swap(own_forward_list<T>& lhs, own_forward_list<T>& rhs) {
+  lhs.swap(rhs);
+}
+
 
 TEST(Crack, LinkedList) {
   own_forward_list<int> l;
@@ -367,4 +374,14 @@ TEST(Crack, List2_1) {
 // 2.5 - проверка списка на зацикленность FIXME - стандартный не зациклить
 
 
+}
+
+namespace std
+{
+    template<class T>
+    void swap(lists::own_forward_list<T>& lhs, lists::own_forward_list<T>& rhs)
+    {
+       // ... blah
+      lhs.swap(rhs);
+    }
 }
