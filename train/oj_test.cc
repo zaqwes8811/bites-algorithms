@@ -1,4 +1,20 @@
+#include "visuality/view.h"
 
+#include <gtest/gtest.h>
+
+#include <boost/unordered_set.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
+
+#include <cassert>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+
+using namespace std;
+using namespace boost;
+using namespace view;
 
 //equal_to<string::value_type>()  // удаляет все
 //bind2nd(equal_to<char>(), ' ');  // нужен был бинарный предикат
