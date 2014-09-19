@@ -1,6 +1,9 @@
 // http://people.cs.clemson.edu/~bcdean/dp_practice/
 //
 // "Two Ways of Thinking about Dynamic Programming... "
+//
+// Тренироваться только на решенных, иначе не ясно. Нужно сверяться
+//
 #include "visuality/view.h"
 
 #include <gtest/gtest.h>
@@ -108,21 +111,21 @@ TEST(Dyn, Way) {
   vector<int> cost(v.size(), 0);
 
   // на жадный похож - смотрим вперед
-  for (int i = 2; i < v.size(); ++i) {
-    int tmp_ni = (200 - (x[i]+v[i+1]));
-    int tmp_i =  (200 - (     v[i+1]));
+  for (int i = 1; i < v.size(); ++i) {
+    int tmp_ni = (200 - (x[i-1]+v[i]));
+    int tmp_i =  (200 - (     v[i]));
     int delta_ni = tmp_ni * tmp_ni;
     int delta_i =  tmp_i  * tmp_i;
 
     // это мы ищем локальный оптимум?
-    cost[i+1] = std::min(cost[i] + delta_i, cost[i] + delta_ni);
+    cost[i] = std::min(cost[i-1] + delta_i, cost[i-1] + delta_ni);
     
-    // разбираемся с путем
-    if (cost[i+1] == cost[i] + delta_i) {
+    // разбираемся с путем - включаем ли предыдущую точку в решение или нет
+    if (cost[i] == cost[i-1] + delta_i) {
       // текущая точка включена
-      x[i+1] = v[i+1];
+      x[i] = v[i];
     } else {
-      x[i+1] = x[i] + v[i+1];  
+      x[i] = x[i-1] + v[i];  
     }
   }
 
