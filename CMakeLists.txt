@@ -3,6 +3,9 @@
 # http://www.cmake.org/Wiki/CMake_Useful_Variables
 # -DCMAKE_BUILD_TYPE=Debug
 # -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+#
+#
+# -DCMAKE_TOOLCHAIN_FILE=/home/zaqwes/work/algorithmic-space/platforms/llvm-clang-cilkplus.toolchain.cmake
 
 project(cc-space)
 cmake_minimum_required(VERSION 2.8)
@@ -24,6 +27,7 @@ set(root ".")
 set(BigExtern "/home/zaqwes/big-3rdparty/")
 
 set(Intern "./intern/")
+set(User "/home/zaqwes")
 
 # Test framework
 include_directories(${GMock})
@@ -38,6 +42,8 @@ include_directories(${Extern}/jsoncpp-src-0.6.0-rc2/include)
 include_directories(${BigExtern}/boost_1_57_0)
 include_directories(${BigExtern}/asl_1.0.43)
 include_directories(${unitTests})
+include_directories(${User}/opt/clang-cilkplus/include)
+include_directories(/home/zaqwes/vdisks/tools/clang-cilkplus/archive-linux/lib)
 
 # link the libraries to the executable
 if (MINGW)
@@ -81,14 +87,14 @@ elseif (UNIX)
     # https://github.com/couchbase/couchnode/blob/master/deps/lcb/cmake/Modules/GetLibcouchbaseFlags.cmake
     # http://blogs.perl.org/users/rurban/2011/11/adventures-with-clang-and-asan.html
     #IF(LCB_USE_ASAN)
-# main: address - thread, memory and ub not work in i686, only x86_64
-#-fno-omit-frame-pointer -O1
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g  -fsanitize=address")
-#-fno-omit-frame-pointer -O1
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -g  -fsanitize=address")
-# -undefined dynamic_lookup
-        SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}  -fsanitize=address")
-        SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+    # main: address - thread, memory and ub not work in i686, only x86_64
+    #-fno-omit-frame-pointer -O1
+    #SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g  -fsanitize=address")
+    #-fno-omit-frame-pointer -O1
+    #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -g  -fsanitize=address")
+    # -undefined dynamic_lookup
+    #    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}  -fsanitize=address")
+    #    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
     #ENDIF()
     # TOOLS:
     #
@@ -100,11 +106,11 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -g  -fsanitize=address")
     # Try it! https://github.com/pacs-course/pacs/wiki/Instructions-to-install-clang-3.1-on-ubuntu-12.04.1-and-12.10
     # http://stackoverflow.com/questions/17657261/how-to-install-clang-pre-built-binaries-ubuntu-12-04
     # http://sohanikh.blogspot.ru/2013/02/how-to-build-llvm-from-source-on-ubuntu.html
-    add_definitions(  -Wall -g -fsanitize=address)
+    #add_definitions(  -Wall -g -fsanitize=address)
     # https://developer.mozilla.org/en-US/docs/Mozilla/Testing/Firefox_and_Address_Sanitizer
     message("I'm clang")
     link_directories(${BigExtern}/boost_1_57_0/stage_gcc/lib)
-    #link_libraries(tbb tbbmalloc boost_system boost_thread pthread rt)  # !! pthread and rt last!!
+    link_libraries(tbb tbbmalloc pthread rt)  # !! pthread and rt last!!
   else()
     message("I'm NOT clang")
     add_definitions(  -Wall)
@@ -133,8 +139,8 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -g  -fsanitize=address")
       # http://stackoverflow.com/questions/9511422/undefined-reference-to-clock-gettime-gcc-4-6-cmake
       # http://www.unix.com/man-page/opensolaris/3lib/librt/
       #
-      # https://software.intel.com/en-us/forums/topic/285308
-      #link_libraries(tbb tbbmalloc boost_system boost_thread pthread rt)  # !! pthread and rt last!!
+      # https://software.intel.com/en-us/forums/topic/285308 boost_system boost_thread
+      link_libraries(tbb tbbmalloc  pthread rt)  # !! pthread and rt last!!
     endif()
   endif()
 endif()
