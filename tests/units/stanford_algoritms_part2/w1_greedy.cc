@@ -1,26 +1,19 @@
+#include "details/io_details.h"
 
 #include <gtest/gtest.h>
+// no standart now
+//#include <ext/hash_set>
+#include <boost/unordered_set.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
 
 #include <cassert>
-
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <stdexcept>
 #include <string>
-
-// no standart now
-//#include <ext/hash_set>
-#include <boost/unordered_set.hpp>
-
-// 3rdpary
-#include <boost/lexical_cast.hpp>
-#include <boost/foreach.hpp>
-
-
-// App
-#include "details/io_details.h"
 
 using namespace std;
 using namespace io_details;

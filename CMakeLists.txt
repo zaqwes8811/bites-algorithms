@@ -12,8 +12,6 @@ cmake_minimum_required(VERSION 2.8)
 
 #Message(${CMAKE_CURRENT_LIST_DIR})
 
-#
-
 set(Extern "./extern/")
 set(GMock "./extern/gmock-1.6.0/fused-src")
 set(Canary "./source/canary/")
@@ -166,10 +164,21 @@ file( GLOB proInnerReuse
   ${Pro}/inner_reuse/*.c
 )
 
-file( GLOB proFSMs ${Pro}/fsm/*.cc)
-file( GLOB proSNMPTop ${Pro}/snmp/*.h ${Pro}/snmp/*.cc)
-file( GLOB proWebAccess ${Pro}/web_access/*.cc)
-file( GLOB proCAgent  ${Pro}/pure_c_snmp/*.c ${Pro}/pure_c_snmp/*.cc ${Pro}/pure_c_snmp/*.h)
+file( GLOB proFSMs
+    ${Pro}/fsm/*.cc)
+
+file( GLOB proSNMPTop
+    ${Pro}/snmp/*.h
+    ${Pro}/snmp/*.cc)
+
+file( GLOB proWebAccess
+    ${Pro}/web_access/*.cc)
+
+file( GLOB proCAgent
+    ${Pro}/pure_c_snmp/*.c
+    ${Pro}/pure_c_snmp/*.cc
+    ${Pro}/pure_c_snmp/*.h)
+
 file( GLOB proGlue  ${Pro}/glue/*.h)
 
 file( GLOB apple
@@ -180,34 +189,36 @@ file( GLOB slre  ${Extern}/slre-1.3/*.c)
 file( GLOB mongoose  ${Extern}/mongoose-5.2/*.c)
 file( GLOB jsonCpp  ${Extern}/jsoncpp-src-0.6.0-rc2/src/lib_json/*.cpp)
 file( GLOB snmp
-  ${Extern}/smash-vx.y-fix/smash/*.c
-  ${Extern}/smash-vx.y-fix/smash/*.cc)
-file( GLOB asn1Lib  ${Extern}/smash-vx.y-fix/asn1/*.c)
+    ${Extern}/smash-vx.y-fix/smash/*.c
+    ${Extern}/smash-vx.y-fix/smash/*.cc)
+file( GLOB asn1Lib
+    ${Extern}/smash-vx.y-fix/asn1/*.c)
 file( GLOB externMibApi
-  ${Extern}/smash-vx.y-fix/mib_api/*.c
-  ${Extern}/smash-vx.y-fix/mib_api/*.cc
-  ${Extern}/smash-vx.y-fix/mib_api/*.h)
+    ${Extern}/smash-vx.y-fix/mib_api/*.c
+    ${Extern}/smash-vx.y-fix/mib_api/*.cc
+    ${Extern}/smash-vx.y-fix/mib_api/*.h)
 
 # unittests
 file( GLOB mibTest  ${unitTests}/canary/smash_test_mib/*.c)
 file( GLOB canaryTestHttp  ${unitTests}/canary/*.cc ${Tests}/canary/*.h)
 file( GLOB proTests
-  ${unitTests}/tricks_peoples/sean_parent/*.cc
-  ${unitTests}/tbb/*.cc
-  ${unitTests}/*.cc
-  ${unitTests}/train/*.cc
-  ${unitTests}/stanford_algoritms_part2/*.cc
-  ${unitTests}/tricks_intermediate/*.cc
-  ${unitTests}/lang_core/*.cc
-  ${unitTests}/mem_heap_stack/*.cc
-  ${unitTests}/extern/*.cc
-  ${unitTests}/async-parallel-computing/patterns/*.cc
-  ${unitTests}/stl/*.cc
-  ${unitTests}/tbb/*.cc
-  ${unitTests}/async-parallel-computing/safe_data_structures/*.cc
-  ${unitTests}/async-parallel-computing/boost_cc98/*.cc)
+    ${unitTests}/tricks_peoples/sean_parent/*.cc
+    ${unitTests}/tbb/*.cc
+    ${unitTests}/*.cc
+    ${unitTests}/train/*.cc
+    ${unitTests}/stanford_algoritms_part2/*.cc
+    ${unitTests}/tricks_intermediate/*.cc
+    ${unitTests}/lang_core/*.cc
+    ${unitTests}/mem_heap_stack/*.cc
+    ${unitTests}/extern/*.cc
+    ${unitTests}/async-parallel-computing/patterns/*.cc
+    ${unitTests}/stl/*.cc
+    ${unitTests}/tbb/*.cc
+    ${unitTests}/async-parallel-computing/safe_data_structures/*.cc
+    ${unitTests}/async-parallel-computing/boost_cc98/*.cc)
+
 file( GLOB testsRtos
-  ${unitTests}/async-parallel-computing/*.cc)
+    ${unitTests}/async-parallel-computing/*.cc)
 
 # Pack
 set( unitTests ${mibTest} ${canaryTestHttp} ${proTests} ${testsRtos})
@@ -224,9 +235,11 @@ set( proSources
     ${proInMemoryStorage}
     ${proJournals})
 
-set( canarySources ${canaryHttp})
+set(canarySources
+    ${canaryHttp})
 
-file( GLOB blockedTestSources  ${testsRoot}/*.cc)
+file(GLOB blockedTestSources
+    ${testsRoot}/*.cc)
 
 # Warning: run one by one and !in QtCreator only in external terminal!
 add_executable(blocked_tests.bin

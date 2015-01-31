@@ -1,18 +1,16 @@
 
 #include "graph_details.h"
 
-#include <cassert>
+#include <tbb/tbb.h>
+#include <tbb/parallel_for.h>
+#include <boost/foreach.hpp>
 
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <fstream>
 #include <set>
-
-// 3rdparty
-#include <tbb/tbb.h>
-#include <tbb/parallel_for.h>
-#include <boost/foreach.hpp>
 
 #define for_each_ BOOST_FOREACH
 
@@ -183,6 +181,5 @@ std::ostream& operator<<(std::ostream& os, const vector<NodeInfo>& obj) {
   });
   os << endl;
   return os;
-};
-  
 }
+}  // space
