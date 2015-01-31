@@ -1,21 +1,19 @@
+
+#include "visuality/view.h"
+#include "details/io_details.h"
+
 #include <gtest/gtest.h>
-
-// C++98
-#include <vector> 
-#include <ostream>
-#include <string>
-
-// 3rdparty
 #include <boost/unordered_map.hpp>
-
 #include "tbb/task_scheduler_init.h"
 #include "tbb/task.h"
 #include "tbb/concurrent_hash_map.h"
 #include <tbb/scalable_allocator.h>
 
-// inner
-#include "visuality/view.h"
-#include "details/io_details.h"
+// C++98
+#include <vector>
+#include <ostream>
+#include <string>
+
 
 using namespace std;
 using namespace tbb;

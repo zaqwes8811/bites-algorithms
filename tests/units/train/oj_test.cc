@@ -12,7 +12,13 @@
 #include <algorithm>
 #include <numeric>
 
-using namespace std;
+//using namespace std;
+using std::string;
+using std::vector;
+using std::cout;
+using std::endl;
+using std::list;
+
 using namespace boost;
 using namespace view;
 
@@ -274,7 +280,7 @@ TEST(O_J, WordBreak2) {
     //store.reserve(1000);
     //vector<string::size_type> spaces;
     //spaces.reserve(1000);
-    shared_ptr<string> ptr = make_shared<string>(s);
+    shared_ptr<string> ptr = boost::make_shared<string>(s);
 
     store.push_back(ptr);
     //spaces.push_back(string::npos);
@@ -318,7 +324,7 @@ TEST(O_J, WordBreak2) {
             // not correct
             //begin.insert(begin.end(), new_record.begin(), new_record.end());  // no speed up
 
-            shared_ptr<string> ptr = make_shared<string>(begin+new_record);
+            shared_ptr<string> ptr = boost::make_shared<string>(begin+new_record);
             store.push_back(ptr);
 
             //spaces.push_back(begin.size()+(offset+1));  // нужно с конца

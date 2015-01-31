@@ -7,7 +7,7 @@
 #
 # -DCMAKE_TOOLCHAIN_FILE=/home/zaqwes/work/algorithmic-space/platforms/llvm-clang-cilkplus.toolchain.cmake
 
-project(cc-space)
+project(alg-space)
 cmake_minimum_required(VERSION 2.8)
 
 #Message(${CMAKE_CURRENT_LIST_DIR})
@@ -18,7 +18,7 @@ set(Extern "./extern/")
 set(GMock "./extern/gmock-1.6.0/fused-src")
 set(Canary "./source/canary/")
 set(Pro "./source/production/")
-set(unitTests "./tests/unit/")
+set(unitTests "./tests/units/")
 set(Source "source/")
 set(testsRoot "./tests")
 set(root ".")
@@ -113,7 +113,7 @@ elseif (UNIX)
     link_libraries(tbb tbbmalloc pthread rt)  # !! pthread and rt last!!
   else()
     message("I'm NOT clang")
-    add_definitions(  -Wall)
+    add_definitions(  -Wall )#-std=c++11)
     # FIXME: -D_REENTRANT
     if (CMAKE_SYSTEM_PROCESSOR MATCHES arm)
       link_directories(${BigExtern}/boost_1_57_0/stage_arm/lib)
@@ -131,6 +131,7 @@ elseif (UNIX)
       ENDIF()
 
       message("I'm NOT ARM processor")
+      add_definitions(  -std=c++0x)
       link_directories(${BigExtern}/boost_1_57_0/stage_gcc/lib)
       # how split embedded form just linux
       # http://stackoverflow.com/questions/9534126/automatically-linking-socket-shared-library-in-nix
@@ -149,7 +150,7 @@ message("CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
 # Sources
 file( GLOB canaryHttp
-  ${Source}/async-parallel-computing/*.cc
+  ${Source}/details/*.cc
   ${Source}/async-parallel-computing/*.h
   ${Source}/canary/*.cc
   ${Source}/heart/*.h
@@ -192,10 +193,10 @@ file( GLOB mibTest  ${unitTests}/canary/smash_test_mib/*.c)
 file( GLOB canaryTestHttp  ${unitTests}/canary/*.cc ${Tests}/canary/*.h)
 file( GLOB proTests
   ${unitTests}/tricks_peoples/sean_parent/*.cc
-  ${unitTests}/tricks_peoples/sutter/*.cc
-  ${unitTests}/tricks_peoples/gotchas/*.cc
-  ${unitTests}/tricks_peoples/sutter_tasks/*.cc
-  ${unitTests}/tricks_peoples/sutter_tasks_new/*.cc
+  ${unitTests}/tbb/*.cc
+  ${unitTests}/*.cc
+  ${unitTests}/train/*.cc
+  ${unitTests}/stanford_algoritms_part2/*.cc
   ${unitTests}/tricks_intermediate/*.cc
   ${unitTests}/lang_core/*.cc
   ${unitTests}/mem_heap_stack/*.cc

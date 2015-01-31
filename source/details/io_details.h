@@ -8,8 +8,8 @@
 
 namespace io_details {
 struct Arrow {
-  const int end;
-  const int weight;
+  int end;
+  int weight;
   
   Arrow(int end_, int weight_) : end(end_), weight(weight_) { } 
 }; 
