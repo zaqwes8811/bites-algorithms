@@ -219,7 +219,7 @@ TEST(W3, BigKnapsackProblem)
     }
   }
   
-  cout << " " << A;
+  //cout << " " << A;
 }
 
 TEST(W3, GeeksForGeek_hashtable) 

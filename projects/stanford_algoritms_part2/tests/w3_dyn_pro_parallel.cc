@@ -4,10 +4,13 @@
 
 #include <gtest/gtest.h>
 #include <boost/unordered_map.hpp>
-#include "tbb/task_scheduler_init.h"
-#include "tbb/task.h"
-#include "tbb/concurrent_hash_map.h"
-#include <tbb/scalable_allocator.h>
+
+#ifdef USE_TBB
+#  include "tbb/task_scheduler_init.h"
+#  include "tbb/task.h"
+#  include "tbb/concurrent_hash_map.h"
+#  include <tbb/scalable_allocator.h>
+#endif
 
 // C++98
 #include <vector>
@@ -16,14 +19,15 @@
 
 
 using namespace std;
+#ifdef USE_TBB
 using namespace tbb;
+#endif
 
 using view::operator<<;
 using io_details::Item;
 using io_details::get_test_items;
 using io_details::get_dyn_items;
 
-namespace {
 struct TaskId {
   TaskId(int _w_bound, int _idx) : w_bound(_w_bound), idx(_idx) {}
   TaskId() : w_bound(0), idx(0) {}
@@ -41,6 +45,8 @@ struct TBBHashCompare {
         return lhs.idx == rhs.idx && lhs.w_bound == rhs.w_bound;//KeyEqual()(x,y);
     }
 };
+
+#ifdef USE_TBB
 
 // Аллокатор тоже не помогает
 //  tbb::scalable_allocator<pair<TaskId, int> >
@@ -232,8 +238,7 @@ public:
     return NULL;
   }
 };
-}
- 
+
 TEST(W3, ParallelKnap) {
   TaskTable g_task_table;
   pair<int, vector<Item > > tmp = 
@@ -277,3 +282,4 @@ TEST(W3, ParallelKnapNoWait) {
   //assert(result == 8);
   assert(result == 4243395);
 }
+#endif

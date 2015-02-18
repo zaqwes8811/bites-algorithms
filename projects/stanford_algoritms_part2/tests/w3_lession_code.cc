@@ -138,7 +138,7 @@ TEST(W3, KnapsackProblem)
     }
   }
   
-  cout << " " << A;
+  //cout << " " << A;
 
   // Reconstruction
 }

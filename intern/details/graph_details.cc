@@ -1,8 +1,10 @@
+//#define USE_TBB
 
 #include "graph_details.h"
 
-#include <tbb/tbb.h>
-#include <tbb/parallel_for.h>
+//#include <tbb/tbb.h>
+//#include <tbb/parallel_for.h>
+
 #include <boost/foreach.hpp>
 
 #include <cassert>
@@ -11,11 +13,13 @@
 #include <vector>
 #include <fstream>
 #include <set>
+#include <stdexcept>
+#include <algorithm>
 
 #define for_each_ BOOST_FOREACH
 
 using namespace std;
-using namespace tbb;
+//using namespace tbb;
 using io_details::Arrow;
 
 namespace graph_details {
@@ -65,6 +69,7 @@ private:
   //stringstream g_ss;  // он тяжелый!!! но как его сбросить?
 };
 
+#ifdef USE_TBB
 class ApplyFoo {  
   const string* const array; // map only!!
   pair<int, Neighbors>* const out;
@@ -78,12 +83,13 @@ public:
       }  
   }  
 };
+#endif
 
 vector<string> extract_records(const string& filename) 
 {
   fstream stream(filename.c_str());
   if (!stream)
-    throw runtime_error("Error: can't open file");
+    throw std::runtime_error("Error: can't open file");
 
   vector<string> records;
   // IO operations
@@ -104,6 +110,7 @@ vector<pair<int, Neighbors> > process_parallel(const vector<string>& records) {
   // нужно реально выделить, резервирование не подходит
   vector<pair<int, Neighbors> > raw_nodes(records.size());  
 
+#ifdef USE_TBB
   // No speed up
   // Linux CPU statistic.
   // http://superuser.com/questions/443406/how-can-i-produce-high-cpu-load-on-a-linux-server
@@ -120,6 +127,7 @@ vector<pair<int, Neighbors> > process_parallel(const vector<string>& records) {
       ApplyFoo(&records[0], &raw_nodes[0]),
       simple_partitioner());
   }
+#endif
   return raw_nodes;
 }
 
@@ -128,7 +136,7 @@ vector<pair<int, Neighbors> > process_serial(const vector<string>& records) {
   if (true) {
     //for (int i = 0; i < 2000; ++i)
     { 
-      transform(records.begin(), records.end(),
+      std::transform(records.begin(), records.end(),
 	    tmp.begin(),
 	    RawYieldFunctor());
     } 
@@ -148,7 +156,7 @@ vector<Neighbors> build_graph(const vector<string>& records) {
     unique_check.insert(val.first); 
   };
 
-  for_each(begin(raw_nodes), end(raw_nodes), action);
+  std::for_each(begin(raw_nodes), end(raw_nodes), action);
   assert(unique_check.size() == raw_nodes.size());
 
   // Формирование графа, если узлы уникальны, то можно параллельно записать в рабочий граф.
@@ -175,7 +183,7 @@ std::ostream& operator<<(std::ostream& os, const NodeInfo& obj)
 
 std::ostream& operator<<(std::ostream& os, const vector<NodeInfo>& obj) {
   int i = 0;
-  for_each(begin(obj), end(obj), [&os, &i] (const NodeInfo& info) {
+  std::for_each(begin(obj), end(obj), [&os, &i] (const NodeInfo& info) {
     os << ' ' << info;
     ++i;
   });
