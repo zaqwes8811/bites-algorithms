@@ -251,7 +251,7 @@ TEST(Crack, BSTLayers) {
   vector<vector<int> > vv;
   split_into_layers(root, -1, vv);
 
-  cout << vv;
+  //cout << vv;
 
   //in_order_traversal(root);
   destroy_tree(root);
