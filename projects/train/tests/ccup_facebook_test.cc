@@ -57,9 +57,10 @@ void inplace_reverse(char * arr, const size_t length) {
 
     if (e >= length)
       break;
-
-    ++e;
-    b = e;
+    else {
+      ++e;
+      b = e;
+    }
   }
 
   reverse(arr, arr + length);

@@ -76,3 +76,7 @@ TEST(CCup, Two) {
 
 // prizoners
 // http://www.careercup.com/question?id=5734324101971968
+
+TEST(Amazon, Arrays3) {
+  // http://www.careercup.com/question?id=5717493200977920
+}
