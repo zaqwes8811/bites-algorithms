@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.0.1, 2015-02-20T13:52:26. -->
+<!-- Written by QtCreator 3.0.1, 2015-02-25T13:03:56. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -15,7 +15,7 @@
    <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.0">
     <value type="QString" key="language">Cpp</value>
     <valuemap type="QVariantMap" key="value">
-     <value type="QByteArray" key="CurrentPreferences">gnu</value>
+     <value type="QByteArray" key="CurrentPreferences">gnu2</value>
     </valuemap>
    </valuemap>
    <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.1">
@@ -96,7 +96,7 @@
     <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
     <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">all</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Release</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeBuildConfiguration</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.BuildConfigurationCount">1</value>
@@ -150,11 +150,13 @@
      <value type="int">14</value>
     </valuelist>
     <value type="QString" key="CMakeProjectManager.CMakeRunConfiguation.Title">unittest.bin</value>
-    <value type="QString" key="CMakeProjectManager.CMakeRunConfiguration.Arguments"></value>
+    <value type="QString" key="CMakeProjectManager.CMakeRunConfiguration.Arguments">--gtest_filter=Facebook*</value>
     <value type="bool" key="CMakeProjectManager.CMakeRunConfiguration.UseTerminal">false</value>
     <value type="QString" key="CMakeProjectManager.CMakeRunConfiguration.UserWorkingDirectory"></value>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
+     <value type="QString">ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer-3.4</value>
+    </valuelist>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">unittest.bin</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">CMakeProjectManager.CMakeRunConfiguration.unittest.bin</value>
