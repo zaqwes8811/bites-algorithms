@@ -12,6 +12,7 @@
 #include <boost/unordered_map.hpp>
 #ifdef GOOGLE_HASH_MAPS
 // DANGER: Кажется с пользовательскими типами как-то не очень. Что то похоже и про строки слышал, кажется.
+// Exsist depend on K and V type
 #  include <google/dense_hash_map>
 #endif
 #include <boost/foreach.hpp>
