@@ -2,41 +2,32 @@
 
 //#define GOOGLE_HASH_MAPS
 
+#include "details/io_details.h"
+#include "details/fp_details.h"
+
 #include <gtest/gtest.h>
 
-#include <cassert>
+//#include <ext/hash_set>
+#include <boost/unordered_set.hpp>
+#include <boost/unordered_map.hpp>
+#ifdef GOOGLE_HASH_MAPS
+// DANGER: Кажется с пользовательскими типами как-то не очень. Что то похоже и про строки слышал, кажется.
+#  include <google/dense_hash_map>
+#endif
+#include <boost/foreach.hpp>
 
+#include <cassert>
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <stdexcept>
-
-// C++11
 #include <unordered_map>
-
-// no standart now
-//#include <ext/hash_set>
-#include <boost/unordered_set.hpp>
-#include <boost/unordered_map.hpp>
-
-#ifdef GOOGLE_HASH_MAPS
-// DANGER: Кажется с пользовательскими типами как-то не очень. Что то похоже и про строки слышал, кажется.
-#  include <google/dense_hash_map>
-#endif
-
-// 3rdpary
-#include <boost/foreach.hpp>
-
-// App
-#include "details/io_details.h"
-#include "details/fp_details.h"
 
 using namespace std;
 
 using std::hash;  // C++11
 //using boost::hash;  // нужно точечно указать
-
 
 namespace {
 struct TaskId {
