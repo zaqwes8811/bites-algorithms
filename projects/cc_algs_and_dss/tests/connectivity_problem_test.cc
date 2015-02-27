@@ -1,8 +1,9 @@
+#include "gtest/gtest.h"
+#include <boost/lexical_cast.hpp>
+
 #include <map>
 #include <vector>
 #include <string>
-#include "utils.h"
-#include "gtest/gtest.h" 
 
 typedef std::vector<int> Vi;
 typedef std::vector<int>::iterator ViIt;
@@ -30,7 +31,7 @@ string quick_find( Vi vpq ) {
 		
 		// find
 		if (id[p] == id[q]) {
-			print(id, N);
+            //print(id, N);
 			continue;	// есть в наборе(ах?) - не выводим и не соедин€ем
 		}
 			
@@ -42,10 +43,10 @@ string quick_find( Vi vpq ) {
 				id[i] = id[q];
 		
 		// отчетность
-		print(id, N);
-		print(p, q);
-		result += int2string(p)+"-";
-		result += int2string(q)+" ";
+        //print(id, N);
+        //print(p, q);
+        result += boost::lexical_cast<string>(p)+"-";
+        result += boost::lexical_cast<string>(q)+" ";
 	}
 	return result;
 }
@@ -67,27 +68,27 @@ string quick_union( Vi vpq ) {
 		copy_at = at;
 		p = *copy_at;
 		q = *(++copy_at);
-		print("\nPair", p, q);
+        //print("\nPair", p, q);
 		
 		// find
 		int i, j;
 		for (i = p; i != id[i]; i = id[i]) {
-			print( "i", i, "id[i]", id[i], "id[id[i]]", id[id[i]] );
+            //print( "i", i, "id[i]", id[i], "id[id[i]]", id[id[i]] );
 		}
 		for (j = q; j != id[j]; j = id[j]) {
-			print( "j", j, "id[j]", id[j], "id[id[j]]", id[id[j]] );
+            //print( "j", j, "id[j]", id[j], "id[id[j]]", id[id[j]] );
 		}
 		if( i == j ) {
-			print("Coupled\n");
+            //print("Coupled\n");
 			continue;
 		}
-		print("No coupled\n");
-		result += int2string(p)+"-";
-		result += int2string(q)+" ";
+        //print("No coupled\n");
+        result += boost::lexical_cast<string>(p)+"-";
+        result += boost::lexical_cast<string>(q)+" ";
 		id[i] = j;
 		
 		// отчетность
-		print(id, N);
+        //print(id, N);
 	}
 	return result;
 }
@@ -124,12 +125,3 @@ TEST(ConnectivityTest, QuickFindBase) {
 	string expect_result = "3-4 4-9 8-0 2-3 5-6 5-9 7-3 4-8 6-1 ";
 	EXPECT_EQ( expect_result, quick_find(inData) );
 }
-
-int main(int argc, char* argv[]) {
-	testing::InitGoogleTest(&argc, argv);
-	
-	// ѕринудительно печатаем врем€ работы тестов.
-	testing::GTEST_FLAG(print_time) = true;
-	return RUN_ALL_TESTS();
-}
-

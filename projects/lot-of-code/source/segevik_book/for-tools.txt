@@ -1,3 +1,0 @@
-cl /EHsc /I.;C:\opt\Microsoft Visual Studio 9.0\VC\include /Ferunner_vs2008.exe /DWIN32 runner.cpp gtest\gtest-all.cc
-
-C:\opt\Microsoft Visual Studio 9.0\Common7\IDE

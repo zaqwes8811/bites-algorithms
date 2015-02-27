@@ -1,5 +1,7 @@
 // https://launchpad.net/libmct
 
+//#define GOOGLE_HASH_MAPS
+
 #include <gtest/gtest.h>
 
 #include <cassert>
@@ -18,8 +20,10 @@
 #include <boost/unordered_set.hpp>
 #include <boost/unordered_map.hpp>
 
+#ifdef GOOGLE_HASH_MAPS
 // DANGER: Кажется с пользовательскими типами как-то не очень. Что то похоже и про строки слышал, кажется.
-#include <google/dense_hash_map>
+#  include <google/dense_hash_map>
+#endif
 
 // 3rdpary
 #include <boost/foreach.hpp>
@@ -108,12 +112,15 @@ TEST(DataStructures, HashTables) {
   unordered_map<int, int> table;
   
   boost::unordered_map<TaskId, int, KeyHash, KeyEqual> htbl;
+
+#ifdef GOOGLE_HASH_MAPS
   google::dense_hash_map<TaskId, int, KeyHash, KeyEqual> g_tbl;
   g_tbl.set_empty_key(TaskId(0, 0));
   g_tbl[TaskId(1, 5)] = 9;
   
   cout << g_tbl[TaskId(1, 5)] << endl;
   assert(g_tbl.end() != g_tbl.find(TaskId(1, 5)));
+#endif
   
 }
 
