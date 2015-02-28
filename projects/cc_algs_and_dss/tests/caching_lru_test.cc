@@ -2,12 +2,18 @@
 //
 // http://stxxl.sourceforge.net/
 
+#include "visuality/view.h"
+
 #include <gtest/gtest.h>
 
 #include <functional>
 #include <map>  // small caches
 #include <list>
 #include <algorithm>
+#include <iostream>
+
+using namespace std;
+using view::operator <<;
 
 // FIXME: look like bad domain model!
 //
@@ -134,57 +140,63 @@ public:
     // if contain - easy
     auto kv = m_store.find(key);
     if (kv == m_store.end()) {
-      if (m_store.size() == k_maxSize) {
-        // may throw
-        K to_remove = m_key_tracker.front();
-
-        // non throw
-        m_store.erase(to_remove);
-        m_key_tracker.pop_front();
-      }
+      if (m_store.size() == k_maxSize)
+        evict();
 
       // state changed, but here if throw it's no big trouble - it's cache
       V val = m_load(key);
-
-      // insert
-      bool success_tracker = false;
-      bool success_store = false;
-      try {
-        auto link = m_key_tracker.insert(m_key_tracker.begin(), key);
-        success_tracker = true;
-
-        // to k/v
-        m_store.insert(make_pair(key, make_pair(val, link)));
-        success_store = true;
-      } catch (...) {
-        if (success_tracker && !success_store)
-          m_key_tracker.pop_back();
-
-        throw;
-      }
-
+      put(val);
       r_v = val;  // only now!
     } else {
       // non throw
-      r_v = kv->first;  // O(log n) or O(1)
-      typename std::list<K>::iterator pos = kv->second.second;
-
-      // Need update dll
+      r_v = kv->second.first;  // O(log n) or O(1)
+      auto pos = kv->second.second;
       m_key_tracker.splice(m_key_tracker.end(), m_key_tracker, pos);  // O(1)
     }
   }
 
 private:
   typedef std::list<K> key_tracker_type;
+
+  // exchange calc to space
   typedef std::map<K,
     std::pair<V,
     typename key_tracker_type::iterator> // FIXME: if store ref. how about exception safty?
   > store_type;  // we can know elem iterator
 
+  void evict() {
+    // FIXME: need asserts
+    // may throw
+    K to_remove(m_key_tracker.front());
+
+    // non throw
+    m_store.erase(to_remove);
+    m_key_tracker.pop_front();
+  }
+
+  // may throw, but state is consistent
+  void put(const V& val) {
+    // insert
+    bool success_tracker = false;
+    bool success_store = false;
+    try {
+      auto link = m_key_tracker.insert(m_key_tracker.end(), key);
+      success_tracker = true;
+
+      // to k/v
+      m_store.insert(make_pair(key, make_pair(val, link)));
+      success_store = true;
+    } catch (...) {
+      if (success_tracker && !success_store)
+        m_key_tracker.pop_back();
+
+      throw;
+    }
+  }
+
   CacheLoader m_load;
   const size_t k_maxSize;
 
-  // DLL
   key_tracker_type m_key_tracker;  // last accessed - first?
 
   // Key-Value store
@@ -205,8 +217,14 @@ TEST(DSS, Cache) {
         //&get
         [](std::string key) -> int { return 0; }
         );
-  lru_cache_v2<int, std::string> v(loader);
+  lru_cache_v2<std::string, int> v(loader);
 
-  std::string val;
-  v.get(0, val);
+  int val = 0;
+  //v.get(0, val);  // throw in runtime
+  v.get("0", val);
+  v.get("1", val);
+  v.get("2", val);
+  v.get("3", val);
+
+  v.get("0", val);
 }
