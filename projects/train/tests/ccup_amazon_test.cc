@@ -80,3 +80,30 @@ TEST(CCup, Two) {
 TEST(Amazon, Arrays3) {
   // http://www.careercup.com/question?id=5717493200977920
 }
+
+template<typename T>
+struct OnQueue {
+  OnQueue() : m_buffer(3) { }
+
+  // must be O(1)
+  push(const T& val)
+  {
+
+  }
+
+  // bad api
+  T pop() {
+
+  }
+
+private:
+  std::vector<T> m_buffer;
+};
+
+TEST(Amazon, TrickyQueue) {
+  // http://www.careercup.com/question?id=14781667
+
+  OnQueue<string> q;
+
+  // if array or vector - shift = O(n)
+}
