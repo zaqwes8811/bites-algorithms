@@ -1,4 +1,5 @@
 
+#include <visuality/view.h>
 
 #include <gtest/gtest.h>
 
@@ -7,6 +8,7 @@
 #include <iostream>
 
 using namespace std;
+using view::operator <<;
 
 TEST(CCupAmazon, One) {
   // http://www.careercup.com/question?id=5758712897601536
@@ -81,29 +83,98 @@ TEST(Amazon, Arrays3) {
   // http://www.careercup.com/question?id=5717493200977920
 }
 
+// No shift!
 template<typename T>
 struct OnQueue {
-  OnQueue() : m_buffer(3) { }
+  OnQueue()
+    : m_buffer(3)
+    , m_rd_ptr(0)
+    , m_wr_ptr(0)
+    , m_can_wr(true)
+    , m_can_rd(false) { }
 
   // must be O(1)
-  push(const T& val)
+  bool push(const T& val)
   {
+    if (!m_can_wr)
+      return false;
 
+    m_buffer[m_wr_ptr] = val;
+    m_wr_ptr = inc(m_wr_ptr);
+
+    if (m_rd_ptr == m_wr_ptr)
+      m_can_wr = false;
+
+    m_can_rd = true;
+    return true;
   }
 
   // bad api
-  T pop() {
+  bool pop(T& r_val) {
+    // check writer state
+    if (!m_can_rd)
+      return false;
 
+    // read
+    r_val = m_buffer[m_rd_ptr];
+    m_buffer[m_rd_ptr] = 0;  // test only
+
+    m_rd_ptr = inc(m_rd_ptr);
+    m_can_wr = true;
+    return true;
   }
 
 private:
+  size_t inc(size_t val) {
+    ++val;
+    return val % m_buffer.size();
+  }
+
+public:
   std::vector<T> m_buffer;
+
+private:
+  size_t m_rd_ptr;  // ptr to next read
+  size_t m_wr_ptr;  // ptr to next wr
+  bool m_can_wr;  // looks like need 2 flags
+  bool m_can_rd;
 };
+
+template <typename T>
+ostream& operator<<(ostream& o, const OnQueue<T>& q) {
+  o << q.m_buffer;
+  return o;
+}
 
 TEST(Amazon, TrickyQueue) {
   // http://www.careercup.com/question?id=14781667
 
-  OnQueue<string> q;
+  OnQueue<int> q;
+  //EXPECT_TRUE
+  q.push(1);
+  cout << q;
+  q.push(2);
+  cout << q;
+  q.push(3);
+  cout << q;
+  q.push(4);
+  cout << q;
+  q.push(5);
+  cout << q;
+
+  int v = 0;
+  q.pop(v);
+  cout << q;
+
+  q.push(3);
+  cout << q;
+
+  q.pop(v);
+  cout << q;
+  q.pop(v);
+  cout << q;
+  q.pop(v);
+  cout << q;
 
   // if array or vector - shift = O(n)
 }
