@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 using view::operator <<;
@@ -102,25 +103,25 @@ struct OnQueue {
     m_buffer[m_wr_ptr] = val;
     m_wr_ptr = inc(m_wr_ptr);
 
-    if (m_rd_ptr == m_wr_ptr)
+    m_can_rd = true;
+    if (m_rd_ptr == m_wr_ptr)  // can't write in this case - speed wr > rd
       m_can_wr = false;
 
-    m_can_rd = true;
     return true;
   }
 
   // bad api
   bool pop(T& r_val) {
-    // check writer state
     if (!m_can_rd)
       return false;
 
-    // read
     r_val = m_buffer[m_rd_ptr];
-    m_buffer[m_rd_ptr] = 0;  // test only
-
     m_rd_ptr = inc(m_rd_ptr);
+
     m_can_wr = true;
+    if (m_rd_ptr == m_wr_ptr)
+      m_can_rd = false;
+
     return true;
   }
 
@@ -175,6 +176,26 @@ TEST(Amazon, TrickyQueue) {
   cout << q;
   q.pop(v);
   cout << q;
+  EXPECT_FALSE(q.pop(v));
+  cout << q;
 
   // if array or vector - shift = O(n)
+}
+
+TEST(Amazon, OptBigBin) {
+  // http://www.careercup.com/question?id=13243679
+  int i = 0;
+  long sum = 0;
+
+  ifstream file("binary.dat", ios::in|ios::binary);  // big binary file
+  if(file.is_open()) {
+    while(!file.eof()) {
+      // read with buffer
+      char* buff = reinterpret_cast<char*>(&i);
+      file.read(buff, sizeof(unsigned int));
+      sum += i;
+      i = 0;
+    }
+  }
+  file.close();
 }
