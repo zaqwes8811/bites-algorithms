@@ -114,12 +114,102 @@ private:
   lru_cache& operator=(const lru_cache&);
 };
 
+template <typename K
+          , typename V  // copy ctor/assign operator; default ctor not needed
+          >
+class lru_cache_v2 {
+public:
+  typedef std::function<V(K)> CacheLoader;
+
+  explicit lru_cache_v2(CacheLoader op)
+    : m_load(op)
+    , k_maxSize(2) { }
+
+  // It's bad return from setter by value
+  //V
+  // Must be O(1)/O(1) cpu/mem
+  // FIXME: bad performance and memory usige (not O(1) space and big calc)
+  void get(const K& key, V& r_v)
+  {
+    // if contain - easy
+    if (m_store.find(key) != m_store.end()) {
+      r_v = m_store[key].first;  // O(log n) or O(1)
+
+      // Need update dll
+      //auto key_pos = std::find(m_key_tracker.begin(), m_key_tracker.end(), key);  // O(n)
+
+      // Move key to top.
+      //std::swap(*key_pos, m_key_tracker.back());
+    } else {
+      /*
+      // not contain
+      V val = m_load(key);
+
+      // "eviction strategy" - evict not by key
+      // FIXME: Logic ERROR
+      {
+        // without tmp too hard - much roolbacks
+
+        // may throw
+        Store tmp_store = m_store;
+        std::list<K> tmp_dll = m_key_tracker;
+
+        // if it can rollback then easy
+        // Need value to roolback - Ok. Need put K/V back - can throw!
+        if (tmp_store.size() == k_maxSize) {
+          // may throw
+          K steal(tmp_dll.front());
+
+          // non throw
+          auto p = tmp_store.find(steal);
+          tmp_store.erase(p);  // Trouble: how rollback. It no throw if compare no throw
+          tmp_dll.pop_front();
+        }
+
+        {
+          tmp_dll.push_back(key);  // looks like we can safe roolback
+          //tmp_store[key] = val; // Trouble if put key then put value throw. What happened?
+          //  need default ctor
+          tmp_store.insert(std::make_pair(key, val)); // if throw - state unchanged!
+        }
+
+        // non throw
+        std::swap(m_store, tmp_store);
+        std::swap(m_key_tracker, tmp_dll);
+      }
+
+      r_v = val;
+      */
+    }
+  }
+
+private:
+  typedef std::list<K> key_tracker_type;
+  typedef std::map<K,
+    std::pair<V,
+    typename key_tracker_type::iterator> // FIXME: if store ref. how about exception safty?
+  > Store;  // we can know elem iterator
+
+  CacheLoader m_load;
+  const size_t k_maxSize;
+
+  // DLL
+  key_tracker_type m_key_tracker;  // last accessed - first?
+
+  // Key-Value store
+  Store m_store;
+
+  // non-copyable
+  lru_cache_v2(const lru_cache_v2&);
+  lru_cache_v2& operator=(const lru_cache_v2&);
+};
+
 int get(int key) {
   return key;
 }
 
 TEST(DSS, Cache) {
-  lru_cache<int, int> v(&get);
+  lru_cache_v2<int, int> v(&get);
 
   int val = 0;
   v.get(0, val);
