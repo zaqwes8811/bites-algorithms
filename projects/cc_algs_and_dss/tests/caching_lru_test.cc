@@ -132,54 +132,45 @@ public:
   void get(const K& key, V& r_v)
   {
     // if contain - easy
-    if (m_store.find(key) != m_store.end()) {
-      r_v = m_store[key].first;  // O(log n) or O(1)
-
-      // Need update dll
-      //auto key_pos = std::find(m_key_tracker.begin(), m_key_tracker.end(), key);  // O(n)
-
-      // Move key to top.
-      //std::swap(*key_pos, m_key_tracker.back());
-    } else {
-      /*
-      // not contain
-      V val = m_load(key);
-
-      // "eviction strategy" - evict not by key
-      // FIXME: Logic ERROR
-      {
-        // without tmp too hard - much roolbacks
-
+    auto kv = m_store.find(key);
+    if (kv == m_store.end()) {
+      if (m_store.size() == k_maxSize) {
         // may throw
-        Store tmp_store = m_store;
-        std::list<K> tmp_dll = m_key_tracker;
-
-        // if it can rollback then easy
-        // Need value to roolback - Ok. Need put K/V back - can throw!
-        if (tmp_store.size() == k_maxSize) {
-          // may throw
-          K steal(tmp_dll.front());
-
-          // non throw
-          auto p = tmp_store.find(steal);
-          tmp_store.erase(p);  // Trouble: how rollback. It no throw if compare no throw
-          tmp_dll.pop_front();
-        }
-
-        {
-          tmp_dll.push_back(key);  // looks like we can safe roolback
-          //tmp_store[key] = val; // Trouble if put key then put value throw. What happened?
-          //  need default ctor
-          tmp_store.insert(std::make_pair(key, val)); // if throw - state unchanged!
-        }
+        K to_remove = m_key_tracker.front();
 
         // non throw
-        std::swap(m_store, tmp_store);
-        std::swap(m_key_tracker, tmp_dll);
+        m_store.erase(to_remove);
+        m_key_tracker.pop_front();
       }
 
-      r_v = val;
-      */
+      // state changed, but here if throw it's no big trouble - it's cache
+      V val = m_load(key);
+
+      // insert
+      bool success_tracker = false;
+      bool success_store = false;
+      try {
+        auto link = m_key_tracker.insert(m_key_tracker.begin(), key);
+        success_tracker = true;
+
+        // to k/v
+        m_store.insert(make_pair(key, make_pair(val, link)));
+        success_store = true;
+      } catch (...) {
+        if (success_tracker && !success_store)
+          m_key_tracker.pop_back();
+
+        throw;
+      }
+
+      r_v = val;  // only now!
+    } else {
+      // non throw
+      r_v = kv->first;  // O(log n) or O(1)
+      typename std::list<K>::iterator pos = kv->second.second;
+
+      // Need update dll
+      m_key_tracker.splice(m_key_tracker.end(), m_key_tracker, pos);  // O(1)
     }
   }
 
@@ -188,7 +179,7 @@ private:
   typedef std::map<K,
     std::pair<V,
     typename key_tracker_type::iterator> // FIXME: if store ref. how about exception safty?
-  > Store;  // we can know elem iterator
+  > store_type;  // we can know elem iterator
 
   CacheLoader m_load;
   const size_t k_maxSize;
@@ -197,20 +188,25 @@ private:
   key_tracker_type m_key_tracker;  // last accessed - first?
 
   // Key-Value store
-  Store m_store;
+  store_type m_store;
 
   // non-copyable
   lru_cache_v2(const lru_cache_v2&);
   lru_cache_v2& operator=(const lru_cache_v2&);
 };
 
-int get(int key) {
-  return key;
+int get(std::string key) {
+  return 1;
 }
 
 TEST(DSS, Cache) {
-  lru_cache_v2<int, int> v(&get);
+  //lru_cache_v2<int, std::string>::CacheLoader
+  std::function<int(std::string)> loader(
+        //&get
+        [](std::string key) -> int { return 0; }
+        );
+  lru_cache_v2<int, std::string> v(loader);
 
-  int val = 0;
+  std::string val;
   v.get(0, val);
 }
