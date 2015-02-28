@@ -183,11 +183,14 @@ TEST(Amazon, TrickyQueue) {
 }
 
 TEST(Amazon, OptBigBin) {
+  // http://stackoverflow.com/questions/5420317/reading-and-writing-binary-file
+
   // http://www.careercup.com/question?id=13243679
   int i = 0;
   long sum = 0;
 
   ifstream file("binary.dat", ios::in|ios::binary);  // big binary file
+  // Need buffering
   if(file.is_open()) {
     while(!file.eof()) {
       // read with buffer
@@ -195,6 +198,42 @@ TEST(Amazon, OptBigBin) {
       file.read(buff, sizeof(unsigned int));
       sum += i;
       i = 0;
+    }
+  }
+  file.close();
+}
+
+TEST(Amazon, OptBigBin_mod) {
+  // http://stackoverflow.com/questions/5420317/reading-and-writing-binary-file
+
+  // http://www.careercup.com/question?id=13243679
+  long sum = 0;
+
+  ifstream file("binary.dat", ios::in|ios::binary);  // big binary file
+
+  // know size - bad idea - out of ranges basic types
+  //file.seekg(0, std::ios::end);
+  // 1 billion chars - 1 000 000 000
+  // 2**32 = 4 294 967 296
+  //
+  // Troubles with big values
+  //const size_t pointSizeof = sizeof (unsigned int);
+  const size_t countPoints =
+      1024 * 2 * 2;
+      //file.tellg() / pointSizeof;  // in !bytes in ints
+  //file.seekg(0, std::ios::beg);
+
+  // Need buffering
+  vector<int> buffer(countPoints);
+  if(file.is_open()) {
+    while(!file.eof()) {
+      // read with buffer
+      char* buff = reinterpret_cast<char*>(buffer.data());
+      file.read(buff, pointSizeof * countPoints);
+
+      for(size_t j = 0; j < file.gcount(); ++j)
+        sum += buffer[j];
+
     }
   }
   file.close();
