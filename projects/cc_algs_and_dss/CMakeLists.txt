@@ -15,6 +15,7 @@ set(Intern "../../intern/")
 set(GMock "../../extern/gmock-1.6.0/fused-src")
 set(Source "source/")
 set(testsRoot "./tests")
+set(TrainRoot "./train")
 set(BigExtern "/opt/big-3rdparty/")
 
 
@@ -52,7 +53,8 @@ elseif (UNIX)
 endif()
 
 file(GLOB blockedTestSources
-    ${testsRoot}/*.cc)
+    ${testsRoot}/*.cc
+    ${TrainRoot}/*.cc)
 
 add_executable(unittest.bin
     ${Source}/mains/launcher_tests.cc

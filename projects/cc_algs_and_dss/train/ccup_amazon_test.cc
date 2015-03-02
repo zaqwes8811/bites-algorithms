@@ -217,7 +217,7 @@ TEST(Amazon, OptBigBin_mod) {
   // 2**32 = 4 294 967 296
   //
   // Troubles with big values
-  //const size_t pointSizeof = sizeof (unsigned int);
+  const size_t pointSizeof = sizeof (unsigned int);
   const size_t countPoints =
       1024 * 2 * 2;
       //file.tellg() / pointSizeof;  // in !bytes in ints

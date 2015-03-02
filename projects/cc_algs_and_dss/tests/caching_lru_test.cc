@@ -145,7 +145,7 @@ public:
 
       // state changed, but here if throw it's no big trouble - it's cache
       V val = m_load(key);
-      put(val);
+      put(key, val);
       r_v = val;  // only now!
     } else {
       // non throw
@@ -175,7 +175,7 @@ private:
   }
 
   // may throw, but state is consistent
-  void put(const V& val) {
+  void put(const K& key, const V& val) {
     // insert
     bool success_tracker = false;
     bool success_store = false;
