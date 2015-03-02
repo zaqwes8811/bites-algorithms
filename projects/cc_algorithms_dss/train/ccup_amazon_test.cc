@@ -1,4 +1,7 @@
-
+// Notes:
+//   much opt problems
+//   work with big amount of data
+//
 #include <visuality/view.h>
 
 #include <gtest/gtest.h>
