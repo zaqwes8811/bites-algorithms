@@ -31,3 +31,46 @@ TEST(CCupGoogle, One) {
 }
 
 // http://www.careercup.com/question?id=4925398016065536
+
+/*
+// what store?
+int match (string target, string source){
+    int [][] f = new int[target.size() + 1][source.size() + 1] ;
+
+    for (int i = 0 ; i <= source.size() ; ++i) {
+      f[0][i] = 1;
+    }
+
+    for (int i = 0 ; i <= target.size() ; ++i) {
+      f[i][0] = 0;
+    }
+
+    // not init memory used
+
+    f[0][0] = 1;
+
+    for (int targetIdx = 1 ; targetIdx <= target.size() ; ++targetIdx) {
+     for (int srcIdx = 1 ; srcIdx <= source.size() ; ++srcIdx) {
+       source.at(srcIdx - 1);
+       target.at(targetIdx - 1);
+
+       if (t == s) {
+         f[targetIdx][srcIdx]
+             =   f[targetIdx - 1][srcIdx - 1]
+               + f[targetIdx][srcIdx - 1] ;
+       } else{
+         f[targetIdx][srcIdx]
+             = f[targetIdx][srcIdx - 1] ;
+       }
+     }
+    }
+
+    // reconstr
+    return f[target.size()][source.size()] ;
+}
+*/
+
+TEST(Google, Discount) {
+  // http://www.careercup.com/question?id=5757597581836288
+  // use DP
+}

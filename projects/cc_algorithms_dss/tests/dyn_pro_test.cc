@@ -136,3 +136,16 @@ TEST(Dyn, Way) {
   // brutforce
   //for ()
 }
+
+// http://habrahabr.ru/post/191498/
+// 1D, 2D ...
+//
+// http://comp-science.narod.ru/WebPage/lesson2.htm
+//
+// LCS: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+// Наибольшая общая подпоследовательность
+//
+// Лекция 7. Динамическое программирование с одним параметром Михаил Густокашин
+
+// create
+// reconstr
