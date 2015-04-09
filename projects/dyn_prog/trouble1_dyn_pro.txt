@@ -8,6 +8,7 @@ Bottom up - more efficient
 DP near = careful brutosearch, subproblem + "reuse"
 DP near = rec + memoi + guesses
 DP near = shoretest path in some DAG! no cycles in dep graph
+raw idea - matrix mult
 
 topologic sort - renumeration
 
