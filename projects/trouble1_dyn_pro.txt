@@ -1,0 +1,20 @@
+http://www.quora.com/What-is-the-difference-between-bottom-up-and-top-down-dynamic-programming-method
+
+"Top-down approach is definitely something i'd go for, I find it a lot easier than the bottom-up one because the top-down seems more natural way to solve the problem."
+
+Bottom up - more efficient
+
+"19. Dynamic Programming I: Fibonacci, Shortest Paths" 6.006
+DP near = careful brutosearch, subproblem + "reuse"
+DP near = rec + memoi + guesses
+DP near = shoretest path in some DAG! no cycles in dep graph
+
+topologic sort - renumeration
+
+5 steps
+1. define subproblems
+2. guess (part of solution) - !!last step? back prop?
+3. relate subproblem solutions
+4. recurse & mem - bottom up - dp table bottom up
+5. solve orig. problem
+
