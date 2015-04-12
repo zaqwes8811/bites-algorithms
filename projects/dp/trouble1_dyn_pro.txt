@@ -22,3 +22,6 @@ topologic sort - renumeration
 Subpr is hard
 subprobl. suffcixes(O(n)) and prif(O(n))? or substring(i:j)(O(n*n))
 
+State is important - What state?
+"R22. Dynamic Programming: Dance Dance Revolution"
+
