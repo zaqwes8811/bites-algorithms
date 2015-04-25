@@ -1,4 +1,5 @@
-
+# encoding: utf-8
+"""
 A[0, s] = 0; A[0, v] = +inf for all v != s
 
 # Порядок обхода важен
@@ -45,5 +46,14 @@ B[0, v] = 0 for add v in V
 B[i, v] = B[i-1, v]   # 1)
 # 2)
 
+# Opts:
+early termination B-F
+"Complexity of Network Synchronization BARUCH AWERBUCH "
+
 ### Floyd-Warshall
+"""
+
+import py_details.io_helper
+
+# work
 

@@ -1,5 +1,33 @@
+"""
+  Representation graphs:
+    http://www.geeksforgeeks.org/graph-and-its-representations/
 
-import util
+    Adjacency Matrix - VxV
+
+    Adjacency List - V + E
+
+    Incidence List
+
+    http://www.algorithmist.com/index.php/Graph_data_structures
+
+    http://www.quora.com/Which-graph-representation-is-better-for-competitive-programming-in-C++-adjacency-list-or-adjacency-matrix
+
+    In nodes | out nodes
+
+    http://www.cs.princeton.edu/courses/archive/fall07/cos226/lectures/digraph.pdf
+      Out nodes
+"""
+
+import graph_util
+
+
+# FIXME: AL with neg weights
+
+class Node(object):
+    def __init__(self, v, w):
+        self.vertex = v
+        self.weight = w
+
 
 def get_fake_graph():
     g = {
@@ -13,7 +41,7 @@ def get_fake_graph():
         8: [6, 5],
         9: [3, 7]
     }
-    return g, util.invert_digraph(g)
+    return g, graph_util.invert_digraph(g)
 
 
 def get_real_graph():

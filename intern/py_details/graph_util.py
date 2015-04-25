@@ -1,4 +1,9 @@
+
+
 def invert_digraph(g):
+    """
+      About: make search in edges? or what?
+    """
     copy_gr = {}
 
     for k in g.keys():
