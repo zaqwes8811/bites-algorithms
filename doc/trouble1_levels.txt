@@ -1,11 +1,12 @@
 Алгоритмы
+- know, formalize and use exsist (!!)
 - доказательства это математика, потренироваться стоит, но в
 продакшине опасно
 
 DS: "Alg. stenf I"
 Level 0 - "what's a data structure?"
 Level 1 - coctail party-level literacy
-Level 2 - "this problem call out for a heap"
+Level 2 - "this problem call out for a heap" (!!)
 Level 3 - "I only use data structures that I wrote myself"
 
 
