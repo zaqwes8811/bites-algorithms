@@ -41,7 +41,7 @@ def get_fake_graph():
         8: [6, 5],
         9: [3, 7]
     }
-    return g, graph_util.invert_digraph(g)
+    return g, graph_util.enc_digraph_to_select_in_edges(g)
 
 
 def get_real_graph():

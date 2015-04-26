@@ -1,8 +1,10 @@
 
 
-def invert_digraph(g):
+def enc_digraph_to_select_in_edges(g):
     """
-      About: make search in edges? or what?
+      Change selection out edges to select in edges
+
+      @param g - Graph in Adj. List. Vertex correspond out edges
     """
     copy_gr = {}
 

@@ -53,7 +53,8 @@ early termination B-F
 ### Floyd-Warshall
 """
 
-import py_details.io_helper
+import py_details.io_helper as io_helper
 
 # work
+print io_helper.get_fake_graph()
 
