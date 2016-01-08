@@ -15,6 +15,12 @@
 #
 # CAS != numerical calc package
 
+# Хотелось бы:
+#   - Вывод данных из CAS
+#   - Выражение одниж переменных через другие
+#   - Решение неравенств
+#   - Упрощение выражений
+
 from sympy.integrals import laplace_transform as laplace
 from sympy.abc import t, s, a
 from sympy import exp, symbols, Eq
@@ -50,6 +56,9 @@ if __name__ == '__main__':
     # Calculus
     print cos(x).diff(x, x)
     print limit(sin(x)/x, x, 0)
+
+    # Inequality Solvers
+    # http://docs.sympy.org/dev/modules/solvers/inequalities.html
 
 
 
